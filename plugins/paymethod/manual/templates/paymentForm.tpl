@@ -34,6 +34,6 @@
 <p>{translate key="manager.registrationPolicies.registrationSpecificSymbol"}</p>
 
 
-<p><a href="{url conference="ap" schedConf="2017" page="user"}"><button type="button">{translate key="navigation.home"}</button></a> <a href="{url page="payment" op="plugin" path="ManualPayment"|to_array:"notify":$queuedPaymentId|escape}" class="action"><button type="button">{translate key="plugins.paymethod.manual.sendNotificationOfPayment"}</button></a>
+<p><a href="{url conference="erie" page="user"}"><button type="button">{translate key="navigation.home"}</button></a> <a href="{url page="payment" op="plugin" path="ManualPayment"|to_array:"notify":$queuedPaymentId|escape}" class="action"><button type="button">{translate key="plugins.paymethod.manual.sendNotificationOfPayment"}</button></a>
 </div>
 {include file="common/footer.tpl"}
