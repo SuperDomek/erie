@@ -45,7 +45,8 @@ class Affiliations {
    */
   private function checkConsistency() {
     foreach ($this->addresses as $key => $value){
-      if(!array_key_exists($key, $this->affiliations)){
+      if(!array_key_exists($key, $this->affiliations['cs_CZ']) OR !array_key_exists($key, $this->affiliations['en_US'])){
+        error_log("Key: " . $key);
         error_log("Error while creating Affiliation object:The address and affiliation keys are not consistent.");
         return false;
       }

@@ -72,8 +72,10 @@
 
 <div id="header">
 <div id="headerTitle">
-
-    <img src="{$publicFilesDir}/logo.png" alt="{$displayPageHeaderTitleAltText|escape}"/>
+	{if $displayPageHeaderLogo && is_array($displayPageHeaderLogo)}
+		<img src="{$publicFilesDir}/{$displayPageHeaderLogo.uploadName|escape:"url"}" width="{$displayPageHeaderLogo.width|escape}" height="{$displayPageHeaderLogo.height|escape}" {if $displayPageHeaderLogoAltText != ''}alt="{$displayPageHeaderLogoAltText|escape}"{else}alt="{translate key="common.pageHeaderLogo.altText"}"{/if} />
+	{/if}
+    <!--<img src="{$publicFilesDir}" alt="International conference on Efficiency and Responsibility in Education"/>-->
 
 <!--  <h2>
     {$displayPageHeaderTitle}
