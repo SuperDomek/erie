@@ -69,9 +69,6 @@
 
 {include file="trackDirector/submission/summary.tpl"}
 
-<div class="separator"></div>
-
-
 <div id="submissionNotes">	
 {if $noteViewType == "edit"}
 <h3>{translate key="submission.notes"}</h3>
@@ -130,15 +127,16 @@
 {else}
 <h3>{translate key="submission.notes"}</h3>
 
-<table width="100%" class="listing">
-	<tr><td colspan="6" class="headseparator">&nbsp;</td></tr>
-	<tr class="heading" valign="bottom">
+<table width="100%" class="listing sortable">
+<thead>
+	<tr>
 		<td width="5%">{translate key="common.date"}</td>
 		<td width="60%">{translate key="common.title"}</td>
 		<td width="25%">{translate key="submission.notes.attachedFile"}</td>
 		<td width="10%" align="right">{translate key="common.action"}</td>
 	</tr>
-	<tr><td colspan="6" class="headseparator">&nbsp;</td></tr>
+</thead>
+<tbody>
 {iterate from=submissionNotes item=note}
 	<tr valign="top">
 		<td>
@@ -153,24 +151,18 @@
 		<td>{if $note->getFileId()}<a class="action" href="{url op="downloadFile" path=$submission->getPaperId()|to_array:$note->getFileId()}">{$note->getOriginalFileName()|escape}</a>{else}&mdash;{/if}</td>
 		<td align="right"><a href="{url op="submissionNotes" path=$submission->getPaperId()|to_array:"edit":$note->getNoteId()}" class="action">{translate key="common.view"}</a>&nbsp;|&nbsp;<a href="{url op="removeSubmissionNote" paperId=$submission->getPaperId() noteId=$note->getNoteId() fileId=$note->getFileId()}" onclick="return confirm('{translate|escape:"jsparam" key="submission.notes.confirmDelete"}')" class="action">{translate key="common.delete"}</a></td>
 	</tr>
-	<tr valign="top">
-		<td colspan="6" class="{if $submissionNotes->eof()}end{/if}separator">&nbsp;</td>
-	</tr>
 {/iterate}
 {if $submissionNotes->wasEmpty()}
 	<tr valign="top">
 		<td colspan="6" class="nodata">{translate key="submission.notes.noSubmissionNotes"}</td>
 	</tr>
-	<tr valign="top">
-		<td colspan="6" class="endseparator">&nbsp;</td>
-	</tr>
-{else}
-	<tr>
-		<td colspan="3" align="left">{page_info iterator=$submissionNotes}</td>
-		<td colspan="3" align="right">{page_links anchor="submissionNotes" name="submissionNotes" iterator=$submissionNotes}</td>
-	</tr>
 {/if}
+</tbody>
 </table>
+<p>
+{page_info iterator=$submissionNotes}
+{page_links anchor="submissionNotes" name="submissionNotes" iterator=$submissionNotes}
+</p>
 
 <a class="action" href="javascript:toggleNoteAll()"><div style="display:inline" id="expandNotes" name="expandNotes">{translate key="submission.notes.expandNotes"}</div><div style="display: none" id="collapseNotes" name="collapseNotes">{translate key="submission.notes.collapseNotes"}</div></a> |
 <a class="action" href="{url op="submissionNotes" path=$submission->getPaperId()|to_array:"add"}">{translate key="submission.notes.addNewNote"}</a> |
