@@ -10,9 +10,9 @@
  *}
 
 <div id="submissions">
-<table class="listing" width="100%">
-	<tr><td colspan="7" class="headseparator">&nbsp;</td></tr>
-	<tr class="heading" valign="bottom">
+<table class="listing sortable" width="100%">
+<thead>
+	<tr>
 		<td width="7%">{translate key="common.id"}</td>
 		<td width="7%"><span class="disabled">MM-DD</span><br />{translate key="common.assigned"}</td>
 		<td width="58%">{translate key="paper.title"}</td>
@@ -20,8 +20,8 @@
 		<td width="10%">{translate key="submissions.reviewType"}</td>
     <td width="10%">{translate key="submission.fileOkayed"}</td>
 	</tr>
-	<tr><td colspan="7" class="headseparator">&nbsp;</td></tr>
-
+</thead>
+<tbody>
 {iterate from=submissions item=submission}
 	{assign var="paperId" value=$submission->getPaperId()}
 	{assign var="reviewId" value=$submission->getReviewId()}
@@ -44,7 +44,7 @@
       {assign var=reviewFile value=$submission->getReviewFile()}
       {if $reviewFile}
         {if $reviewFile->getChecked() == 1}
-          <span style="color:#0b9e3f;">{translate key="submission.fileAccepted""}</span>
+          <span style="color:#0b9e3f;">{translate key="submission.fileAccepted"}</span>
         {else}
           <span style="color:#e85a09;">{translate key="submission.filePending"}</span>
         {/if}
@@ -53,22 +53,16 @@
       {/if}
     </td>
 	</tr>
-	<tr>
-		<td colspan="7" class="{if $submissions->eof()}end{/if}separator">&nbsp;</td>
-	</tr>
 {/iterate}
 {if $submissions->wasEmpty()}
-<tr>
+	<tr>
 		<td colspan="7" class="nodata">{translate key="submissions.noSubmissions"}</td>
 	</tr>
-	<tr>
-		<td colspan="7" class="endseparator">&nbsp;</td>
-	</tr>
-{else}
-	<tr>
-		<td colspan="3" align="left">{page_info iterator=$submissions}</td>
-		<td colspan="4" align="right">{page_links anchor="submissions" name="submissions" iterator=$submissions}</td>
-	</tr>
 {/if}
+</tbody>
 </table>
+<p>
+{page_info iterator=$submissions}
+{page_links anchor="submissions" name="submissions" iterator=$submissions}
+</p>
 </div>

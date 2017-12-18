@@ -9,9 +9,9 @@
  * $Id$
  *}
 <div id="submissions">
-<table class="listing" width="100%">
-	<tr><td colspan="6" class="headseparator">&nbsp;</td></tr>
-	<tr class="heading" valign="bottom">
+<table class="listing sortable" width="100%">
+<thead>
+	<tr>
 		<td width="5%">{translate key="common.id"}</td>
 		<td width="10%"><span class="disabled">MM-DD</span><br />{translate key="common.assigned"}</td>
 		<td width="10%">{translate key="submissions.track"}</td>
@@ -19,7 +19,8 @@
 		<td width="20%">{translate key="submission.review"}</td>
 		<td width="20%">{translate key="submission.directorDecision"}</td>
 	</tr>
-	<tr><td colspan="6" class="headseparator">&nbsp;</td></tr>
+</thead>
+<tbody>
 {iterate from=submissions item=submission}
 	{assign var="paperId" value=$submission->getPaperId()}
 	{assign var="reviewId" value=$submission->getReviewId()}
@@ -64,23 +65,16 @@
 			{/if}
 		</td>
 	</tr>
-
-	<tr>
-		<td colspan="6" class="{if $submissions->eof()}end{/if}separator">&nbsp;</td>
-	</tr>
 {/iterate}
 {if $submissions->wasEmpty()}
 	<tr>
 		<td colspan="6" class="nodata">{translate key="submissions.noSubmissions"}</td>
 	</tr>
-	<tr>
-		<td colspan="6" class="endseparator">&nbsp;</td>
-	</tr>
-{else}
-	<tr>
-		<td colspan="4" align="left">{page_info iterator=$submissions}</td>
-		<td colspan="3" align="right">{page_links anchor="submissions" name="submissions" iterator=$submissions}</td>
-	</tr>
 {/if}
+</tbody>
 </table>
+<p>
+{page_info iterator=$submissions}
+{page_links anchor="submissions" name="submissions" iterator=$submissions}
+</p>
 </div>

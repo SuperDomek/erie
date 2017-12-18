@@ -11,16 +11,17 @@
 <div id="stages">
 <div id="regretsAndCancels">
 <h4>{translate|escape key="trackDirector.regrets.regretsAndCancels"}</h4>
-
-<table width="100%" class="listing">
-	<tr><td colspan="4" class="headseparator">&nbsp;</td></tr>
-	<tr valign="top">
+<div class="tbl-container">
+<table width="100%" class="listing sortable">
+<thead>
+	<tr>
 		<td class="heading" width="30%">{translate key="user.name"}</td>
 		<td class="heading" width="25%">{translate key="submission.request"}</td>
 		<td class="heading" width="25%">{translate key="trackDirector.regrets.result"}</td>
 		{if $submission->getReviewMode() == REVIEW_MODE_BOTH_SEQUENTIAL}<td class="heading" width="20%">{translate key="submissions.reviewType"}</td>{/if}
 	</tr>
-	<tr><td colspan="4" class="headseparator">&nbsp;</td></tr>
+</thead>
+<tbody>
 {foreach from=$cancelsAndRegrets item=cancelOrRegret name=cancelsAndRegrets}
 	<tr valign="top">
 		<td>{$cancelOrRegret->getReviewerFullName()|escape}</td>
@@ -40,18 +41,15 @@
 		</td>
 		<td>{$cancelOrRegret->getStage()}</td>
 	</tr>
-	<tr>
-		<td colspan="4" class="{if $smarty.foreach.cancelsAndRegrets.last}end{/if}separator">&nbsp;</td>
-	</tr>
 {foreachelse}
 	<tr valign="top">
-		<td colspan="4" class="nodata">{translate key="common.none}</td>
-	</tr>
-	<tr>
-		<td colspan="4" class="endseparator">&nbsp;</td>
+		<td colspan="4" class="nodata">{translate key="common.none"}</td>
 	</tr>
 {/foreach}
+</tbody>
 </table>
+</div>
+
 </div>
 {assign var=numStages value=$reviewAssignmentStages|@count}
 {section name=stage loop=$numStages}
@@ -64,8 +62,6 @@
   <div id="reviewStage">
     {if $stagePlusOne != REVIEW_STAGE_ABSTRACT}
       <h4>{translate key="trackDirector.regrets.reviewStage" stage=$stage}</h4>
-
-
       <table width="100%" class="data">
       	<tr valign="top">
       		<td class="label" width="20%">{translate key="submission.reviewVersion"}</td>
@@ -95,15 +91,16 @@
     <h5>{translate key="user.role.reviewer"} {$reviewKey+$start|chr} {$reviewAssignment->getReviewerFullName()|escape}</h5>
 
     <table width="100%" class="listing">
+			<thead>
     	<tr valign="top">
-    		<td width="20%">{translate key="reviewer.paper.schedule"}</td>
-    		<td width="20%" class="heading">{translate key="submission.request"}</td>
-    		<td width="20%" class="heading">{translate key="submission.underway"}</td>
-    		<td width="20%" class="heading">{translate key="submission.due"}</td>
-    		<td width="20%" class="heading">{translate key="submission.acknowledge"}</td>
+    		<td width="25%">{translate key="submission.request"}</td>
+    		<td width="25%">{translate key="submission.underway"}</td>
+    		<td width="25%">{translate key="submission.due"}</td>
+    		<td width="25%">{translate key="submission.acknowledge"}</td>
     	</tr>
+			</thead>
+			<tbody>
     	<tr valign="top">
-    		<td>&nbsp;</td>
     		<td>
     			{if $reviewAssignment->getDateNotified()}
     				{$reviewAssignment->getDateNotified()|date_format:$dateFormatTrunc}
@@ -194,6 +191,7 @@
     			</table>
     		</td>
     	</tr>-->
+		</tbody>
     </table>
     </div>
     {/if}
