@@ -111,13 +111,11 @@
 	<tr>
 		<td colspan="8" class="nodata">{translate key="submissions.noSubmissions"}</td>
 	</tr>
-	<tr>
-		<td colspan="8" class="endseparator">&nbsp;</td>
-	</tr>
 {/if}
 	</tbody>
 </table>
+<p>
 {page_info iterator=$submissions}
 {page_links anchor="submissions" name="submissions" iterator=$submissions searchField=$searchField searchMatch=$searchMatch search=$search track=$track sort=$sort sortDirection=$sortDirection}
-	</tr>
+</p>
 </div>

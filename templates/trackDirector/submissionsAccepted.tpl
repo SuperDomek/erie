@@ -9,18 +9,18 @@
  * $Id$
  *}
 <div id="submissions">
-<table width="100%" class="listing">
-	<tr><td colspan="6" class="headseparator">&nbsp;</td></tr>
-	<tr class="heading" valign="bottom">
-		<td width="3%">{sort_search key="common.id" sort="id"}</td>
-		<td width="4%">{sort_search key="submissions.track" sort="track"}</td>
+<table width="100%" class="listing sortable">
+<thead>
+	<tr>
+		<td width="3%">{translate key="common.id"}</td>
+		<td width="4%">{translate key="submissions.track"}</td>
 		<!--<td width="4%">{sort_search key="paper.sessionType" sort="sessionType"}</td>-->
-		<td width="15%">{sort_search key="paper.authors" sort="authors"}</td>
-		<td>{sort_search key="paper.title" sort="title"}</td>
-		<td width="10%" align="right">{sort_search key="common.status" sort="status"}</td>
+		<td width="15%">{translate key="paper.authors"}</td>
+		<td>{translate key="paper.title"}</td>
+		<td width="10%" align="right">{translate key="common.status"}</td>
 	</tr>
-	<tr><td colspan="6" class="headseparator">&nbsp;</td></tr>
-
+</thead>
+<tbody>
 {iterate from=submissions item=submission}
 	{assign var="paperId" value=$submission->getPaperId()}
 	<input type="hidden" name="paperIds[]" value="{$paperId|escape}" />
@@ -47,22 +47,16 @@
 			{/if}
 		</td>
 	</tr>
-	<tr>
-		<td colspan="6" class="{if $submissions->eof()}end{/if}separator">&nbsp;</td>
-	</tr>
 {/iterate}
 {if $submissions->wasEmpty()}
 	<tr>
 		<td colspan="6" class="nodata">{translate key="submissions.noSubmissions"}</td>
 	</tr>
-	<tr>
-		<td colspan="6" class="endseparator">&nbsp;</td>
-	</tr>
-{else}
-	<tr>
-		<td colspan="4" align="left">{page_info iterator=$submissions}</td>
-		<td colspan="2" align="right">{page_links anchor="submissions" name="submissions" iterator=$submissions searchField=$searchField searchMatch=$searchMatch search=$search track=$track sort=$sort sortDirection=$sortDirection}</td>
-	</tr>
 {/if}
+</tbody>
 </table>
+<p>
+{page_info iterator=$submissions}
+{page_links anchor="submissions" name="submissions" iterator=$submissions searchField=$searchField searchMatch=$searchMatch search=$search track=$track sort=$sort sortDirection=$sortDirection}
+</p>
 </div>

@@ -9,23 +9,19 @@
  * $Id$
  *}
 <div id="submissions">
-<table width="100%" class="listing">
+<table width="100%" class="listing sortable">
+<thead>
 	<tr>
-		<td colspan="7" class="headseparator">&nbsp;</td>
+		<td width="5%">{translate key="common.id"}</td>
+		<td width="15%">{translate key="submissions.submitted"}</td>
+		<td width="5%">{translate key="submissions.track"}</td>
+		<td width="5%">{translate key="paper.sessionType"}</td>
+		<td width="25%">{translate key="paper.authors"}</td>
+		<td width="25%">{translate key="paper.title"}</td>
+		<td width="20%" align="right">{translate key="common.status"}</td>
 	</tr>
-	<tr class="heading" valign="bottom">
-		<td width="5%">{sort_search key="common.id" sort="id"}</td>
-		<td width="15%"><span class="disabled"></span><br />{sort_search key="submissions.submitted" sort="submitDate"}</td>
-		<td width="5%">{sort_search key="submissions.track" sort="track"}</td>
-		<td width="5%">{sort_search key="paper.sessionType" sort="sessionType"}</td>
-		<td width="25%">{sort_search key="paper.authors" sort="authors"}</td>
-		<td width="25%">{sort_search key="paper.title" sort="title"}</td>
-		<td width="20%" align="right">{sort_search key="common.status" sort="status"}</td>
-	</tr>
-	<tr>
-		<td colspan="7" class="headseparator">&nbsp;</td>
-	</tr>
-	
+</thead>
+<tbody>
 	{iterate from=submissions item=submission}
 	{assign var="paperId" value=$submission->getPaperId()}
 	<tr valign="top">
@@ -52,22 +48,16 @@
 			{/if}
 		</td>
 	</tr>
-	<tr>
-		<td colspan="7" class="{if $submissions->eof()}end{/if}separator">&nbsp;</td>
-	</tr>
 {/iterate}
 {if $submissions->wasEmpty()}
 	<tr>
 		<td colspan="7" class="nodata">{translate key="submissions.noSubmissions"}</td>
 	</tr>
-	<tr>
-		<td colspan="7" class="endseparator">&nbsp;</td>
-	</tr>
-{else}
-	<tr>
-		<td colspan="5" align="left">{page_info iterator=$submissions}</td>
-		<td colspan="2" align="right">{page_links anchor="submissions" name="submissions" iterator=$submissions searchField=$searchField searchMatch=$searchMatch search=$search track=$track sort=$sort sortDirection=$sortDirection}</td>
-	</tr>
 {/if}
+</tbody>
 </table>
+<p>
+{page_info iterator=$submissions}
+{page_links anchor="submissions" name="submissions" iterator=$submissions searchField=$searchField searchMatch=$searchMatch search=$search track=$track sort=$sort sortDirection=$sortDirection}
+</p>
 </div>
