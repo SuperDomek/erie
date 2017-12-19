@@ -13,6 +13,32 @@
 {include file="common/header.tpl"}
 {/strip}
 
+{literal}
+<script type="text/javascript">
+<!--
+function revealHide(obj){
+	var messageShow = '{/literal}{translate key="common.previousSchedConfs.show"}{literal}';
+	var messageHide = '{/literal}{translate key="common.previousSchedConfs.hide"}{literal}';
+	if(obj.style.display == 'none' || obj.style.display == ''){
+		obj.style.display = "block";
+		document.getElementById('hideButton').innerHTML = messageHide;
+	}
+	else{
+		obj.style.display = "none";
+		document.getElementById('hideButton').innerHTML = messageShow;
+	}
+};
+
+function showMenu(){
+	var years = document.getElementsByClassName("hiddenMenu");
+	for (var i = 0; i < years.length; i++){
+		revealHide(years[i]);
+	}
+};
+// -->
+</script>
+{/literal}
+
 {if $isSiteAdmin}
 {assign var="hasRole" value=1}
 	&#187; <a href="{url conference="index" page=$isSiteAdmin->getRolePath()}">{translate key=$isSiteAdmin->getRoleName()}</a>
@@ -44,8 +70,16 @@
 	</table>
 {/if}
 	{* Display scheduled conference roles *}
-	{foreach from=$userSchedConfs[$conferenceId] item=schedConf}
-		<div id="schedConf">
+	{assign var="schedConfsCount" value=$userSchedConfs[$conferenceId]|@count}
+	{foreach from=$userSchedConfs[$conferenceId] item=schedConf name=schedConfs}
+		{if $schedConf->getCurrent()}
+		<div id="schedConf-{$schedConf->getSequence()}">
+		{else}
+		{if $schedConfsCount > 1 && $smarty.foreach.schedConfs.iteration == 2}
+			<button type="button" onclick="showMenu();" id="hideButton">{translate key="common.previousSchedConfs.show"}</button>
+		{/if}
+		<div id="schedConf-{$schedConf->getSequence()}" class="hiddenMenu">
+		{/if}
 		{assign var="schedConfId" value=$schedConf->getId()}
 		{assign var="schedConfPath" value=$schedConf->getPath()}
 		<h5><a href="{url conference=$conference->getPath() schedConf=$schedConf->getPath() page="index"}">{$schedConf->getSchedConfTitle()|escape}</a></h5>

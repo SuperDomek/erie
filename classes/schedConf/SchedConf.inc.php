@@ -67,7 +67,15 @@ class SchedConf extends DataObject {
 	 * @return int
 	 */
 	function getCurrent() {
-		return $this->getData('current');
+		if ($this->getStartDate()) $startDate = strtotime($this->getStartDate());
+		else
+			return false;
+		if ($this->getEndDate()) $endDate = strtotime($this->getEndDate());
+		else
+			return false;
+		if($startDate <= time() && $endDate >= time())
+			return true;
+		return false;
 	}
 
 	/**

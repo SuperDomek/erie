@@ -121,6 +121,8 @@
 	<message key="common.homePageHeader.altText">Homepage Header Image</message>
 	<message key="common.conferenceHomepageImage.altText">Conference Homepage Image</message>
 	<message key="common.specSymbol">Spec. symbol</message>
+	<message key="common.previousSchedConfs.hide">Hide previous years</message>
+	<message key="common.previousSchedConfs.show">Show previous years</message>
 
 	<!-- Navigation -->
 	<message key="navigation.conferenceHelp">Conference Help</message>
