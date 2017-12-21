@@ -41,16 +41,15 @@
       {elseif $status == STATUS_QUEUED_REVIEW}
         {assign var=decision value=$submission->getMostRecentDecision()}
         {if $currentStage>=REVIEW_STAGE_PRESENTATION}
-            {if $decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_REVISIONS ||
-            $decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MINOR_REVISIONS ||
-            $decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MAJOR_REVISIONS}
-              <span class="warning">{translate key="author.submissions.queuedPaperReviewRevisions"}</span>
-              <a href="#file_changes" class="action">
-                <button type="button">{translate key="author.paper.uploadAuthorVersion"}</button>
-              </a>
-            {else}
-              <span class="warning">{translate key="submissions.queuedPaperReview"}</span>
-            {/if}
+          {if $submission->getAuthorFileRevisions($submission->getCurrentStage())}
+            <span>{translate key="author.submissions.queuedPaperReviewRevisions.uploaded"}</span>
+          {elseif $decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_REVISIONS ||
+          $decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MINOR_REVISIONS ||
+          $decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MAJOR_REVISIONS}
+            <span>{translate key="author.submissions.queuedPaperReviewRevisions"}</span>
+          {else}
+            <span>{translate key="submissions.queuedPaperReview"}</span>
+          {/if}
         {else}  
             {if $decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_REVISIONS ||
             $decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MINOR_REVISIONS ||

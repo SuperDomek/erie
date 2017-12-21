@@ -211,6 +211,8 @@
 	<message key="paper.fontSize.medium.altText">Střední</message>
 	<message key="paper.fontSize.large.altText">Velké</message>
 	<message key="paper.sessionType">Typ sekce</message>
+	<message key="paper.previousRounds.show">Zobrazit předchozí kola recenze</message>
+	<message key="paper.previousRounds.hide">Skrýt předchozí kola recenze</message>
 
 	<!-- Submission Tracking - Common -->
 	<message key="submission.fromTime">Od</message>

@@ -40,11 +40,14 @@
 					{assign var=decision value=$submission->getMostRecentDecision()}
 					{if $currentStage>=REVIEW_STAGE_PRESENTATION}
 						<a href="{url op="submissionReview" path=$paperId|to_array}" class="action">
-              {if $decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_REVISIONS ||
+							{if $submission->getAuthorFileRevisions($submission->getCurrentStage())}
+            		<span>{translate key="author.submissions.queuedPaperReviewRevisions.uploaded"}</span>
+              {elseif $decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_REVISIONS ||
               $decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MINOR_REVISIONS ||
               $decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MAJOR_REVISIONS}
                 {translate key="author.submissions.queuedPaperReviewRevisions"}
-							{else}{translate key="submissions.queuedPaperReview"}
+							{else}
+								{translate key="submissions.queuedPaperReview"}
 							{/if}
 						</a>
 					{else}

@@ -46,6 +46,7 @@
 	<message key="author.submissions.queuedAbstractReviewRevisions">Oponovaný abstrakt: Jsou vyžadovány úpravy</message>
 	<message key="author.submissions.editAbstract">Upravit abstrakt</message>
 	<message key="author.submissions.queuedPaperReviewRevisions">Oponovaný příspěvek: Jsou vyžadovány úpravy</message>
+	<message key="author.submissions.queuedPaperReviewRevisions.uploaded">Oponovaný příspěvek: Nahrána revidovaná verze</message>
 	<message key="author.submissions.confirmDelete">Skutečně si přejete vymazat tento nekompletní příspěvek?</message>
 	<message key="author.submissions.viewStatus">Prohlédnout stav</message>
 	<message key="author.submissions.noSubmissions">Žádné příspěvky.</message>

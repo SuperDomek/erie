@@ -208,6 +208,8 @@
 	<message key="paper.fontSize.medium.altText">Medium</message>
 	<message key="paper.fontSize.large.altText">Large</message>
 	<message key="paper.sessionType">Session Type</message>
+	<message key="paper.previousRounds.show">Show previous review rounds</message>
+	<message key="paper.previousRounds.hide">Hide previous review rounds</message>
 
 	<!-- Submission Tracking - Common -->
 	<message key="submission.fromTime">From</message>

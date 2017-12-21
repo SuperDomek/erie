@@ -9,6 +9,32 @@
  * $Id$
  *}
 
+{literal}
+<script type="text/javascript">
+<!--
+function revealHide(obj){
+	var messageShow = '{/literal}{translate key="paper.previousRounds.show"}{literal}';
+	var messageHide = '{/literal}{translate key="paper.previousRounds.hide"}{literal}';
+	if(obj.style.visibility == 'collapse' || obj.style.visibility == ''){
+		obj.style.visibility = 'visible';
+		document.getElementById('hideButton').innerHTML = messageHide;
+	}
+	else{
+		obj.style.visibility = 'collapse';
+		document.getElementById('hideButton').innerHTML = messageShow;
+	}
+};
+
+function showRounds(){
+	var rounds = document.getElementsByClassName("previousRounds");
+	for (var i = 0; i < rounds.length; i++){
+		revealHide(rounds[i]);
+	}
+};
+// -->
+</script>
+{/literal}
+
 <div id="peerReview">
 
 {if ($stage == $smarty.const.REVIEW_STAGE_PRESENTATION && $submission->getCurrentStage() != $smarty.const.REVIEW_STAGE_PRESENTATION)}
@@ -23,6 +49,7 @@
   <h3>{translate key="submission.paperReview"}</h3>
 {/if}
 
+<div class="tbl-container">
 <table class="data" width="100%">
 {if $isStageDisabled}
   <tr>
@@ -30,6 +57,10 @@
 	</tr>
 </table>
 {else}
+  {if $stage > $smarty.const.REVIEW_STAGE_PRESENTATION}
+    <button type="button" id="hideButton" onclick="showRounds();">{translate key="paper.previousRounds.show"}</button>
+  {/if}
+  
   {foreach from=$reviewAssignments item=reviewAssignmentsStage key=stageTemp}
     {assign var=reviewIndexesStage value=$reviewIndexes[$stageTemp]}
     {if $stage == $smarty.const.REVIEW_STAGE_ABSTRACT && $stageTemp < $smarty.const.REVIEW_STAGE_PRESENTATION}
@@ -94,6 +125,11 @@
       {/foreach}
     {elseif $stage >= $smarty.const.REVIEW_STAGE_PRESENTATION && $stageTemp >= $smarty.const.REVIEW_STAGE_PRESENTATION}
       {* Paper review *}
+      {if $stage != $stageTemp}
+        <tbody class="previousRounds">
+      {else}
+        <tbody>
+      {/if}
       {assign var=start value="A"|ord}
       {assign var=authorFiles value=$submission->getAuthorFileRevisions($stage)}
       <tr valign="top">
@@ -173,9 +209,10 @@
           </td>
         </tr>
       {/foreach}
-
+    </tbody>
     {/if}
   {/foreach}
   </table>
+</div>
 {/if}
 </div>

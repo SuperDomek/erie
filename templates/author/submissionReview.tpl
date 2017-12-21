@@ -40,8 +40,6 @@
 
 {include file="author/submission/summary.tpl"}
 
-<div class="separator"></div>
-
 {include file="author/submission/peerReview.tpl"}
 
 <div class="separator"></div>

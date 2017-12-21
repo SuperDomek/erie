@@ -30,8 +30,6 @@
 
 {include file="author/submission/management.tpl"}
 
-<div class="separator"></div>
-
 {include file="author/submission/status.tpl"}
 
 <div class="separator"></div>

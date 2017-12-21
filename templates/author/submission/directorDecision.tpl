@@ -80,7 +80,7 @@ $('#file_changes').live('input',function() {
 		</tr>
 		<tr valign="top">
 			<td colspan="2">
-				<h4>{translate key="author.paper.uploadAuthorVersion"}</h4>
+				<h3>{translate key="author.paper.uploadAuthorVersion"}</h3>
 			</td>
 		</tr>
 		{if $authorFiles}
