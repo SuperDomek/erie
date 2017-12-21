@@ -71,19 +71,19 @@ input.defaultButton {
 	border-top: 1px solid black;
 	border-left: 1px solid black;
 	border-right: 1px solid black;
-	background-color: #c3262a;
+	background-color: #9bc7e5;
 }
 
 #breadcrumb {
 	padding-bottom: 10px;
-	border-bottom: 1px dotted red;
+	border-bottom: 1px dotted #9bc7e5;
 }
 
 #submission {
 	float: right;
 	position: relative;
 	width: 30%;
-	background-color: #c3262a;
+	background-color: #9bc7e5;
 	color: white;
 	padding: 10px;
 	text-align: left;
@@ -226,7 +226,7 @@ table.files td{
 }
 
 #navbar a {
-	background-color: #c3262a;
+	background-color: #9bc7e5;
 	padding: 5px;
 	color: white;
 }
