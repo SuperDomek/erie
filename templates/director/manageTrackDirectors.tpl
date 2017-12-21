@@ -31,14 +31,14 @@
 <p>{foreach from=$alphaList item=letter}<a href="{url op="manageTrackDirectors" searchInitial=$letter}">{if $letter == $searchInitial}<strong>{$letter|escape}</strong>{else}{$letter|escape}{/if}</a> {/foreach}<a href="{url op="manageTrackDirectors"}">{if $searchInitial==''}<strong>{translate key="common.all"}</strong>{else}{translate key="common.all"}{/if}</a></p>
 
 <div id="trackDirectors">
-  <table width="100%" class="listing">
-  <tr><td colspan="5" class="headseparator">&nbsp;</td></tr>
-  <tr valign="bottom">
-  	<td class="heading" width="60%">{translate key="user.name"}</td>
-  	<td class="heading" width="20%">{translate key="submissions.completed"}</td>
-  	<td class="heading" width="20%">{translate key="submissions.active"}</td>
+  <table width="100%" class="listing sortable">
+	<thead>
+  <tr>
+  	<td width="60%">{translate key="user.name"}</td>
+  	<td width="20%">{translate key="submissions.completed"}</td>
+  	<td width="20%">{translate key="submissions.active"}</td>
   </tr>
-  <tr><td colspan="3" class="headseparator">&nbsp;</td></tr>
+	</thead>
   {iterate from=directors item=director}
   {assign var=directorId value=$director->getId()}
   <tr valign="top">
@@ -58,19 +58,16 @@
   		{/if}
   	</td>
   </tr>
-  <tr><td colspan="3" class="{if $directors->eof()}end{/if}separator">&nbsp;</td></tr>
   {/iterate}
   {if $directors->wasEmpty()}
   <tr>
   <td colspan="3" class="nodata">{translate key="manager.people.noneEnrolled"}</td>
   </tr>
-  <tr><td colspan="3" class="{if $directors->eof()}end{/if}separator">&nbsp;</td></tr>
-  {else}
-  	<tr>
-  		<td colspan="1" align="left">{page_info iterator=$directors}</td>
-  		<td colspan="2" align="right">{page_links anchor="directors" name="directors" iterator=$directors searchInitial=$searchInitial searchField=$searchField searchMatch=$searchMatch search=$search dateFromDay=$dateFromDay dateFromYear=$dateFromYear dateFromMonth=$dateFromMonth dateToDay=$dateToDay dateToYear=$dateToYear dateToMonth=$dateToMonth paperId=$paperId}</td>
-  	</tr>
   {/if}
   </table>
+	<p>
+	{page_info iterator=$directors}
+	{page_links anchor="directors" name="directors" iterator=$directors searchInitial=$searchInitial searchField=$searchField searchMatch=$searchMatch search=$search dateFromDay=$dateFromDay dateFromYear=$dateFromYear dateFromMonth=$dateFromMonth dateToDay=$dateToDay dateToYear=$dateToYear dateToMonth=$dateToMonth paperId=$paperId}
+	</p>
 </div>
 {include file="common/footer.tpl"}
