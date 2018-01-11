@@ -16,7 +16,7 @@
 		<td width="7%"><span class="disabled">MM-DD</span><br />{translate key="submissions.submitted"}</td>
 		<td width="15%">{translate key="paper.authors"}</td>
 		<td width="27%">{translate key="paper.title"}</td>
-		<td width="32%">
+		<td width="32%" class="sorttable_nosort">
 			<center style="border-bottom: 1px solid gray;margin-bottom: 3px;">{translate key="submission.peerReview"}</center>
 			<table width="100%" class="nested">
 				<tr valign="top">

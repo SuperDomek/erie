@@ -50,6 +50,7 @@ class UserManagementForm extends Form {
 		$this->addCheck(new FormValidator($this, 'affiliation', 'required', 'user.profile.form.affiliationRequired'));
 		$this->addCheck(new FormValidator($this, 'mailingAddress', 'required', 'user.profile.form.addressRequired'));
 		$this->addCheck(new FormValidator($this, 'VATRegNo', 'required', 'user.profile.form.VATRequired'));
+		$this->addCheck(new FormValidator($this, 'country', 'required', 'user.profile.form.countryRequired'));
 		$this->addCheck(new FormValidatorEmail($this, 'email', 'required', 'user.profile.form.emailRequired'));
 		$this->addCheck(new FormValidatorCustom($this, 'email', 'required', 'user.account.form.emailExists', array(DAORegistry::getDAO('UserDAO'), 'userExistsByEmail'), array($this->userId, true), true));
 		$this->addCheck(new FormValidatorPost($this));

@@ -40,6 +40,7 @@ function sortSearch(heading, direction) {
 </ul>
 </form>
 
+<div style="float:left;">
 <form method="post" name="submit" action="{url op="submissions" path=$pageToDisplay}">
 	<input type="hidden" name="sort" value="id"/>
 	<input type="hidden" name="sortDirection" value="ASC"/>
@@ -55,6 +56,10 @@ function sortSearch(heading, direction) {
 	<br/>
 	<input type="submit" value="{translate key="common.search"}" class="button" />
 </form>
+</div>
+<div style="position:relative;float:right;">
+<a href="{url op="submissions" path=$pageToDisplay|to_array:"PDF" page="director"}"><img src="{$baseUrl}/lib/pkp/templates/images/structure/pdf.png" alt="Download PDF" width="64px"/></a>
+</div>
 &nbsp;
 
 {include file="director/$pageToDisplay.tpl"}

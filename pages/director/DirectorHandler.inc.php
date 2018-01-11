@@ -74,6 +74,7 @@ class DirectorHandler extends TrackDirectorHandler {
 		$reviewAssignmentDao =& DAORegistry::getDAO('ReviewAssignmentDAO');
 
 		$page = isset($args[0]) ? $args[0] : '';
+		$export = isset($args[1]) ? $args[1] : '';
 		$tracks =& $trackDao->getTrackTitles($schedConfId);
 
 		$filterDirectorOptions = array(
@@ -225,49 +226,114 @@ class DirectorHandler extends TrackDirectorHandler {
 			unset($submissions);
 		}
 		// END Workaround
+		// so far the only export format is PDF so in future you'll need to distinguish what is inside $export
+		if ($export){
+			try {
+				$p = new PDFlib();
+				/*  open new PDF file; insert a file name to create the PDF on disk */
+				if ($p->begin_document("", "") == 0) {
+						die("Error: " . $p->get_errmsg());
+				}
+				// set up the encoding for strings
+				$p->set_option("stringformat=utf8");
 
-		$templateMgr =& TemplateManager::getManager();
-		$templateMgr->assign('pageToDisplay', $page);
-		$templateMgr->assign('director', $user->getFullName());
-		$templateMgr->assign('directorOptions', $filterDirectorOptions);
-		$templateMgr->assign('trackOptions', $filterTrackOptions);
-		$templateMgr->assign_by_ref('submissions', $submissions);
-		$templateMgr->assign_by_ref('reviewFiles', $reviewFiles); //workaround
-		$templateMgr->assign('filterDirector', $filterDirector);
-		$templateMgr->assign('filterTrack', $filterTrack);
-		$templateMgr->assign('yearOffsetFuture', SCHED_CONF_DATE_YEAR_OFFSET_FUTURE);
-		$templateMgr->assign('durationOptions', TrackDirectorHandler::getDurationOptions());
-		$sessionTypesArray = array();
-		$paperTypeDao = DAORegistry::getDAO('PaperTypeDAO');
-		$sessionTypes = $paperTypeDao->getPaperTypes($schedConfId);
-		while ($sessionType = $sessionTypes->next()) {
-			$sessionTypesArray[$sessionType->getId()] = $sessionType;
+				$p->set_info("Creator", $schedConf->getLocalizedTitle());
+				$p->set_info("Author", $user->getFullName());
+				$p->set_info("Title", $page);
+		
+				$p->begin_page_ext(0, 0, "width=a4.width height=a4.height");
+				// use unicode version of font
+				$font_body = $p->load_font("Helvetica", "unicode", "");
+				$font_head = $p->load_font("Helvetica-Bold", "unicode", "");
+		
+				// document header
+				$p->setfont($font_head, 15.0);
+				$p->set_text_pos(50, 792);
+				$p->show("Editorial manager export");
+				$p->setfont($font_body, 13.0);
+				$p->continue_text("Conference: ". $schedConf->getLocalizedTitle());
+				$p->continue_text("Type: ". $page);
+				$p->continue_text("Exported by: " . $user->getFullName());
+				$p->continue_text("Date: " . date("d. m. Y"));
+				// header division line
+
+				/* Set the drawing properties for the dash patterns */
+				$p->setlinewidth(0.6);
+				/* Set the first dash pattern with a dash and gap length of 3 */
+				$p->set_graphics_option("dasharray={3 3}");
+				/* Stroke a line with that pattern */
+				$p->moveto(50, 725);
+				$p->lineto(545, 725);
+				$p->stroke();
+
+				$this->renderPDFTable($p, $page, $submissions->toArray());
+				
+				
+
+				//$p->end_page_ext("");
+				$p->end_document("");
+		
+				$buf = $p->get_buffer();
+				$len = strlen($buf);
+		
+				header("Content-type: application/pdf");
+				header("Content-Length: $len");
+				header("Content-Disposition: inline; filename=" . $page . ".pdf");
+				print $buf;
+			}
+			catch (PDFlibException $e) {
+					die("PDFlib exception occurred during the export:\n" .
+					"[" . $e->get_errnum() . "] " . $e->get_apiname() . ": " .
+					$e->get_errmsg() . "\n");
+			}
+			catch (Exception $e) {
+					die($e);
+			}
+			$p = 0;
+		}else{
+			$templateMgr =& TemplateManager::getManager();
+			$templateMgr->assign('pageToDisplay', $page);
+			$templateMgr->assign('director', $user->getFullName());
+			$templateMgr->assign('directorOptions', $filterDirectorOptions);
+			$templateMgr->assign('trackOptions', $filterTrackOptions);
+			$templateMgr->assign_by_ref('submissions', $submissions);
+			$templateMgr->assign_by_ref('reviewFiles', $reviewFiles); //workaround
+			$templateMgr->assign('filterDirector', $filterDirector);
+			$templateMgr->assign('filterTrack', $filterTrack);
+			$templateMgr->assign('yearOffsetFuture', SCHED_CONF_DATE_YEAR_OFFSET_FUTURE);
+			$templateMgr->assign('durationOptions', TrackDirectorHandler::getDurationOptions());
+			$sessionTypesArray = array();
+			$paperTypeDao = DAORegistry::getDAO('PaperTypeDAO');
+			$sessionTypes = $paperTypeDao->getPaperTypes($schedConfId);
+			while ($sessionType = $sessionTypes->next()) {
+				$sessionTypesArray[$sessionType->getId()] = $sessionType;
+			}
+			$templateMgr->assign('sessionTypes', $sessionTypesArray);
+
+			// Set search parameters
+			$duplicateParameters = array(
+				'searchField', 'searchMatch', 'search'
+			);
+			foreach ($duplicateParameters as $param)
+				$templateMgr->assign($param, Request::getUserVar($param));
+
+			$templateMgr->assign('reviewType', Array(
+				REVIEW_STAGE_ABSTRACT => __('submission.abstract'),
+				REVIEW_STAGE_PRESENTATION => __('submission.paper')
+			));
+
+			$templateMgr->assign('fieldOptions', Array(
+				SUBMISSION_FIELD_TITLE => 'paper.title',
+				SUBMISSION_FIELD_AUTHOR => 'user.role.author',
+				SUBMISSION_FIELD_DIRECTOR => 'user.role.director',
+				SUBMISSION_FIELD_REVIEWER => 'user.role.reviewer'
+			));
+
+			$templateMgr->assign('helpTopicId', $helpTopicId);
+			$templateMgr->assign('sort', $sort);
+			$templateMgr->assign('sortDirection', $sortDirection);
+			$templateMgr->display('director/submissions.tpl');
 		}
-		$templateMgr->assign('sessionTypes', $sessionTypesArray);
-
-		// Set search parameters
-		$duplicateParameters = array(
-			'searchField', 'searchMatch', 'search'
-		);
-		foreach ($duplicateParameters as $param)
-			$templateMgr->assign($param, Request::getUserVar($param));
-
-		$templateMgr->assign('reviewType', Array(
-			REVIEW_STAGE_ABSTRACT => __('submission.abstract'),
-			REVIEW_STAGE_PRESENTATION => __('submission.paper')
-		));
-
-		$templateMgr->assign('fieldOptions', Array(
-			SUBMISSION_FIELD_TITLE => 'paper.title',
-			SUBMISSION_FIELD_AUTHOR => 'user.role.author',
-			SUBMISSION_FIELD_DIRECTOR => 'user.role.director',
-			SUBMISSION_FIELD_REVIEWER => 'user.role.reviewer'
-		));
-
-		$templateMgr->assign('helpTopicId', $helpTopicId);
-		$templateMgr->assign('sort', $sort);
-		$templateMgr->assign('sortDirection', $sortDirection);
-		$templateMgr->display('director/submissions.tpl');
 	}
 
 	/**
@@ -638,6 +704,218 @@ class DirectorHandler extends TrackDirectorHandler {
 		$templateMgr->assign('helpTopicId', 'editorial.directorsRole.summaryPage.submissionManagement');
 
 		$templateMgr->display('director/manageTrackDirectors.tpl');
+	}
+
+	/**
+	 * Renders the corresponding table to the PDF file
+	 * @dependance pdflib.dll
+	 * @param $p The object with PDF typesetting
+	 * @param $page The page that is being exported
+	 * 
+	 */
+	function renderPDFTable(&$p, $page = false, $submissionsArray){
+		$llx= 50; $lly=50; $urx=545; $ury=710;
+		$tf=0; $tbl=0;
+		$row = 1;
+		$col = 1;
+		$p->set_text_pos(50, 710);
+		$margin_head = 5;
+		$margin_body = 3;
+
+		if ($page == "submissionsUnassigned"){
+			// Header
+			$font = $p->load_font("Helvetica-Bold", "unicode", "");
+			$optlist = "fittextline={position=center font=" . $font . " fontsize=15 margin=" . $margin_head . "} ";
+			$tbl = $p->add_table_cell($tbl, $col++, $row, __('common.id'), $optlist);
+			$tbl = $p->add_table_cell($tbl, $col++, $row, __('paper.authors'), $optlist);
+			$tbl = $p->add_table_cell($tbl, $col++, $row, __('paper.title'), $optlist);
+			$tbl = $p->add_table_cell($tbl, $col, $row++, __('user.role.trackDirectors'), $optlist);
+			// Rows
+			$font = $p->load_font("Helvetica", "unicode", "");
+			$optlist = "fittextline={position=center font=" . $font . " fontsize=13 margin=" . $margin_body . "} ";
+			foreach($submissionsArray as $submission){
+				// restart col index for the new row
+				$col = 1;
+				$tbl = $p->add_table_cell($tbl, $col++, $row, $submission->getPaperId(), $optlist);
+				$tbl = $p->add_table_cell($tbl, $col++, $row, substr($submission->getAuthorString(true), 0, 30), $optlist);
+				$tbl = $p->add_table_cell($tbl, $col, $row++, substr($submission->getLocalizedTitle(), 0, 50), $optlist);
+			}
+		}
+		else if($page == "submissionsAccepted"){
+			// Header
+			$font = $p->load_font("Helvetica-Bold", "unicode", "");
+			$optlist = "fittextline={position=center font=" . $font . " fontsize=15 margin=" . $margin_head . "} ";
+			$tbl = $p->add_table_cell($tbl, $col++, $row, __('common.id'), $optlist);
+			$tbl = $p->add_table_cell($tbl, $col++, $row, __('paper.authors'), $optlist);
+			$tbl = $p->add_table_cell($tbl, $col++, $row, __('paper.title'), $optlist);
+			$tbl = $p->add_table_cell($tbl, $col++, $row, __('common.country'), $optlist);
+			$tbl = $p->add_table_cell($tbl, $col, $row++, __('submissions.track'), $optlist);
+
+			// Rows
+			$font = $p->load_font("Helvetica", "unicode", "");
+			$optlist = "fittextline={position=center font=" . $font . " fontsize=13 margin=" . $margin_body . "} ";
+			foreach($submissionsArray as $submission){
+				// restart col index for the new row
+				$user = $submission->getUser();
+				$col = 1;
+				$tbl = $p->add_table_cell($tbl, $col++, $row, $submission->getPaperId(), $optlist);
+				$tbl = $p->add_table_cell($tbl, $col++, $row, substr($submission->getAuthorString(true), 0, 30), $optlist);
+				$tbl = $p->add_table_cell($tbl, $col++, $row, substr($submission->getLocalizedTitle(), 0, 40), $optlist);
+				$tbl = $p->add_table_cell($tbl, $col++, $row, $user->getcountry(), $optlist);
+				$tbl = $p->add_table_cell($tbl, $col, $row++, substr($submission->getTrackTitle(), 0, 20), $optlist);
+			}
+		}
+		else if($page == "submissionsArchives"){
+			// Header
+			$font = $p->load_font("Helvetica-Bold", "unicode", "");
+			$optlist = "fittextline={position=center font=" . $font . " fontsize=15 margin=" . $margin_head . "} ";
+			$tbl = $p->add_table_cell($tbl, $col++, $row, __('common.id'), $optlist);
+			//$tbl = $p->add_table_cell($tbl, $col++, $row, __('submissions.submitted'), $optlist);
+			$tbl = $p->add_table_cell($tbl, $col++, $row, __('paper.authors'), $optlist);
+			$tbl = $p->add_table_cell($tbl, $col++, $row, __('paper.title'), $optlist);
+			//$tbl = $p->add_table_cell($tbl, $col++, $row, __('submissions.reviewStage'), $optlist);
+			$tbl = $p->add_table_cell($tbl, $col++, $row, __('common.status'), $optlist);
+			$tbl = $p->add_table_cell($tbl, $col++, $row, __('common.date'), $optlist);
+			$tbl = $p->add_table_cell($tbl, $col, $row++, __('user.role.trackDirectors'), $optlist);
+
+			// Rows
+			$font = $p->load_font("Helvetica", "unicode", "");
+			$optlist = "fittextline={position=center font=" . $font . " fontsize=13 margin=" . $margin_body . "} ";
+			foreach($submissionsArray as $submission){
+				// restart col index for the new row
+				$col = 1;
+				switch ($submission->getStatus()){
+					case STATUS_ARCHIVED:
+						$date = $submission->getDateToArchive();
+						$status = __('submissions.archived');
+						break;
+					case STATUS_DECLINED:
+						$decision = end(end($submission->getDecisions()));
+						$date = $decision['dateDecided'];
+						$status = __('submissions.declined');
+						break;
+					case STATUS_PUBLISHED:
+					default:
+						$date = "";
+						$status = "";
+				}
+				$tbl = $p->add_table_cell($tbl, $col++, $row, $submission->getPaperId(), $optlist);
+				//$tbl = $p->add_table_cell($tbl, $col++, $row, substr($submission->getDateSubmitted(), 0, 10), $optlist);
+				$tbl = $p->add_table_cell($tbl, $col++, $row, substr($submission->getAuthorString(true), 0, 30), $optlist);
+				$tbl = $p->add_table_cell($tbl, $col++, $row, substr($submission->getLocalizedTitle(), 0, 40), $optlist);
+				//$tbl = $p->add_table_cell($tbl, $col++, $row, $submission->getStage(), $optlist);
+				
+				//$tbl = $p->add_table_cell($tbl, $col++, $row, $decisionTag, $optlist);
+				$tbl = $p->add_table_cell($tbl, $col++, $row, $status, $optlist);
+				$tbl = $p->add_table_cell($tbl, $col++, $row, substr($date, 0, 10), $optlist);
+				$tbl = $p->add_table_cell($tbl, $col, $row++, substr($submission->getTrackDirectorString(true), 0, 30), $optlist);
+			}
+		}
+		else if($page == "submissionsInReview"){
+			// Header
+			$font = $p->load_font("Helvetica-Bold", "unicode", "");
+			$optlist = "fittextline={position=center font=" . $font . " fontsize=15 margin=" . $margin_head . "} ";
+			$tbl = $p->add_table_cell($tbl, $col++, $row, __('common.id'), $optlist);
+			//$tbl = $p->add_table_cell($tbl, $col++, $row, __('submissions.submitted'), $optlist);
+			$tbl = $p->add_table_cell($tbl, $col++, $row, __('paper.authors'), $optlist);
+			$tbl = $p->add_table_cell($tbl, $col++, $row, __('paper.title'), $optlist);
+			$tbl = $p->add_table_cell($tbl, $col++, $row, __('submissions.reviewStage'), $optlist);
+			$tbl = $p->add_table_cell($tbl, $col++, $row, __('submission.decision'), $optlist);
+			$tbl = $p->add_table_cell($tbl, $col, $row++, __('user.role.trackDirectors'), $optlist);
+
+			// Rows
+			$font = $p->load_font("Helvetica", "unicode", "");
+			$optlist = "fittextline={position=center font=" . $font . " fontsize=13 margin=" . $margin_body . "} ";
+			foreach($submissionsArray as $submission){
+				// restart col index for the new row
+				$col = 1;
+				// get Paper object
+				//$paper = $paperDao->getPaper()
+				// set up decision tag
+				$decision = end(end($submission->getDecisions()));
+				$decisionTag = '';
+				switch ($decision['decision']) {
+					case SUBMISSION_DIRECTOR_DECISION_ACCEPT:
+					$decisionTag = 'ACC';
+					break;
+					case SUBMISSION_DIRECTOR_DECISION_PENDING_MINOR_REVISIONS:
+					case SUBMISSION_DIRECTOR_DECISION_PENDING_MAJOR_REVISIONS:
+					$decisionTag = 'REV';
+					break;
+					case SUBMISSION_DIRECTOR_DECISION_DECLINE:
+					$decisionTag = 'DEC';
+					break;
+					case '':
+					case NULL:
+					$decisionTag = '';
+					break;
+					default:
+					$decisionTag = 'ERR';
+				}
+				$tbl = $p->add_table_cell($tbl, $col++, $row, $submission->getPaperId(), $optlist);
+				//$tbl = $p->add_table_cell($tbl, $col++, $row, substr($submission->getDateSubmitted(), 0, 10), $optlist);
+				$tbl = $p->add_table_cell($tbl, $col++, $row, substr($submission->getAuthorString(true), 0, 30), $optlist);
+				$tbl = $p->add_table_cell($tbl, $col++, $row, substr($submission->getLocalizedTitle(), 0, 40), $optlist);
+				$tbl = $p->add_table_cell($tbl, $col++, $row, $submission->getCurrentStage() - 1, $optlist);
+				
+				$tbl = $p->add_table_cell($tbl, $col++, $row, $decisionTag, $optlist);
+				$tbl = $p->add_table_cell($tbl, $col, $row++, substr($submission->getTrackDirectorString(true), 0, 30), $optlist);
+			}
+		}
+		else{
+			
+			$p->show("Error: no export page selected.");
+		}
+		/* ---------- Place the table on one or more pages ---------- */
+		// First page is special
+		$optlist = "header=1 rowheightdefault=auto " .
+			"fill={{area=rowodd fillcolor={gray 0.9}}} " .
+			"stroke={{line=other}} ";
+		/* Place the table instance */
+		$result = $p->fit_table($tbl, $llx, $lly, $urx, $ury, $optlist);
+		if ($result ==  "_error") {
+				die("Couldn't place table: " . $p->get_errmsg());
+		}
+		$p->end_page_ext("");
+		/*
+		 * Loop until all of the table is placed; create new pages
+		 * as long as more table instances need to be placed.
+		 */
+		while($result == "_boxfull") {
+			$p->begin_page_ext(0, 0, "width=a4.width height=a4.height");
+
+			/* Shade every other $row; draw lines for all table cells.
+			 * Add "showcells showborder" to visualize cell borders 
+			 */
+			$optlist = "header=1 rowheightdefault=auto " .
+			"fill={{area=rowodd fillcolor={gray 0.9}}} " .
+			"stroke={{line=other}} ";
+
+			/* Place the table instance */
+			$result = $p->fit_table($tbl, $llx, $lly, $urx, 792, $optlist);
+			if ($result ==  "_error") {
+					die("Couldn't place table: " . $p->get_errmsg());
+			}
+
+			$p->end_page_ext("");
+		}
+
+	/* Check the $result; "_stop" means all is ok. */
+	if ($result != "_stop") {
+			if ($result ==  "_error") {
+					die("Error when placing table: " . $p->get_errmsg());
+			}
+			else {
+					/* Any other return value is a user exit caused by
+					 * the "return" option; this requires dedicated code to
+					 * deal with.
+					 */
+					die("User return found in Table");
+			}
+	}
+
+	/* This will also delete Textflow handles used in the table */
+	$p->delete_table($tbl, "");
 	}
 
 	/**

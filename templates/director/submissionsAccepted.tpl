@@ -17,17 +17,17 @@
 		<td width="4%">{translate key="submissions.track"}</td>
 		<td width="19%">{translate key="paper.authors"}</td>
 		<td width="56%">{translate key="paper.title"}</td>
-		<td width="8%">{translate key="common.order"}</td>
+		<!--<td width="8%">{translate key="common.order"}</td>-->
+		<td width="8%">{translate key="common.country"}</td>
 		<td width="10%" align="right">{translate key="common.status"}</td>
 	</tr>
 </thead>
 <tbody>
 	{iterate from=submissions item=submission}
 	<tr>
-		
 		{assign var=lastTrackId value=$submission->getTrackId()}
 	</tr>
-
+	{assign var="user" value=$submission->getUser()}
 	{assign var="paperId" value=$submission->getPaperId()}
 	<input type="hidden" name="paperIds[]" value="{$paperId|escape}" />
 	<tr valign="top">
@@ -35,9 +35,12 @@
 		<td>{$submission->getTrackAbbrev()|escape}</td>
 		<td>{$submission->getAuthorString(true)|truncate:40:"..."|escape}</td>
 		<td><a href="{url op="submissionReview" path=$paperId}" class="action">{$submission->getLocalizedTitle()|strip_tags|truncate:60:"..."|default:"&mdash;"}</a></td>
-		<td>
+		<!--<td>
 			<a href="{url op="movePaper" d=u paperId=$submission->getPaperId()}" class="plain">&uarr;</a>
 			<a href="{url op="movePaper" d=d paperId=$submission->getPaperId()}" class="plain">&darr;</a>
+		</td>-->
+		<td>
+			{$user->getCountry()}
 		</td>
 		<td align="right">
 			{assign var="status" value=$submission->getStatus()}

@@ -67,6 +67,7 @@
 	<message key="user.profile.form.emailRequired">Je vyžadována platná emailová adresa.</message>
 	<message key="user.profile.form.addressRequired">Prosíme, vyplňte Vaši korespondenční adresu.</message>
 	<message key="user.profile.form.affiliationRequired">Prosíme, vyplňte položku pracoviště.</message>
+	<message key="user.profile.form.countryRequired">Prosíme, vyplňte položku země.</message>
 	<message key="user.profile.form.firstNameRequired">Je vyžadováno jméno.</message>
 	<message key="user.profile.form.lastNameRequired">Je vyžadováno příjmení.</message>
 	<message key="user.profile.form.newPasswordRequired">Musíte vložit Vaše nové heslo.</message>
