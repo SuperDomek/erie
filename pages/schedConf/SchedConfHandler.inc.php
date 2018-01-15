@@ -194,13 +194,18 @@ class SchedConfHandler extends Handler {
 	function registration() {
 		$this->addCheck(new HandlerValidatorSchedConf($this));
 		$this->validate();
+		
 
 		$conference =& Request::getConference();
-		$schedConf =& Request::getSchedConf();
-
+		//$schedConf =& Request::getSchedConf(); // this gets schedConf from URL
+		//We need current scheduled conference
+		$schedConfDao =& DAORegistry::getDAO('SchedConfDAO');
+		$currentSchedConfs =& $schedConfDao->getCurrentSchedConfs($conference->getId());
+		// get the latest scheduled conference(we schedule only one per year)
+		$schedConf = end($currentSchedConfs->toArray());
+		if(empty($schedConf)) Request::url(null, null, 'index');
 		$paymentManager =& OCSPaymentManager::getManager();
 		if (!$paymentManager->isConfigured()) Request::redirect(null, null, 'index');
-
 		$templateMgr =& TemplateManager::getManager();
 		$templateMgr->assign('pageHierarchy', array(
 			array(Request::url(null, 'index', 'index'), $conference->getConferenceTitle(), true),
@@ -210,6 +215,7 @@ class SchedConfHandler extends Handler {
 		$user =& Request::getUser();
 		$registrationDao =& DAORegistry::getDAO('RegistrationDAO');
 		if ($user && ($registrationId = $registrationDao->getRegistrationIdByUser($user->getId(), $schedConf->getId()))) {
+			
 			// This user has already registered.
 			$registration =& $registrationDao->getRegistration($registrationId);
 
@@ -227,8 +233,10 @@ class SchedConfHandler extends Handler {
 			}
 		}
 		else {
+			
 			$typeId = 0;
 		}
+		
 		//$typeId = (int) Request::getUserVar('registrationTypeId');
 		//if ($typeId) { // Registration type already chosen from user registration
 			// A registration type has been chosen

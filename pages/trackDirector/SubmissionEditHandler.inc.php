@@ -179,8 +179,7 @@ class SubmissionEditHandler extends TrackDirectorHandler {
 		$paperEventLogDao =& DAORegistry::getDAO('PaperEventLogDAO');
 
 		$trackDao =& DAORegistry::getDAO('TrackDAO');
-		$tracks =& $trackDao->getSchedConfTracks($schedConf->getId());
-
+		$tracks =& $trackDao->getTrackTitles($schedConf->getId());
 		$directorDecisions = $submission->getDecisions($stage);
 		$lastDecision = count($directorDecisions) >= 1 ? $directorDecisions[count($directorDecisions) - 1]['decision'] : null;
 
@@ -292,7 +291,7 @@ class SubmissionEditHandler extends TrackDirectorHandler {
 		$templateMgr->assign_by_ref('directorFile', $submission->getDirectorFile());
 		$templateMgr->assign('rateReviewerOnQuality', $schedConf->getSetting('rateReviewerOnQuality'));
 		$templateMgr->assign('showPeerReviewOptions', $showPeerReviewOptions);
-		$templateMgr->assign_by_ref('tracks', $tracks->toArray());
+		$templateMgr->assign_by_ref('tracks', $tracks);
 		$templateMgr->assign_by_ref('directorDecisionOptions', TrackDirectorSubmission::getDirectorDecisionOptions(null, $stage));
 		$templateMgr->assign_by_ref('lastDecision', $lastDecision);
 		$templateMgr->assign_by_ref('directorDecisions', array_reverse($directorDecisions));
@@ -401,11 +400,16 @@ class SubmissionEditHandler extends TrackDirectorHandler {
 		$schedConf =& Request::getSchedConf();
 		$submission =& $this->submission;
 
+		$from = Request::getUserVar('from');
+		if(!empty(Request::getUserVar('stage')))
+			$fromStage = Request::getUserVar('stage');
+		else
+		$fromStage = null;
 		$trackId = Request::getUserVar('trackId');
 
 		TrackDirectorAction::changeTrack($submission, $trackId);
 
-		Request::redirect(null, null, null, 'submission', $paperId);
+		Request::redirect(null, null, null, $from, array($paperId, $fromStage));
 	}
 
 	/**

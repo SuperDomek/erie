@@ -55,7 +55,13 @@
 <li><header>{translate key="paper.title"}</header>
 		{$submission->getLocalizedTitle()|strip_unsafe_html}</li>
 <li><header>{translate key="track.track"}</header>
-{$submission->getTrackTitle()|escape}</li>
+<form name="trackForm" id="trackForm" action="{url op="changeTrack" paperId=$submission->getPaperId()}" method="post">
+	<input type="hidden" name="from" value="submissionReview" />
+	<input type="hidden" name="stage" value="{$stage|escape}" />
+	<select name="trackId" size="1" class="selectMenu">{html_options options=$tracks selected=$submission->getTrackId()}</select>
+	<button type="submit" name="submit" form="trackForm" id="track_submit" value="Submit" class="button">{translate key="common.record"}</button>
+</form>
+{*$submission->getTrackTitle()|escape*}</li>
 <li><header>{translate key="user.role.trackDirector"}</header>
 			{assign var=editAssignments value=$submission->getEditAssignments()}
 			{foreach from=$editAssignments item=editAssignment}

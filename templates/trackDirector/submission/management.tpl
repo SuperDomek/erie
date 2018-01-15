@@ -59,6 +59,8 @@
 		{$tracks.$trackId}
 	{else}
 		<form action="{url op="changeTrack" paperId=$submission->getPaperId()}" method="post">
+			<input type="hidden" name="from" value="submission" />
+			<input type="hidden" name="stage" value="{$stage|escape}" />
 			<select name="trackId" size="1" class="selectMenu" >
 				{html_options options=$tracks selected=$submission->getTrackId()}
 			</select>
