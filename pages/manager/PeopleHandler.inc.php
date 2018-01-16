@@ -289,11 +289,12 @@ class PeopleHandler extends ManagerHandler {
 		$conference =& Request::getConference();
 		$isConferenceManager = Validation::isConferenceManager($conference->getId()) || Validation::isSiteAdmin();
 		$roleDao =& DAORegistry::getDAO('RoleDAO');
+		$schedConf =& Request::getSchedConf();
 
 		// Don't allow scheduled conference managers to unenroll scheduled conference managers or
 		// conference managers. FIXME is this still relevant?
 		if ($roleId != ROLE_ID_SITE_ADMIN && $isConferenceManager) {
-			$roleDao->deleteRoleByUserId(Request::getUserVar('userId'), $conference->getId(), $roleId);
+			$roleDao->deleteRoleByUserId(Request::getUserVar('userId'), $conference->getId(), $roleId, $schedConf->getId());
 		}
 
 		Request::redirect(null, null, null, 'people', $roleDao->getRolePath($roleId) . 's');

@@ -34,15 +34,19 @@
 {/if}
 
 <div id="registrationType">
-
   <table class="listing" width="100%">
     <tr valign="top">
     	<td class="label">{fieldLabel name="typeId" key="manager.registration.form.typeId"}</td>
-    	<td class="value"><select name="registrationTypeId" id="typeId" class="selectMenu">
-    		{iterate from=registrationTypes item=registrationType}
-    		<option value="{$registrationType->getTypeId()}"{if $registrationTypeId == $registrationType->getTypeId()} selected="selected"{/if}>{$registrationType->getSummaryString()|escape}</option>
-    		{/iterate}
-    	</select></td>
+    	<td class="value">
+				<select name="registrationTypeId" id="typeId" class="selectMenu">
+					{if !$registrationTypeId}
+					<option value="">{translate key="common.select"}</option>
+					{/if}
+					{iterate from=registrationTypes item=registrationType}
+					<option value="{$registrationType->getTypeId()}"{if $registrationTypeId == $registrationType->getTypeId()} selected="selected"{/if}>{$registrationType->getSummaryString()|escape}</option>
+					{/iterate}
+				</select>
+			</td>
     </tr>
 		<tr valign="top">
 			<td>&nbsp;</td>

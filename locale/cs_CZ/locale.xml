@@ -332,12 +332,14 @@
 	<message key="user.createAccountForOtherConferences">Vytvořit účet pro další konference</message>
 	<message key="user.myConferences">Mé konference</message>
 	<message key="user.noRoles.chooseConference">Váš účet není v současné době spojen s žádnou konferencí. Vyberte, prosím, konferenci:</message>
-	<message key="user.noRoles.noRolesForConference">Váš účet v současné době nemá pro tuto konferenci žádné role. Vyberte, prosím, jednu z níže uvedených akcí:</message>
+	<message key="user.noRoles.noRolesForConference">Váš účet v současné době nemá pro tento ročník konference žádnou roli. Vyberte, prosím, jednu z níže uvedených akcí:</message>
 	<message key="user.noRoles.submitProposal">Zaslat návrh příspěvku</message>
 	<message key="user.noRoles.submitProposalRegClosed">Zaslat návrh příspěvku: Registrace autorů je v tomto momentě uzavřena.</message>
 	<message key="user.noRoles.submitProposalSubmissionsClosed">Zaslat návrh příspěvku: Podávání příspěvků je v tomto momentě uzavřeno.</message>
+	<message key="user.noRoles.regAuthor">Registrovat se jako autor</message>
+	<message key="user.noRoles.regAuthorClosed">Registrovat se jako autor: registrace autorů je v tomto momentě uzavřena.</message>
 	<message key="user.noRoles.regReviewer">Registrovat jako oponenta konference</message>
-	<message key="user.noRoles.regReviewerClosed">Registrovat jako oponenta konference: registrace oponentů je v tomto momentě uzavřena.</message>
+	<message key="user.noRoles.regReviewerClosed">Registrovat se jako oponent: registrace recenzentů je v tomto momentě uzavřena.</message>
 	<message key="user.noRoles.register">Registrovat k účasti na konferenci</message>
 	<message key="user.noRoles.registerUnavailable">Registrovat k účasti na konferenci: registrace nejsou v tomto momentě přijímány.</message>
 

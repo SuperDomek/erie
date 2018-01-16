@@ -195,7 +195,6 @@ class SchedConfHandler extends Handler {
 		$this->addCheck(new HandlerValidatorSchedConf($this));
 		$this->validate();
 		
-
 		$conference =& Request::getConference();
 		//$schedConf =& Request::getSchedConf(); // this gets schedConf from URL
 		//We need current scheduled conference

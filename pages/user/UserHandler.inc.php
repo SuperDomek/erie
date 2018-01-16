@@ -121,7 +121,6 @@ class UserHandler extends Handler {
 
 				unset($schedConf);
 			}
-
 			$schedConf =& Request::getSchedConf();
 			if ($schedConf) {
 				import('schedConf.SchedConfAction');
@@ -132,7 +131,6 @@ class UserHandler extends Handler {
 
 			$templateMgr->assign_by_ref('userConferences', $userConferences);
 		}
-
 		$templateMgr->assign('isSiteAdmin', $roleDao->getRole(0, 0, $userId, ROLE_ID_SITE_ADMIN));
 		$templateMgr->assign('allConferences', $allConferences);
 		$templateMgr->assign('allSchedConfs', $allSchedConfs);
@@ -153,6 +151,7 @@ class UserHandler extends Handler {
 
 	 */
 	function getRoleDataForConference($userId, $conferenceId, $schedConfId, &$submissionsCount, &$isValid) {
+		$registrationDao =& DAORegistry::getDAO('RegistrationDAO');
 		if (Validation::isConferenceManager($conferenceId)) {
 			$conferenceDao =& DAORegistry::getDAO('ConferenceDAO');
 			$isValid["ConferenceManager"][$conferenceId][$schedConfId] = true;
@@ -176,6 +175,13 @@ class UserHandler extends Handler {
 			$authorSubmissionDao =& DAORegistry::getDAO('AuthorSubmissionDAO');
 			$submissionsCount["Author"][$conferenceId][$schedConfId] = $authorSubmissionDao->getSubmissionsCount($userId, $schedConfId);
 			$isValid["Author"][$conferenceId][$schedConfId] = true;
+		}
+		if (Validation::isReader($conferenceId, $schedConfId)) {
+			$isValid["Reader"][$conferenceId][$schedConfId] = true;
+		}
+		//registered to a scheduled conference
+		if ($registrationDao->getRegistrationIdByUser($userId, $schedConfId)){
+			$isValid["Registered"][$conferenceId][$schedConfId] = true;
 		}
 	}
 

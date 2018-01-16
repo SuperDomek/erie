@@ -40,7 +40,7 @@ function showMenu(){
 {/literal}
 
 {if $isSiteAdmin}
-{assign var="hasRole" value=1}
+{*assign var="hasRole" value=1*}
 	&#187; <a href="{url conference="index" page=$isSiteAdmin->getRolePath()}">{translate key=$isSiteAdmin->getRoleName()}</a>
 	{call_hook name="Templates::User::Index::Admin"}
 {/if}
@@ -48,7 +48,7 @@ function showMenu(){
 {if !$currentConference}<h3>{translate key="user.myConferences"}</h3>{/if}
 
 {foreach from=$userConferences item=conference}
-{assign var="hasRole" value=1}
+
 {assign var="conferenceId" value=$conference->getId()}
 {assign var="conferencePath" value=$conference->getPath()}
 
@@ -72,16 +72,26 @@ function showMenu(){
 	{* Display scheduled conference roles *}
 	{assign var="schedConfsCount" value=$userSchedConfs[$conferenceId]|@count}
 	{foreach from=$userSchedConfs[$conferenceId] item=schedConf name=schedConfs}
-		{if $schedConf->getCurrent()}
-		<div id="schedConf-{$schedConf->getSequence()}">
-		{else}
-		{if $schedConfsCount > 1 && $smarty.foreach.schedConfs.iteration == 2}
-			<button type="button" onclick="showMenu();" id="hideButton">{translate key="common.previousSchedConfs.show"}</button>
-		{/if}
-		<div id="schedConf-{$schedConf->getSequence()}" class="hiddenMenu">
-		{/if}
 		{assign var="schedConfId" value=$schedConf->getId()}
 		{assign var="schedConfPath" value=$schedConf->getPath()}
+		{if $schedConf->getCurrent()}
+			{if !$isValid.Director.$conferenceId.$schedConfId &&
+			!$isValid.TrackDirector.$conferenceId.$schedConfId &&
+			!$isValid.Reviewer.$conferenceId.$schedConfId &&
+			!$isValid.Author.$conferenceId.$schedConfId &&
+			$isValid.Reader.$conferenceId.$schedConfId}
+			{assign var="hasRole" value=0}
+			{else}
+			{assign var="hasRole" value=1}
+			{/if}
+			<div id="schedConf-{$schedConf->getSequence()}">
+		{else}
+		{*if $schedConfsCount > 1 && $smarty.foreach.schedConfs.iteration == 2*}
+			<button type="button" onclick="showMenu();" id="hideButton">{translate key="common.previousSchedConfs.show"}</button>
+		{*/if*}
+		<div id="schedConf-{$schedConf->getSequence()}" class="hiddenMenu">
+		{/if}
+		
 		<h5><a href="{url conference=$conference->getPath() schedConf=$schedConf->getPath() page="index"}">{$schedConf->getSchedConfTitle()|escape}</a></h5>
 
 		<table width="100%" class="info">
@@ -157,6 +167,7 @@ function showMenu(){
 					</td>
 				</tr>
 			{/if}
+			
 			{* Add a row to the bottom of each table to ensure all have same width*}
 			<tr>
 				<td width="25%"></td>
@@ -174,8 +185,7 @@ function showMenu(){
 	{call_hook name="Templates::User::Index::Conference" conference=$conference}
 	</div>
 {/foreach}
-
-
+{*$hasRole*}
 {if !$hasRole}
 	{if !$currentSchedConf}
 		<p>{translate key="user.noRoles.chooseConference"}</p>
@@ -190,33 +200,30 @@ function showMenu(){
 			{/if}{* !empty($allSchedConfs[$conferenceId]) *}
 		{/foreach}
 	{else}{* !$currentSchedConf *}
+		{url|assign:"sourceUrl" page="user"}
 		<p>{translate key="user.noRoles.noRolesForConference"}</p>
 		<ul class="plain">
 			<li>
 				&#187;
 				{if $allowRegAuthor}
-					{if $submissionsOpen}
-						<a href="{url page="author" op="submit"}">{translate key="user.noRoles.submitProposal"}</a>
-					{else}{* $submissionsOpen *}
-						{translate key="user.noRoles.submitProposalSubmissionsClosed"}
-					{/if}{* $submissionsOpen *}
+					<a href="{url schedConf="2018" page="user" op="become" path="author" source=$sourceUrl}">{translate key="user.noRoles.regAuthor" schedConfTitle=$currentSchedConf->getSchedConfTitle()|escape}</a>
 				{else}{* $allowRegAuthor *}
-					{translate key="user.noRoles.submitProposalRegClosed"}
+					{translate key="user.noRoles.regAuthorClosed"}
 				{/if}{* $allowRegAuthor *}
 			</li>
-			<li>
+				{*<li>
 				&#187;
 				{if $allowRegReviewer}
 					{url|assign:"userHomeUrl" page="user" op="index"}
-					<a href="{url op="become" path="reviewer" source=$userHomeUrl}">{translate key="user.noRoles.regReviewer"}</a>
-				{else}{* $allowRegReviewer *}
+					<a href="{url op="become" schedConf="2018" path="reviewer" source=$userHomeUrl}">{translate key="user.noRoles.regReviewer"}</a>
+				{else}
 					{translate key="user.noRoles.regReviewerClosed"}
-				{/if}{* $allowRegReviewer *}
-			</li>
+				{/if}
+			</li>*}
 			<li>
 				&#187;
 				{if $schedConfPaymentsEnabled}
-					<a href="{url page="schedConf" op="registration"}">{translate key="user.noRoles.register"}</a>
+					<a href="{url page="schedConf" schedConf="2018" op="registration"}">{translate key="user.noRoles.register"}</a>
 				{else}{* $schedConfPaymentsEnabled *}
 					{translate key="user.noRoles.registerUnavailable"}
 				{/if}{* $schedConfPaymentsEnabled *}
@@ -235,8 +242,8 @@ function showMenu(){
 			<li>&#187; <a href="{url conference="index" page="user"}">{translate key="user.showAllConferences"}</a></li>
 		{/if}
 	{/if}
-  {if $schedConfPostPayment}<li>&#187; <a href="{url page="schedConf" op="registration"}">{translate key="schedConf.registration"}</a></li>{/if}
-	<li>&#187; <a href="{url page="user" op="profile"}">{translate key="user.editMyProfile"}</a></li>
+  {if $schedConfPostPayment}<li>&#187; <a href="{url page="schedConf" schedConf="2018" op="registration"}">{translate key="schedConf.registration"}</a></li>{/if}
+	<li>&#187; <a href="{url page="user" schedConf="2018" op="profile"}">{translate key="user.editMyProfile"}</a></li>
 	<li>&#187; <a href="{url page="user" op="changePassword"}">{translate key="user.changeMyPassword"}</a></li>
 	<li>&#187; <a href="{url page="login" op="signOut"}">{translate key="user.logOut"}</a></li>
 	{call_hook name="Templates::User::Index::MyAccount"}
