@@ -15,7 +15,7 @@
 //$Id$
 
 import("author.form.submit.AuthorSubmitForm");
-import('classes.submission.common.JELCodes');
+//import('classes.submission.common.JELCodes');
 
 class AuthorSubmitStep3Form extends AuthorSubmitForm {
 	/**
@@ -74,7 +74,7 @@ class AuthorSubmitStep3Form extends AuthorSubmitForm {
 	 */
 	function initData() {
 		$trackDao =& DAORegistry::getDAO('TrackDAO');
-		$JEL = new JELCodes();
+		//$JEL = new JELCodes();
 		$paperId = $this->paper->getID();
 
 		if (isset($this->paper)) {
@@ -84,7 +84,8 @@ class AuthorSubmitStep3Form extends AuthorSubmitForm {
 				'title' => $paper->getTitle(null), // Localized
 				'abstract' => $paper->getAbstract(null), // Localized
 				'discipline' => $paper->getDiscipline(null), // Localized
-				'subjectClass' => $JEL->getCodes($paperId),
+				//'subjectClass' => $JEL->getCodes($paperId),
+				'subjectClass' => $paper->getSubjectClass(null), // Localized
 				'subject' => $paper->getSubject(null), // Localized
 				'coverageGeo' => $paper->getCoverageGeo(null), // Localized
 				'coverageChron' => $paper->getCoverageChron(null), // Localized
@@ -218,9 +219,9 @@ class AuthorSubmitStep3Form extends AuthorSubmitForm {
 		$templateMgr->assign('suffixes', $affil->getSuffixes());
 
 		// Initialization of the JEL codes class
-		$JEL = new JELCodes();
+		/*$JEL = new JELCodes();
 		$paperId = $this->paper->getID();
-		$templateMgr->assign('JELClassification', $JEL->getClassification());
+		$templateMgr->assign('JELClassification', $JEL->getClassification());*/
 
 		// limit of abstracts
 		$trackDao =& DAORegistry::getDAO('TrackDAO');
@@ -248,7 +249,7 @@ class AuthorSubmitStep3Form extends AuthorSubmitForm {
 		$schedConf =& Request::getSchedConf();
 		$user =& Request::getUser();
 
-		$JEL = new JELCodes();
+		//$JEL = new JELCodes();
 		$paperId = $this->paper->getID();
 
 		// Update paper
@@ -290,14 +291,14 @@ class AuthorSubmitStep3Form extends AuthorSubmitForm {
 
 		// Set up JEL codes
 		//$JELCodes = $JEL->getCodes();
-		foreach ($this->getData('subjectClass') as $key => $value) {
+		/*foreach ($this->getData('subjectClass') as $key => $value) {
 				$JEL->setCode($paperId, $value, $JEL->getKeyword($value));
-		}
+		}*/
 
 
 
 		$paper->setDiscipline($this->getData('discipline'), null); // Localized
-		//$paper->setSubjectClass($this->getData('subjectClass'), null); // Localized
+		$paper->setSubjectClass($this->getData('subjectClass'), null); // Localized
 		$paper->setSubject($this->getData('subject'), null); // Localized
 		$paper->setCoverageGeo($this->getData('coverageGeo'), null); // Localized
 		$paper->setCoverageChron($this->getData('coverageChron'), null); // Localized

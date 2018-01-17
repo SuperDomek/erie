@@ -121,10 +121,10 @@ class TrackSubmissionHandler extends AuthorHandler {
 		$templateMgr->assign_by_ref('track', $track);
 
 		// testing JEL codes class
-		import('classes.submission.common.JELCodes');
+		/*import('classes.submission.common.JELCodes');
 		$JEL = new JELCodes();
 		$templateMgr->assign('JELCodes', $JEL->getCodes($paperId));
-		$templateMgr->assign('JELClassification', $JEL->getClassification());
+		$templateMgr->assign('JELClassification', $JEL->getClassification());*/
 
 		$templateMgr->assign_by_ref('submission', $submission);
 		$templateMgr->assign_by_ref('publishedPaper', $publishedPaper);

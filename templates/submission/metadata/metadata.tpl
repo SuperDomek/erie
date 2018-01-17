@@ -101,20 +101,10 @@
 	</tr>
 	{/if}
 
-  <!--
-  JEL Codes
-  -->
-
 	{if $currentSchedConf->getSetting('metaSubjectClass')}
 	<tr valign="top">
 		<td width="20%"  class="label">{translate key="paper.subjectClassification"}</td>
-		<td width="80%" class="value">
-      {foreach name=JELCodes from=$JELCodes item=JELCode}
-        {$JELCode.2}<br>
-      {foreachelse}
-        {translate key="paper.subjectClassification.noItems"}
-      {/foreach}
-    </td>
+		<td width="80%" class="value">{$submission->getLocalizedSubjectClass()|escape|default:"&mdash;"}</td>
 	</tr>
 	<tr>
 		<td colspan="2" class="separator">&nbsp;</td>

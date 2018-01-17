@@ -68,10 +68,10 @@ class SubmissionEditHandler extends TrackDirectorHandler {
 		$templateMgr->assign('submitterId', $submission->getUserId());
 
 		// testing JEL codes class
-		import('classes.submission.common.JELCodes');
+		/*import('classes.submission.common.JELCodes');
 		$JEL = new JELCodes();
 		$templateMgr->assign('JELCodes', $JEL->getCodes($paperId));
-		$templateMgr->assign('JELClassification', $JEL->getClassification());
+		$templateMgr->assign('JELClassification', $JEL->getClassification());*/
 
 		$trackDao =& DAORegistry::getDAO('TrackDAO');
 		$templateMgr->assign_by_ref('tracks', $trackDao->getTrackTitles($schedConf->getId()));

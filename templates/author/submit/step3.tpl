@@ -64,21 +64,6 @@ function showAffilBox(sel, authorIndex) {
   }
 }
 
-// Global variable for the count of select boxes
-var JELCount = {/literal}{$subjectClass|@count}{literal};
-
-// Adds a JEL code field
-function addJEL(){
-  var newDiv = document.createElement('div');
-  // compensation for a paper without JEL codes
-  if(JELCount === 0) JELCount++;
-  var options = '{/literal}{html_options options=$JELClassification}{literal}';
-  var select = '<select name="subjectClass['.concat(JELCount).concat(']" id="subjectClass" class="selectForm selectMenu"><option value=""></option>').concat(options).concat('</select><a href="javascript:void(0)" onclick="delDiv(this);return;" title="Delete row"><img src="{/literal}{$baseUrl}{literal}/templates/images/icons/delete.gif"/></a>');
-  newDiv.innerHTML = select;
-  document.getElementById("JELblock").appendChild(newDiv);
-  JELCount++;
-}
-
 // Delete the parent div of passed object
 function delDiv(sel){
   var parent = sel.parentNode;
@@ -316,44 +301,13 @@ function delDiv(sel){
 </tr>
 {/if}
 
-{* JEL Classification *}
-
 {if $currentSchedConf->getSetting('metaSubjectClass')}
 <tr valign="top">
-	<td rowspan="2" width="20%" class="label">{fieldLabel name="subjectClass" key="paper.subjectClassification" required="true"}<br>
-    <a href="{$currentSchedConf->getSetting('metaSubjectClassUrl')|escape}" target="_blank">{$currentSchedConf->getLocalizedSetting('metaSubjectClassTitle')|escape}</a>
-  </td>
-	<td width="80%" class="value" >
-    <div id="JELblock">
-      {foreach name=JELCodes from=$subjectClass key=jel_code_id item=JELCode}
-      <div>
-        <select name="subjectClass[{$jel_code_id}]" id="subjectClass" class="selectForm selectMenu">
-          <option value=""></option>
-          {html_options options=$JELClassification selected=$JELCode}
-        </select>
-        {if $jel_code_id > 0}
-          <a href="javascript:void(0)" onclick="delDiv(this);return;" title="Delete row"><img src="{$baseUrl}/templates/images/icons/delete.gif"/></a>
-        {/if}
-      </div>
-      {foreachelse}
-      <div>
-        <select name="subjectClass[0]" id="subjectClass" class="selectForm selectMenu">
-          <option value=""></option>
-          {html_options options=$JELClassification}
-        </select>
-      </div>
-      {/foreach}
-    </div>
-  </td>
+	<td rowspan="2" width="20%" class="label">{fieldLabel name="subjectClass" key="paper.subjectClassification"}</td>
+	<td width="80%" class="value"><input type="text" class="textField" name="subjectClass[{$formLocale|escape}]" id="subjectClass" value="{$subjectClass[$formLocale]|escape}" size="40" maxlength="255" /></td>
 </tr>
 <tr valign="top">
-	<td width="20%" class="label"></td>
-</tr>
-<tr valign="top">
-  <td></td>
-  <td width="20%" class="label">
-    <input type="button" class="button" name="addClassification" value="{translate key="author.submit.addClassification"}" onclick="addJEL();" />
-  </td>
+	<td width="20%" class="label"><a href="{$currentSchedConf->getSetting('metaSubjectClassUrl')|escape}" target="_blank">{$currentSchedConf->getLocalizedSetting('metaSubjectClassTitle')|escape}</a></td>
 </tr>
 <tr valign="top">
 	<td>&nbsp;</td>
