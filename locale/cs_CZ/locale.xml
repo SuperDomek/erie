@@ -182,7 +182,7 @@
 	<message key="paper.suppFiles">Doplňkový(é) soubor(y)</message>
 	<message key="paper.suppFilesAbbrev">Dopl. soubory</message>
 	<message key="paper.discipline">Akademický obor a pod-obor</message>
-	<message key="paper.subjectClassification">Klasifikace JEL</message>
+	<message key="paper.subjectClassification">Klasifikace</message>
 	<message key="paper.subjectClassification.noItems">Neobsahuje žádné položky</message>
 	<message key="paper.subject">Klíčová slova</message>
 	<message key="paper.coverage">Rozsah</message>
