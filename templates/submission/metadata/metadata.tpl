@@ -42,12 +42,12 @@
 		<td class="label">{translate key="common.country"}</td>
 		<td class="value">{$author->getCountryLocalized()|escape|default:"&mdash;"}</td>
 	</tr>
-  <tr valign="top">
+  {*<tr valign="top">
   	<td width="20%" class="label">{translate key="common.attends"}</td>
   	<td width="80%" class="value">
   		<input type="checkbox"{if $author->getAttends()} checked="checked" {/if} disabled="disabled"/>
   	</td>
-  </tr>
+  </tr>*}
   <!--
 	<tr valign="top">
 		<td class="label">{translate key="user.biography"}</td>

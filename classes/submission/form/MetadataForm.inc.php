@@ -126,7 +126,6 @@ class MetadataForm extends Form {
 						'affiliation' => $authors[$i]->getAffiliation(),
 						'country' => $authors[$i]->getCountry(),
 						'countryLocalized' => $authors[$i]->getCountryLocalized(),
-						'attends' => $authors[$i]->getAttends(),
 						'email' => $authors[$i]->getEmail(),
 						'url' => $authors[$i]->getUrl(),
 						'biography' => $authors[$i]->getBiography(null) // Localized
@@ -273,7 +272,6 @@ class MetadataForm extends Form {
 				$author->setAffiliationSelect($authors[$i]['affiliation_select']);
 				$author->setAffiliation($authors[$i]['affiliation']);
 				$author->setCountry($authors[$i]['country']);
-				$author->setAttends($authors[$i]['attends']);
 				$author->setEmail($authors[$i]['email']);
 				$author->setUrl($authors[$i]['url']);
 				$author->setBiography($authors[$i]['biography'], null); // Localized

@@ -38,12 +38,12 @@
 		<td class="label">{translate key="user.biography"}</td>
 		<td class="value">{$author.biography.$formLocale|strip_unsafe_html|nl2br|default:"&mdash;"}</td>
 	</tr>-->
-  <tr valign="top">
+  {*<tr valign="top">
   	<td width="20%" class="label">{fieldLabel name="authors-$authorIndex-attends" key="common.attends"}</td>
   	<td width="80%" class="value">
   		<input type="checkbox" name="authors[{$authorIndex|escape}][attends]" id="authors-{$authorIndex|escape}-attends" {if !$authors.attends} checked="checked" {/if}/>
   	</td>
-  </tr>
+  </tr>*}
 	{if !$smarty.foreach.authors.last}
 	<tr>
 		<td colspan="2" class="separator">&nbsp;</td>

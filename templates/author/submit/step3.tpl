@@ -177,12 +177,12 @@ function delDiv(sel){
 	</td>
 </tr>
 
-<tr valign="top">
+{*<tr valign="top">
 	<td width="20%" class="label">{fieldLabel name="authors-$authorIndex-attends" key="common.attends"}</td>
 	<td width="80%" class="value">
 		<input type="checkbox" name="authors[{$authorIndex|escape}][attends]" id="authors-{$authorIndex|escape}-attends" {if $smarty.foreach.authors.total <= 1} checked="checked" {/if}/>
 	</td>
-</tr>
+</tr>*}
 
 {if $smarty.foreach.authors.total > 1}
 <tr valign="top">

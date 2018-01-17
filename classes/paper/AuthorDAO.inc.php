@@ -211,7 +211,6 @@ class AuthorDAO extends DAO {
 				' . ($includeEmail?'aa.email AS email,':'CAST(\'\' AS CHAR) AS email,') . '
 				0 AS primary_contact,
 				0 AS seq,
-				0 as attends,
 				aa.first_name AS first_name,
 				aa.middle_name AS middle_name,
 				aa.last_name AS last_name,
@@ -293,7 +292,6 @@ class AuthorDAO extends DAO {
 		$author->setAffiliationSelect($row['affiliation_select']);
 		$author->setAffiliation($row['affiliation']);
 		$author->setCountry($row['country']);
-		$author->setAttends($row['attends']);
 		$author->setEmail($row['email']);
 		$author->setUrl($row['url']);
 		$author->setPrimaryContact($row['primary_contact']);
@@ -313,12 +311,11 @@ class AuthorDAO extends DAO {
 	function insertAuthor(&$author) {
 		$this->update(
 			'INSERT INTO paper_authors
-				(paper_id, attends, first_name, middle_name, last_name, affiliation_select, affiliation, country, email, url, primary_contact, seq)
+				(paper_id, first_name, middle_name, last_name, affiliation_select, affiliation, country, email, url, primary_contact, seq)
 				VALUES
-				(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+				(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
 			array(
 				$author->getPaperId(),
-				(bool) $author->getAttends(),
 				$author->getFirstName(),
 				$author->getMiddleName() . '', // make non-null
 				$author->getLastName(),
@@ -346,7 +343,6 @@ class AuthorDAO extends DAO {
 		$returner = $this->update(
 			'UPDATE paper_authors
 				SET
-					attends = ?,
 					first_name = ?,
 					middle_name = ?,
 					last_name = ?,
@@ -359,7 +355,6 @@ class AuthorDAO extends DAO {
 					seq = ?
 				WHERE author_id = ?',
 			array(
-				(bool) $author->getAttends(),
 				$author->getFirstName(),
 				$author->getMiddleName() . '', // make non-null
 				$author->getLastName(),
