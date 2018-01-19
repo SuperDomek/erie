@@ -269,12 +269,6 @@ class TrackDirectorAction extends Action {
 				}
 			}
 
-			// Set up reviewForm for each category
-			if($stage == REVIEW_STAGE_ABSTRACT)
-				$reviewAssignment->setReviewFormId(1);
-			else if($stage >= REVIEW_STAGE_PRESENTATION)
-				$reviewAssignment->setReviewFormId(2);
-
 			$trackDirectorSubmission->addReviewAssignment($reviewAssignment);
 			$trackDirectorSubmissionDao->updateTrackDirectorSubmission($trackDirectorSubmission);
 
@@ -314,6 +308,7 @@ class TrackDirectorAction extends Action {
 			import('paper.log.PaperLog');
 			import('paper.log.PaperEventLogEntry');
 			PaperLog::logEvent($trackDirectorSubmission->getPaperId(), PAPER_LOG_REVIEW_ASSIGN, LOG_TYPE_REVIEW, $reviewAssignment->getId(), 'log.review.reviewerAssigned', array('reviewerName' => $reviewer->getFullName(), 'paperId' => $trackDirectorSubmission->getPaperId(), 'stage' => $stage));
+			return $reviewAssignment->getId();
 		}
 	}
 

@@ -838,6 +838,7 @@ class DirectorHandler extends TrackDirectorHandler {
 					case SUBMISSION_DIRECTOR_DECISION_ACCEPT:
 					$decisionTag = 'ACC';
 					break;
+					case SUBMISSION_DIRECTOR_DECISION_PENDING_REVISIONS:
 					case SUBMISSION_DIRECTOR_DECISION_PENDING_MINOR_REVISIONS:
 					case SUBMISSION_DIRECTOR_DECISION_PENDING_MAJOR_REVISIONS:
 					$decisionTag = 'REV';

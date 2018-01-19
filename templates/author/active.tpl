@@ -76,6 +76,10 @@
 					</a>
 				{else}
 					<a class="action" href="{$submitUrl}">{translate key="submissions.pendingPresentation"}</a>
+					<br />
+					<a href="{url op="deleteSubmission" path=$paperId}" class="action" onclick="return confirm('{translate|escape:"jsparam" key="author.submissions.confirmDelete"}')">
+						{translate key="common.delete"}
+					</a>
 				{/if}
 			</td>
 		{/if}

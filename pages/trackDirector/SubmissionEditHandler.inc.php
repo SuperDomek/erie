@@ -498,6 +498,8 @@ class SubmissionEditHandler extends TrackDirectorHandler {
 		$conference =& Request::getConference();
 		$schedConf =& Request::getSchedConf();
 		$submission =& $this->submission;
+		
+		$user =& Request::getUser();
 
 		AppLocale::requireComponents(array(LOCALE_COMPONENT_PKP_MANAGER)); // manager.people.noneEnrolled FIXME?
 
@@ -509,7 +511,12 @@ class SubmissionEditHandler extends TrackDirectorHandler {
 
 		if (isset($args[1]) && $args[1] != null) {
 			// Assign reviewer to paper
-			TrackDirectorAction::addReviewer($submission, (int) $args[1], $submission->getCurrentStage(), true);
+			(int) $reviewerId = $args[1];
+			$reviewAssignmentId = TrackDirectorAction::addReviewer($submission, $reviewerId, $submission->getCurrentStage(), true);
+			// If the current user is assigning to himself, accept the review automatically
+			if ($reviewerId == $user->getId()){
+				TrackDirectorAction::confirmReviewForReviewer($reviewAssignmentId);
+			}
 			Request::redirect(null, null, null, 'submissionReview', $paperId);
 
 			// FIXME: Prompt for due date.
@@ -862,7 +869,8 @@ class SubmissionEditHandler extends TrackDirectorHandler {
 		$revising = false;
 		// the decision is revisions
 		if($lastDecision == SUBMISSION_DIRECTOR_DECISION_PENDING_MINOR_REVISIONS ||
-			$lastDecision == SUBMISSION_DIRECTOR_DECISION_PENDING_MAJOR_REVISIONS)
+			$lastDecision == SUBMISSION_DIRECTOR_DECISION_PENDING_MAJOR_REVISIONS ||
+			$lastDecision == SUBMISSION_DIRECTOR_DECISION_PENDING_REVISIONS)
 			$revising = true;
 		
 		// allow the file for review
@@ -1242,7 +1250,8 @@ class SubmissionEditHandler extends TrackDirectorHandler {
 		$lastDecision = count($directorDecisions) >= 1 ? $directorDecisions[count($directorDecisions) - 1]['decision'] : null;
 		// If last decision is revisions then we want to go to next stage with this review version
 		if ($lastDecision == SUBMISSION_DIRECTOR_DECISION_PENDING_MINOR_REVISIONS ||
-		$lastDecision == SUBMISSION_DIRECTOR_DECISION_PENDING_MAJOR_REVISIONS)
+		$lastDecision == SUBMISSION_DIRECTOR_DECISION_PENDING_MAJOR_REVISIONS ||
+		$lastDecision == SUBMISSION_DIRECTOR_DECISION_PENDING_REVISIONS)
 			TrackDirectorAction::uploadReviewVersion($submission, true);
 		else
 			TrackDirectorAction::uploadReviewVersion($submission, false);

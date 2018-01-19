@@ -443,28 +443,13 @@ class TrackDirectorSubmission extends Paper {
 	 */
 	function &getDirectorDecisionOptions($schedConf = null, $stage = null) {
 		$directorDecisionOptions = array('' => 'common.chooseOne');
-		if (!$schedConf || $this->getReviewMode() == REVIEW_MODE_BOTH_SEQUENTIAL){
-			if($stage == REVIEW_STAGE_ABSTRACT){
-				$directorDecisionOptions[SUBMISSION_DIRECTOR_DECISION_INVITE] = 'director.abstract.decision.invitePresentation';
-				//$directorDecisionOptions[SUBMISSION_DIRECTOR_DECISION_PENDING_REVISIONS] = 'director.abstract.decision.pendingRevisions';
-				$directorDecisionOptions[SUBMISSION_DIRECTOR_DECISION_DECLINE] = 'director.abstract.decision.decline';
-			}
-			else if($stage >= REVIEW_STAGE_PRESENTATION){
-				$directorDecisionOptions[SUBMISSION_DIRECTOR_DECISION_ACCEPT] = 'director.paper.decision.accept';
-				$directorDecisionOptions[SUBMISSION_DIRECTOR_DECISION_PENDING_MINOR_REVISIONS] = 'director.paper.decision.pendingMinorRevisions';
-				$directorDecisionOptions[SUBMISSION_DIRECTOR_DECISION_PENDING_MAJOR_REVISIONS] = 'director.paper.decision.pendingMajorRevisions';
-				$directorDecisionOptions[SUBMISSION_DIRECTOR_DECISION_DECLINE] = 'director.paper.decision.decline';
-			}
-		}
-		else if (!$schedConf || $this->getReviewMode() != REVIEW_MODE_BOTH_SEQUENTIAL){
+		if ($stage == REVIEW_STAGE_ABSTRACT && $this->getReviewMode() == REVIEW_MODE_BOTH_SEQUENTIAL)
+			$directorDecisionOptions[SUBMISSION_DIRECTOR_DECISION_INVITE] = 'director.paper.decision.invitePresentation';
+		if ($stage != REVIEW_STAGE_ABSTRACT || $this->getReviewMode() != REVIEW_MODE_BOTH_SEQUENTIAL)
 			$directorDecisionOptions[SUBMISSION_DIRECTOR_DECISION_ACCEPT] = 'director.paper.decision.accept';
-			$directorDecisionOptions[SUBMISSION_DIRECTOR_DECISION_PENDING_REVISIONS] = 'director.paper.decision.pendingRevisions';
-			$directorDecisionOptions[SUBMISSION_DIRECTOR_DECISION_DECLINE] = 'director.paper.decision.decline';
-		}
-		else{
-			$directorDecisionOptions[SUBMISSION_DIRECTOR_DECISION_PENDING_REVISIONS] = 'director.paper.decision.pendingRevisions';
-			$directorDecisionOptions[SUBMISSION_DIRECTOR_DECISION_DECLINE] = 'director.paper.decision.decline';
-		}
+		
+		$directorDecisionOptions[SUBMISSION_DIRECTOR_DECISION_PENDING_REVISIONS] = 'director.paper.decision.pendingRevisions';
+		$directorDecisionOptions[SUBMISSION_DIRECTOR_DECISION_DECLINE] = 'director.paper.decision.decline';
 		return $directorDecisionOptions;
 	}
 

@@ -427,7 +427,8 @@ ul.formErrorList {
 
 ul.menu {
 	margin: 0.3em 0 0 0;
-	padding: 0;
+	padding: 5px;
+	background-color: #0570b4;
 }
 
 ul.menu li {
@@ -444,9 +445,11 @@ ul.menu li.current a {
 }
 
 ul.menu a {
-	font-size: 0.85em;
+	font-size: 0.9em;
 	/*text-transform: uppercase;*/
 	text-decoration: none;
+	font-weight: bold;
+	color: white;
 }
 
 ul.steplist {
