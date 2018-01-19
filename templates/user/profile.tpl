@@ -139,7 +139,9 @@ function showAffilBox(sel) {
 	<td class="label">{fieldLabel name="affiliation" key="user.affiliation" required="true"}</td>
 	<td class="value">
     <select name="affiliation_select" id="affil_select" class="selectMenu selectForm" onchange="showAffilBox(this);">
-      <option value=""></option>
+      {if !$affiliation_select}
+				<option value="">{translate key="common.select"}</option>
+			{/if}
       {html_options options=$affiliations selected=$affiliation_select}
     </select>
   </td>

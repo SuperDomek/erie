@@ -141,6 +141,9 @@ function delDiv(sel){
   </td>
 	<td width="80%" class="value">
     <select name="authors[{$authorIndex|escape}][affiliation_select]" id="authors[{$authorIndex|escape}][affiliation_select]" class="selectForm selectMenu" onchange="showAffilBox(this, {$authorIndex|escape});">
+			{if !$author.affiliation_select}
+				<option value="">{translate key="common.select"}</option>
+			{/if}
       {html_options options=$affiliations selected=$author.affiliation_select|escape}
     </select>
 	</td>
@@ -279,10 +282,13 @@ function delDiv(sel){
 </div>
 <div class="separator"></div>
 
+
+
+{if $currentSchedConf->getSetting('metaDiscipline') || $currentSchedConf->getSetting('metaSubjectClass') || $currentSchedConf->getSetting('metaSubject') || $currentSchedConf->getSetting('metaCoverage') || $currentSchedConf->getSetting('metaType')}
 <div id="indexing">
 <h3>{translate key="submission.indexing"}</h3>
+<p>{translate key="author.submit.submissionIndexingDescription"}</p>
 
-<!--{if $currentSchedConf->getSetting('metaDiscipline') || $currentSchedConf->getSetting('metaSubjectClass') || $currentSchedConf->getSetting('metaSubject') || $currentSchedConf->getSetting('metaCoverage') || $currentSchedConf->getSetting('metaType')}<p>{translate key="author.submit.submissionIndexingDescription"}</p>{/if}-->
 
 <table width="100%" class="data">
 {if $currentSchedConf->getSetting('metaDiscipline')}
@@ -390,25 +396,18 @@ function delDiv(sel){
 </tr>
 {/if}
 
-<!-- Hidden language select; the setting is hardcoded to english on top
-<tr valign="top">
-	<td rowspan="2" width="20%" class="label">{fieldLabel name="language" key="paper.language"}</td>
-	<td width="80%" class="value"><input type="text" class="textField" name="language" id="language" value="{$language|escape}" size="5" maxlength="10" disabled /></td>
-</tr>
-<tr valign="top">
-	<td><span class="instruct">{translate key="author.submit.languageInstructions"}</span></td>
-</tr>-->
+{* Deleted language select; the setting is hardcoded to english on top *}
+
 </table>
 </div>
-<div class="separator"></div>
 
+<div class="separator"></div>
+{/if}
 <div id="supportingAgencies">
 <h3>{translate key="author.submit.submissionSupportingAgencies"}</h3>
-<!--<p>{translate key="author.submit.submissionSupportingAgenciesDescription"}</p>-->
 
 <table width="100%" class="data">
 <tr valign="top">
-	<!--<td width="20%" class="label">{fieldLabel name="sponsor" key="submission.agencies"}</td>-->
 	<td width="100%" class="value" colspan="2"><textarea class="textArea" name="sponsor[{$formLocale|escape}]" id="sponsor" cols="100" rows="3">{$sponsor[$formLocale]|escape}</textarea></td>
 </tr>
 </table>

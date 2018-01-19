@@ -161,7 +161,9 @@ function delDiv(sel){
     </td>
   	<td width="80%" class="value">
       <select name="authors[{$authorIndex|escape}][affiliation_select]" id="authors[{$authorIndex|escape}][affiliation_select]" class="selectForm selectMenu" onchange="showAffilBox(this, {$authorIndex|escape});">
-        <option value=""></option>
+        {if !$author.affiliation_select}
+					<option value="">{translate key="common.select"}</option>
+				{/if}
         {html_options options=$affiliations selected=$author.affiliation_select|escape}
       </select>
   	</td>

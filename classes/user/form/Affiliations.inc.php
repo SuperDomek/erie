@@ -115,6 +115,7 @@ class Affiliations {
    */
   function initArrays(){
     $this->affiliations['cs_CZ'] = array(
+      'else' => 'Jiné...',
       'PEF' => array(
         "KET" => "Katedra ekonomických teorií",
         "KE" => "Katedra ekonomiky",
@@ -191,10 +192,10 @@ class Affiliations {
         "KCVPS" => "Katedra celoživotního vzdělávání a podpory studia",
         "KPE" => "Katedra pedagogiky",
         "KPPR" => "Katedra profesního a personálního rozvoje"
-      ),
-      'else' => 'Jiné...'
+      )
     );
     $this->affiliations['en_US'] = array(
+      'else' => "Specify bellow...",
       'PEF' => array(
         "KET" => "Department of Economic Theories",
         "KE" => "Department of Economics",
@@ -271,8 +272,7 @@ class Affiliations {
         "KCVPS" => "Department of Lifelong Learning and Study Support",
         "KPE" => "Department of Pedagogy",
         "KPPR" => "Department of Professional and Personal Development"
-      ),
-      'else' => "Specify bellow..."
+      )
     );
 /*
     $locale = AppLocale::getLocale();
