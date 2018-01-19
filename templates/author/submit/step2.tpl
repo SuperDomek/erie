@@ -18,10 +18,9 @@
 
 {include file="common/formErrors.tpl"}
 
-{url|assign:"url" page="author" op="submissionReview" path=$paperId|to_array:1}
-{translate key="author.submit.uploadInformation" abstractURL=$url}
+{translate key="author.submit.uploadInformation"}
 
-<a href="{$publicFilesDir}/ap2017-paper-template-final.docx">{translate key="author.submit.paperTemplate"}</a><br />
+<a href="{$publicFilesDir}/erie-info-for-authors.docx">{translate key="author.submit.infoForAuthors"}</a><br />
 
 <p>{translate key="author.submit.removeAuthorInfo"}<br />
 <a href="{$publicFilesDir}/Remove_author_info.pdf">{translate key="author.submit.removeAuthorInfoManual"}</a>

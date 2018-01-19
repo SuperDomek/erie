@@ -83,7 +83,7 @@
 	<message key="author.submit.form.subjectClassRequired">The classification field cannot be empty.</message>
 	<message key="author.submit.form.wordCountAlert">You have exceeded the maximum limit of characters for abstracts. The limit is 3,300 characters.</message>
 	<message key="author.submit.submissionFile">Submission File</message>
-	<message key="author.submit.paperTemplate">Paper template</message>
+	<message key="author.submit.infoForAuthors">Information for authors</message>
 	<message key="author.submit.removeAuthorInfoManual">Manual for removing author information from a document</message>
 	<message key="author.submit.uploadSubmissionFile">Upload submission file</message>
 	<message key="author.submit.replaceSubmissionFile">Replace submission file</message>

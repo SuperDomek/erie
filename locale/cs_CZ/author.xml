@@ -85,7 +85,7 @@
 	<message key="author.submit.form.subjectClassRequired">Není možné odesla prázdné pole s klasifikací.</message>
 	<message key="author.submit.form.wordCountAlert">Překročen limit počtu znaků pro abstrakt. Maximum je 3 300 znaků.</message>
 	<message key="author.submit.submissionFile">Soubor s příspěvkem</message>
-	<message key="author.submit.paperTemplate">Vzor příspěvku</message>
+	<message key="author.submit.infoForAuthors">Informace pro autory</message>
 	<message key="author.submit.removeAuthorInfoManual">Manuál k odstranění autorských informací</message>
 	<message key="author.submit.uploadSubmissionFile">Načíst soubor s příspěvkem</message>
 	<message key="author.submit.replaceSubmissionFile">Nahradit soubor s příspěvkem</message>

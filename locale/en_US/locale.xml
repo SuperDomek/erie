@@ -578,7 +578,7 @@ Active is how many reviews are currently being considered or underway.]]></messa
 <li>Click Upload on this page, which uploads the file from the computer to the conference's web site and renames it following the conference's conventions.</li>
 <li>Once the submission is uploaded, click Save and Continue at the bottom of this page.</li>
 </ol>]]></message>
-	<message key="author.submit.uploadInformation"><![CDATA[<p>Your abstract has been accepted. Please proceed with uploading your paper.<br />To review the decision and review recommendation please see the <a href="{$abstractURL}">abstract review</a>.</p>]]></message>
+	<message key="author.submit.uploadInformation"><![CDATA[<p>Please proceed with uploading your paper.<br />In the next phase we will ask you to fill in your co-authors, article title and funders.</p>]]></message>
 	<message key="author.submit.removeAuthorInfo">Please ensure removing the information about the author of the paper from the text. Also please use this manual to remove author data from the file metadata.</message>
 
 	<!-- Paper Submission: upload file -->

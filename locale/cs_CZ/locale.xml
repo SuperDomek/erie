@@ -581,7 +581,7 @@ Aktivní odkazuje na počet oponentů, kteří ještě zvažují přijetí.]]></
 <li>Klikněte na "Načíst" na této stránce, čímž odešlete soubor z Vašeho počítače na webové stránky konference, kde bude soubor přejmenován podle nastavených pravidel.</li>
 <li>Jakmile je příspěvek načten, klikněte na "Uložit a pokračovat" ve spodní části této stránky.</li>
 </ol>]]></message>
-<message key="author.submit.uploadInformation"><![CDATA[<p>Váš abstrakt byl schválen. Prosíme pokračujte nahráním Vašeho příspěvku.<br /> Hodnocení recenzenta a finální rozhodnutí si můžete zobrazit na stránce <a href="{$abstractURL}">posudek abstraktu</a>.</p>]]></message>
+<message key="author.submit.uploadInformation"><![CDATA[<p>Prosíme pokračujte nahráním Vašeho příspěvku.<br /> V další fázi vás poprosíme o zadání spoluautorů, názvu příspěvku a případných sponzorů vašeho výzkumu.</p>]]></message>
 <message key="author.submit.removeAuthorInfo">Prosíme zajistěte odstranění informací o autorovi z textu vašeho příspěvku. Zároveň se také ujistěte pomocí následujícího manuálu, že váš soubor neobsahuje informaci o autorovi.</message>
 
 	<!-- Paper Submission: upload file -->
