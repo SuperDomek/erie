@@ -436,16 +436,18 @@ class TrackDirectorSubmission extends Paper {
 		return $this->setData('galleys', $galleys);
 	}
 
+
 	/**
 	 * Return array mapping director decision constants to their locale strings.
 	 * (Includes default mapping '' => "Choose One".)
 	 * @return array decision => localeString
 	 */
 	function &getDirectorDecisionOptions($schedConf = null, $stage = null) {
+		$submission =& $this->submission;
 		$directorDecisionOptions = array('' => 'common.chooseOne');
-		if ($stage == REVIEW_STAGE_ABSTRACT && $this->getReviewMode() == REVIEW_MODE_BOTH_SEQUENTIAL)
+		if ($stage == REVIEW_STAGE_ABSTRACT && $submission->getReviewMode() == REVIEW_MODE_BOTH_SEQUENTIAL)
 			$directorDecisionOptions[SUBMISSION_DIRECTOR_DECISION_INVITE] = 'director.paper.decision.invitePresentation';
-		if ($stage != REVIEW_STAGE_ABSTRACT || $this->getReviewMode() != REVIEW_MODE_BOTH_SEQUENTIAL)
+		if ($stage != REVIEW_STAGE_ABSTRACT || $submission->getReviewMode() != REVIEW_MODE_BOTH_SEQUENTIAL)
 			$directorDecisionOptions[SUBMISSION_DIRECTOR_DECISION_ACCEPT] = 'director.paper.decision.accept';
 		
 		$directorDecisionOptions[SUBMISSION_DIRECTOR_DECISION_PENDING_REVISIONS] = 'director.paper.decision.pendingRevisions';
@@ -454,7 +456,8 @@ class TrackDirectorSubmission extends Paper {
 	}
 
 	function isOriginalSubmissionComplete() {
-		$reviewMode = $this->getReviewMode();
+		$submission =& $this->submission;
+		$reviewMode = $submission->getReviewMode();
 		if ($reviewMode == REVIEW_MODE_BOTH_SEQUENTIAL) {
 			return ($this->getSubmissionProgress() != 1);
 		}

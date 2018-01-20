@@ -441,7 +441,7 @@ ul.menu li {
 ul.menu li.current a {
 	font-family: "etelka_textbold",sans-serif;
 	font-weight: bold;
-	color: #b62429 !important;
+	color: red !important;
 }
 
 ul.menu a {
@@ -450,6 +450,10 @@ ul.menu a {
 	text-decoration: none;
 	font-weight: bold;
 	color: white;
+}
+
+ul.menu a:hover{
+	background-color: inherit !important;
 }
 
 ul.steplist {

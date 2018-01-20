@@ -165,10 +165,12 @@ class SubmissionEditHandler extends TrackDirectorHandler {
 				break;
 			case REVIEW_MODE_BOTH_SIMULTANEOUS:
 			case REVIEW_MODE_PRESENTATIONS_ALONE:
-				$stage = REVIEW_STAGE_PRESENTATION;
+				if (!isset($stage))
+					$stage = $submission->getCurrentStage();
 				break;
 			case REVIEW_MODE_BOTH_SEQUENTIAL:
-				if ($stage != REVIEW_STAGE_ABSTRACT) $stage = $submission->getCurrentStage();
+				if ($stage != REVIEW_STAGE_ABSTRACT)
+					$stage = $submission->getCurrentStage();
 				break;
 		}
 

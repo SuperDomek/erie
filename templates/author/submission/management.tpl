@@ -9,87 +9,82 @@
  * $Id$
  *}
 <div id="submission">
-<h3>{translate key="paper.submission"}</h3>
-<table width="100%" class="data">
-	<tr valign="top">
-		<td width="20%" class="label">{translate key="paper.authors"}</td>
-		<td width="80%" colspan="2" class="data">{$submission->getAuthorString(false)|escape}</td>
-	</tr>
-	<tr valign="top">
-		<td width="20%" class="label">{translate key="paper.title"}</td>
-		<td width="80%" colspan="2" class="data">{$submission->getLocalizedTitle()|strip_unsafe_html}</td>
-	</tr>
+<ul class="no-list">
+<li>
+	<header>{translate key="paper.authors"}</header>
+	{$submission->getAuthorString(false)|escape}
+</li>
+<li>
+	<header>{translate key="paper.title"}</header>
+	{$submission->getLocalizedTitle()|strip_unsafe_html}
+</li>
 
-	{assign var=sessionType value=$submission->getData('sessionType')}
-	{if isset($sessionTypes[$sessionType])}
-		<tr valign="top">
-			<td width="20%" class="label">{translate key="paper.sessionType"}</td>
-			<td width="80%" colspan="2" class="data">{$sessionTypes[$sessionType]|escape}</td>
-		</tr>
-	{/if}{* isset($submissionTypes[$submissionType]) *}
+{assign var=sessionType value=$submission->getData('sessionType')}
+{if isset($sessionTypes[$sessionType])}
+	<li>
+		<header>{translate key="paper.sessionType"}</header>
+		{$sessionTypes[$sessionType]|escape}
+	</li>
+{/if}{* isset($submissionTypes[$submissionType]) *}
 
-	<tr valign="top">
-		<td width="20%" class="label">{translate key="submission.originalFile"}</td>
-		<td width="80%" colspan="2" class="data">
-			{if $submissionFile}
-				<a href="{url op="downloadFile" path=$submission->getPaperId()|to_array:$submissionFile->getFileId():$submissionFile->getRevision()}" class="file">{$submissionFile->getFileName()|escape}</a>&nbsp;&nbsp;{$submissionFile->getDateModified()|date_format:$dateFormatShort}
-			{else}
-				{translate key="common.none"}
-			{/if}
-		</td>
-	</tr>
-	<!--
-  <tr valign="top">
-		<td class="label">{translate key="paper.suppFilesAbbrev"}</td>
-		<td width="30%" class="value">
-			{foreach name="suppFiles" from=$suppFiles item=suppFile}
-				{if $mayEditPaper}
-					{assign var="suppFileOp" value="editSuppFile"}
-				{else}
-					{assign var="suppFileOp" value="viewSuppFile"}
-				{/if}
-				<a href="{url op=$suppFileOp path=$submission->getPaperId()|to_array:$suppFile->getId()}" class="file">{$suppFile->getFileName()|escape}</a>&nbsp;&nbsp;{$suppFile->getDateModified()|date_format:$dateFormatShort}<br />
-			{foreachelse}
-				{translate key="common.none"}
-			{/foreach}
-		</td>
-		<td width="50%" class="value">
+<li>
+	<header>{translate key="submission.originalFile"}</header>
+	
+		{if $submissionFile}
+			<a href="{url op="downloadFile" path=$submission->getPaperId()|to_array:$submissionFile->getFileId():$submissionFile->getRevision()}" class="file">{$submissionFile->getFileName()|escape}</a>&nbsp;&nbsp;{$submissionFile->getDateModified()|date_format:$dateFormatShort}
+		{else}
+			{translate key="common.none"}
+		{/if}
+	
+</li>
+<!--
+<li>
+	<header>{translate key="paper.suppFilesAbbrev"}</header>
+	
+		{foreach name="suppFiles" from=$suppFiles item=suppFile}
 			{if $mayEditPaper}
-				<a href="{url op="addSuppFile" path=$submission->getPaperId()}" class="action">{translate key="submission.addSuppFile"}</a>
+				{assign var="suppFileOp" value="editSuppFile"}
 			{else}
-				&nbsp;
+				{assign var="suppFileOp" value="viewSuppFile"}
 			{/if}
-		</td>
-	</tr>
+			<a href="{url op=$suppFileOp path=$submission->getPaperId()|to_array:$suppFile->getId()}" class="file">{$suppFile->getFileName()|escape}</a>&nbsp;&nbsp;{$suppFile->getDateModified()|date_format:$dateFormatShort}<br />
+		{foreachelse}
+			{translate key="common.none"}
+		{/foreach}
+	
+	
+		{if $mayEditPaper}
+			<a href="{url op="addSuppFile" path=$submission->getPaperId()}" class="action">{translate key="submission.addSuppFile"}</a>
+		{else}
+			&nbsp;
+		{/if}
+	
+</li>
 -->
-	<tr>
-		<td class="label">{translate key="submission.submitter"}</td>
-		<td colspan="2" class="value">
-			{assign var="submitter" value=$submission->getUser()}
-			{assign var=emailString value=$submitter->getFullName()|concat:" <":$submitter->getEmail():">"}
-			{url|assign:"url" page="user" op="email" to=$emailString|to_array redirectUrl=$currentUrl subject=$submission->getLocalizedTitle|strip_tags paperId=$submission->getPaperId()}
-			{$submitter->getFullName()|escape} {icon name="mail" url=$url}
-		</td>
-	</tr>
-	<tr>
-		<td class="label">{translate key="common.dateSubmitted"}</td>
-		<td colspan="2">{$submission->getDateSubmitted()|date_format:$datetimeFormatLong}</td>
-	</tr>
-	<tr valign="top">
-		<td width="20%" class="label">{translate key="track.track"}</td>
-		<td width="80%" colspan="2" class="data">{$submission->getTrackTitle()|escape}</td>
-	</tr>
-	{if $submission->getCommentsToDirector()}
-	<tr valign="top">
-		<td width="20%" class="label">{translate key="paper.commentsToDirector"}</td>
-		<td width="80%" colspan="2" class="data">{$submission->getCommentsToDirector()|strip_unsafe_html|nl2br}</td>
-	</tr>
-	{/if}
-	<!--{if $publishedPaper}
-	<tr>
-		<td class="label">{translate key="submission.abstractViews"}</td>
-		<td colspan="2">{$publishedPaper->getViews()}</td>
-	</tr>
-	{/if}-->
-</table>
+<li>
+	<header>{translate key="submission.submitter"}</header>
+	
+		{assign var="submitter" value=$submission->getUser()}
+		{assign var=emailString value=$submitter->getFullName()|concat:" <":$submitter->getEmail():">"}
+		{url|assign:"url" page="user" op="email" to=$emailString|to_array redirectUrl=$currentUrl subject=$submission->getLocalizedTitle|strip_tags paperId=$submission->getPaperId()}
+		{$submitter->getFullName()|escape} {icon name="mail" url=$url}
+	
+</li>
+<li>
+	<header>{translate key="common.dateSubmitted"}</header>
+	{$submission->getDateSubmitted()|date_format:$datetimeFormatLong}
+</li>
+{if $submission->getCommentsToDirector()}
+<li>
+	<header>{translate key="paper.commentsToDirector"}</header>
+	{$submission->getCommentsToDirector()|strip_unsafe_html|nl2br}
+</li>
+{/if}
+<!--{if $publishedPaper}
+<li>
+	<header>{translate key="submission.abstractViews"}</header>
+	{$publishedPaper->getViews()}
+</li>
+{/if}-->
+</ul>
 </div>

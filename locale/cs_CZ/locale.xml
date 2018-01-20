@@ -229,7 +229,7 @@
 	<message key="submission.acceptance">Souhlas s posouzením</message>
 	<message key="submission.complete.description">Přidat příspěvek na seznam přijatých prezentací.</message>
 	<message key="submission.directorDecision">Rozhodnutí</message>
-	<message key="submission.directorDecisionComment">Komentář editora k rozhodnutí</message>
+	<message key="submission.directorDecisionComment">Komentář editora k poslednímu rozhodnutí</message>
 	<message key="submission.stage">Fáze&amp;nbsp;{$stage}</message>
 	<message key="submission.previousStage">Předchozí fáze recenze</message>
 	<message key="submission.directorReview">Posudek předsedy</message>

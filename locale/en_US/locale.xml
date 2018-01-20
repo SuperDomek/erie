@@ -226,7 +226,7 @@
 	<message key="submission.acceptance">Agreed to Review</message>
 	<message key="submission.complete.description">Add the submission to the list of accepted Presentations.</message>
 	<message key="submission.directorDecision">Editor Decision</message>
-	<message key="submission.directorDecisionComment">Editor's comment to the decision</message>
+	<message key="submission.directorDecisionComment">Editor's comment to the last decision</message>
 	<message key="submission.stage">Stage&amp;nbsp;{$stage}</message>
 	<message key="submission.previousStage">Previous review stages</message>
 	<message key="submission.directorReview">Director Review</message>

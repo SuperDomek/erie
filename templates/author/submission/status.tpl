@@ -8,26 +8,56 @@
  *
  * $Id$
  *}
+
+{assign var="paperId" value=$submission->getPaperId()}
+{assign var="currentStage" value=$submission->getCurrentStage()}
+{assign var="submissionProgress" value=$submission->getSubmissionProgress()}
+{assign var="status" value=$submission->getSubmissionStatus()}
+
 <div id="status">
 <h3>{translate key="common.status"}</h3>
 
 <div class="tbl-container">
 <table width="100%" class="data">
 	<tr>
-		{assign var="status" value=$submission->getSubmissionStatus()}
 		<td width="20%" class="label">{translate key="common.status"}</td>
 		<td width="80%" class="value">
-			{if $status == STATUS_ARCHIVED}{translate key="submissions.archived"}
-			{elseif $status == STATUS_QUEUED_UNASSIGNED}{translate key="submissions.queuedUnassigned"}
-			{elseif $status == STATUS_QUEUED_EDITING}{translate key="submissions.queuedEditing"}
+			{if $submissionProgress == 0}
+			{if $status == STATUS_QUEUED_UNASSIGNED}
+				<span class="warning">{translate key="submissions.queuedUnassigned"}</span>
 			{elseif $status == STATUS_QUEUED_REVIEW}
-				{if $submission->getCurrentStage()==REVIEW_STAGE_PRESENTATION}
-					{translate key="submissions.queuedPaperReview"}
+				{assign var=decision value=$submission->getMostRecentDecision()}
+				{if $currentStage>=REVIEW_STAGE_PRESENTATION}
+				{if $submission->getAuthorFileRevisions($submission->getCurrentStage())}
+					<span>{translate key="author.submissions.queuedPaperReviewRevisions.uploaded"}</span>
+				{elseif $decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_REVISIONS ||
+				$decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MINOR_REVISIONS ||
+				$decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MAJOR_REVISIONS}
+					<span>{translate key="author.submissions.queuedPaperReviewRevisions"}</span>
 				{else}
-					{translate key="submissions.queuedAbstractReview"}
+					<span>{translate key="submissions.queuedPaperReview"}</span>
 				{/if}
-			{elseif $status == STATUS_PUBLISHED}{translate key="submissions.published"}
-			{elseif $status == STATUS_DECLINED}{translate key="submissions.declined"}
+				{else}  
+					{if $decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_REVISIONS ||
+					$decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MINOR_REVISIONS ||
+					$decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MAJOR_REVISIONS}
+					<span class="warning">{translate key="author.submissions.queuedAbstractReviewRevisions"}</span>
+					<a href="{url op="viewMetadata" path=$submission->getPaperId()}" class="action">
+						<button type="button">{translate key="author.submissions.editAbstract"}</button>
+					</a>
+					{else}
+					<span class="warning">{translate key="submissions.queuedAbstractReview"}</span>
+					{/if}
+				
+				{/if}
+			{elseif $status == STATUS_QUEUED_EDITING}
+				<a href="{url op="submissionReview" path=$paperId|to_array}" class="action">{translate key="submissions.queuedEditing"}</a>
+			{/if}
+			{elseif $submissionProgress == 1}
+				{translate key="submissions.incomplete"}
+			{else}
+				{url|assign:"submitUrl" op="submit" path=$submission->getSubmissionProgress() paperId=$paperId}
+				<a class="action" href="{$submitUrl}">{translate key="submissions.pendingPresentation"}</a>
 			{/if}
 		</td>
 	</tr>

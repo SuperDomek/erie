@@ -101,7 +101,8 @@ class TrackSubmissionHandler extends AuthorHandler {
 				break;
 			case REVIEW_MODE_BOTH_SIMULTANEOUS:
 			case REVIEW_MODE_PRESENTATIONS_ALONE:
-				$stage = REVIEW_STAGE_PRESENTATION;
+				if (!isset($stage))
+					$stage = $submission->getCurrentStage();
 				break;
 			case REVIEW_MODE_BOTH_SEQUENTIAL:
 				if ($stage != REVIEW_STAGE_ABSTRACT && $stage != REVIEW_STAGE_PRESENTATION) $stage = $submission->getCurrentStage();
@@ -153,8 +154,8 @@ class TrackSubmissionHandler extends AuthorHandler {
 	function submissionReview($args) {
 		import('paper.Paper'); // for REVIEW_PROGRESS constants
 		$user =& Request::getUser();
-		$paperId = (int) array_shift($args);
-		$stage = (int) array_shift($args);
+		$paperId = (isset($args[0]) ? $args[0] : null);
+		$stage = (isset($args[1]) ? (int) $args[1] : null);
 		$session =& Request::getSession();
 		$commentDao =& DAORegistry::getDAO('PaperCommentDAO');
 
@@ -170,13 +171,13 @@ class TrackSubmissionHandler extends AuthorHandler {
 				break;
 			case REVIEW_MODE_BOTH_SIMULTANEOUS:
 			case REVIEW_MODE_PRESENTATIONS_ALONE:
-				$stage = REVIEW_STAGE_PRESENTATION;
+				if (!isset($stage))
+					$stage = $authorSubmission->getCurrentStage();
 				break;
 			case REVIEW_MODE_BOTH_SEQUENTIAL:
 				if ($stage != REVIEW_STAGE_ABSTRACT && $stage != REVIEW_STAGE_PRESENTATION) $stage = $authorSubmission->getCurrentStage();
 				break;
 		}
-
 		// implementation of error state when submitting
 		$isError = $session->getSessionVar('isError');
 		if($isError){

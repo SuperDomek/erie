@@ -126,26 +126,9 @@ function confirmDecision(sel){
   {if $lastDecision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MINOR_REVISIONS ||
       $lastDecision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MAJOR_REVISIONS ||
 			$lastDecision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_REVISIONS}
-	<ul>
-		<li>{translate key="submission.directorDecisionComment"}
-				<span>{$decisionComment|escape}</span>
-		</li>
-		{*
-		{if not $reviewingAbstractOnly}
-    	{if not $isStageDisabled && $isDirector}    
-		<tr valign="top">
-			<td width="20%" class="label">{translate key="director.paper.uploadReviewVersion"}</td>
-			<td width="80%" class="nodata">
-			<form method="post" action="{url op="uploadReviewVersion"}" enctype="multipart/form-data">
-				<input type="hidden" name="paperId" value="{$submission->getPaperId()}" />
-				<input type="file" name="upload" class="uploadField" />
-				<input type="submit" name="submit" value="{translate key="common.upload"}" class="button" />
-			</form>
-			</td>
-		</tr>
-    	{/if}
-		{/if} *}
-</ul>
+	<p><h5>{translate key="submission.directorDecisionComment"}</h5>
+	<span>{$decisionComment|escape}</span>
+	</p>
   {/if}
 </div>
 {if $isFinalReview}
