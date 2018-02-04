@@ -63,12 +63,8 @@
 -->
 <li>
 	<header>{translate key="submission.submitter"}</header>
-	
 		{assign var="submitter" value=$submission->getUser()}
-		{assign var=emailString value=$submitter->getFullName()|concat:" <":$submitter->getEmail():">"}
-		{url|assign:"url" page="user" op="email" to=$emailString|to_array redirectUrl=$currentUrl subject=$submission->getLocalizedTitle|strip_tags paperId=$submission->getPaperId()}
-		{$submitter->getFullName()|escape} {icon name="mail" url=$url}
-	
+		{$submitter->getFullName()|escape}
 </li>
 <li>
 	<header>{translate key="common.dateSubmitted"}</header>
