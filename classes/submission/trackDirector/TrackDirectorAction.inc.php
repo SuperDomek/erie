@@ -1351,9 +1351,12 @@ class TrackDirectorAction extends Action {
 	function nextStage(&$trackDirectorSubmission, $reviewFileId = null, $reviewRevision = null) {
 		$trackDirectorSubmissionDao =& DAORegistry::getDAO('TrackDirectorSubmissionDAO');
 		import("file.PaperFileManager");
+		error_log("ReviewFileId: " . $reviewFileId);
+		error_log("ReviewRevision: " . $reviewRevision);
 
 		// move the file in the next stage & fix the actual stage
 		if ($reviewFileId != null && $reviewRevision != null){ //uploading new file
+			error_log("Moving file in the next Stage");
 			$paperFileDao =& DAORegistry::getDAO('PaperFileDAO');
 			$paperFile =& $paperFileDao->getPaperFile($reviewFileId, $reviewRevision, $trackDirectorSubmission->getPaperId());
 			$paperFile->setStage($trackDirectorSubmission->getCurrentStage() + 1);
@@ -1367,6 +1370,7 @@ class TrackDirectorAction extends Action {
 			}
 			//restore review_stage
 			$originalReviewFiles =& $paperFileDao->getPaperFilesByPaper($trackDirectorSubmission->getPaperId(), $trackDirectorSubmission->getCurrentStage());
+			error_log($originalReviewFiles);
 			$originalReviewFile = $originalReviewFiles[0];
 			$trackDirectorSubmissionDao->fixReviewStage($trackDirectorSubmission->getPaperId(), $trackDirectorSubmission->getCurrentStage(), $originalReviewFile->getRevision());
 		}
@@ -1385,8 +1389,11 @@ class TrackDirectorAction extends Action {
 			}
 		}
 		// ConfirmReview for all the reassigned reviewers
-		foreach($trackDirectorSubmission->getReviewAssignments($trackDirectorSubmission->getCurrentStage()) as $reviewAssignment){
-			TrackDirectorAction::confirmReviewForReviewer($reviewAssignment->getId());
+		$currentReviewAssignments = $trackDirectorSubmission->getReviewAssignments($trackDirectorSubmission->getCurrentStage());
+		if(is_array($currentReviewAssignments)){
+			foreach($currentReviewAssignments as $reviewAssignment){
+				TrackDirectorAction::confirmReviewForReviewer($reviewAssignment->getId());
+			}
 		}
 	}
 

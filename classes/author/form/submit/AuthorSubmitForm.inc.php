@@ -172,6 +172,7 @@ class AuthorSubmitForm extends Form {
 				'editorialContactSignature' => $schedConf->getSetting('contactName') . "\n" . $conference->getConferenceTitle(),
 				'submissionUrl' => Request::url(null, null, 'director', 'submissionReview', $paper->getId())
 			));
+			$mail->log();
 			$mail->send();
 		}
 	}

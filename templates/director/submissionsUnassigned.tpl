@@ -37,7 +37,7 @@
 		<td>{$submission->getAuthorString(true)|truncate:40:"..."|escape}</td>
 		{translate|assign:"untitledPaper" key="common.untitled"}
 		{* EDIT: Hardcoded link to first review round - abstract*}
-		<td><a href="{url op="submissionReview" path=$submission->getPaperId()|to_array:1}" class="action">{$submission->getLocalizedTitle()|default:$untitledPaper|strip_tags|truncate:60:"..."|default:"&mdash;"}</a>
+		<td><a href="{url op="submissionReview" path=$submission->getPaperId()}" class="action">{$submission->getLocalizedTitle()|default:$untitledPaper|strip_tags|truncate:60:"..."|default:"&mdash;"}</a>
 			{if $submissionProgress != 0 && ($currentStage == REVIEW_STAGE_ABSTRACT || ($currentStage == REVIEW_STAGE_PRESENTATION && $submissionProgress < 3))}
 				(<a href="{url op="deleteSubmission" path=$paperId}" class="action" onclick="return confirm('{translate|escape:"jsparam" key="author.submissions.confirmDelete"}')">{translate key="common.delete"}</a>)
 			{/if}
