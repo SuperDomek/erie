@@ -58,10 +58,10 @@ function sortSearch(heading, direction) {
 
 {include file="trackDirector/$pageToDisplay.tpl"}
 
-{if ($pageToDisplay == "submissionsInReview")}
+<!--{if ($pageToDisplay == "submissionsInReview")}
 <br />
 <h4>{translate key="common.notes"}</h4>
 <p>{translate key="director.submissionReview.notes"}</p>
-{/if}
+{/if}-->
 
 {include file="common/footer.tpl"}

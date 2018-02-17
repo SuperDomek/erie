@@ -58,16 +58,16 @@ function sortSearch(heading, direction) {
 </form>
 </div>
 <div style="position:relative;float:right;">
-<a href="{url op="submissions" path=$pageToDisplay|to_array:"PDF" page="director"}"><img src="{$baseUrl}/lib/pkp/templates/images/structure/pdf.png" alt="Download PDF" width="64px"/></a>
+<a href="javascript:window.print()"><img src="{$baseUrl}/lib/pkp/templates/images/structure/pdf.png" alt="Download PDF" width="64px"/></a>
 </div>
 &nbsp;
 
 {include file="director/$pageToDisplay.tpl"}
 
-{if ($pageToDisplay == "submissionsInReview")}
+<!--{if ($pageToDisplay == "submissionsInReview")}
 <br />
 <h4>{translate key="common.notes"}</h4>
 <p>{translate key="director.submissionReview.notes"}</p>
-{/if}
+{/if}-->
 
 {include file="common/footer.tpl"}
