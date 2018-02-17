@@ -13,17 +13,16 @@
 	<thead>
 	<tr>
 		<td width="4%">{translate key="common.id"}</td>
-		<td width="7%"><span class="disabled">MM-DD</span><br />{translate key="submissions.submitted"}</td>
+		<td width="7%">{translate key="submissions.submitted"}</td>
 		<td width="15%">{translate key="paper.authors"}</td>
-		<td width="27%">{translate key="paper.title"}</td>
-		<td width="32%" class="sorttable_nosort">
+		<td width="34%">{translate key="paper.title"}</td>
+		<td width="25%" class="sorttable_nosort">
 			<center style="border-bottom: 1px solid gray;margin-bottom: 3px;">{translate key="submission.peerReview"}</center>
 			<table width="100%" class="nested">
 				<tr valign="top">
-					<td width="30%" style="padding: 0 4px 0 0; font-size: 1.0em">{translate key="submissions.reviewStage"}</td>
-					<td width="25%" style="padding: 0 4px 0 0; font-size: 1.0em">{translate key="submission.ask"}</td>
-					<td width="20%" style="padding: 0 4px 0 0; font-size: 1.0em">{translate key="submission.due"}</td>
-					<td width="25%" style="padding: 0 4px 0 0; font-size: 1.0em">{translate key="submission.done"}</td>
+					<td width="33%" style="padding: 0 4px 0 0; font-size: 1.0em">{translate key="submissions.reviewStage"}</td>
+					<td width="33%" style="padding: 0 4px 0 0; font-size: 1.0em">{translate key="submission.ask"}</td>
+					<td width="33%" style="padding: 0 4px 0 0; font-size: 1.0em">{translate key="submission.done"}</td>
 				</tr>
 			</table>
 		</td>
@@ -54,10 +53,10 @@
 					{foreach from=$reviewAssignments item=assignment name=assignmentList}
 						{if not $assignment->getCancelled() and not $assignment->getDeclined()}
 						<tr valign="top">
-							<td width="30%" style="padding: 0 4px 0 0; font-size: 1.0em">{if $assignment->getStage() == REVIEW_STAGE_ABSTRACT}{translate key="submission.abstract"}{else}{translate key="submission.paper"} {$assignment->getStage()-1}{/if}</td>
-							<td width="25%" style="padding: 0 4px 0 0; font-size: 1.0em">{if $assignment->getDateNotified()}{$assignment->getDateNotified()|date_format:$dateFormatTrunc}{else}&mdash;{/if}</td>
-							<td width="25%" style="padding: 0 4px 0 0; font-size: 1.0em">{if $assignment->getDateCompleted() || !$assignment->getDateConfirmed()}&mdash;{else}{$assignment->getWeeksDue()|default:"&mdash;"}{/if}</td>
-							<td width="20%" style="padding: 0 4px 0 0; font-size: 1.0em">{if $assignment->getDateCompleted()}{$assignment->getDateCompleted()|date_format:$dateFormatTrunc}{else}&mdash;{/if}</td>
+							<td width="33%" style="padding: 0 4px 0 0; font-size: 1.0em">{if $assignment->getStage() == REVIEW_STAGE_ABSTRACT}{translate key="submission.abstract"}{else}{translate key="submission.paper"} {$assignment->getStage()-1}{/if}</td>
+							<td width="33%" style="padding: 0 4px 0 0; font-size: 1.0em">{if $assignment->getDateNotified()}{$assignment->getDateNotified()|date_format:$dateFormatTrunc}{else}&mdash;{/if}</td>
+							<!--<td width="25%" style="padding: 0 4px 0 0; font-size: 1.0em">{if $assignment->getDateCompleted() || !$assignment->getDateConfirmed()}&mdash;{else}{$assignment->getWeeksDue()|default:"&mdash;"}{/if}</td>-->
+							<td width="33%" style="padding: 0 4px 0 0; font-size: 1.0em">{if $assignment->getDateCompleted()}{$assignment->getDateCompleted()|date_format:$dateFormatTrunc}{else}&mdash;{/if}</td>
 						</tr>
 						{/if}
 					{/foreach}
