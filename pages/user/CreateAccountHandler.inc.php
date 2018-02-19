@@ -33,8 +33,18 @@ class CreateAccountHandler extends UserHandler {
 
 		$conference =& Request::getConference();
 		$schedConf =& Request::getSchedConf();
+		$schedConfDao =& DAORegistry::getDAO('SchedConfDAO');
 
 		if ($conference != null && $schedConf != null) {
+
+			// Only one scheduled conference at a time
+			// If the user tries to register with a link to previous conference year
+			// he/she gets redirected to a current year of conference
+			$currentSchedConfs =& $schedConfDao->getCurrentSchedConfs($conference->getConferenceId());
+			$currentSchedConf = end($currentSchedConfs->toArray());
+			if($schedConf->getPath() != $currentSchedConf->getPath()){
+				Request::redirect(null, $currentSchedConf->getPath(), 'user', 'account');
+			}
 
 			// We're trying to create an account for a specific scheduled conference
 			import('user.form.CreateAccountForm');
@@ -54,7 +64,6 @@ class CreateAccountHandler extends UserHandler {
 		} elseif ($conference != null) {
 
 			// We have the conference, but need to select a scheduled conference
-			$schedConfDao =& DAORegistry::getDAO('SchedConfDAO');
 			$schedConfs =& $schedConfDao->getEnabledSchedConfs($conference->getId());
 
 			$templateMgr =& TemplateManager::getManager();
