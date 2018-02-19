@@ -912,11 +912,13 @@ class TrackDirectorAction extends Action {
 			$today = getDate();
 			$todayTimestamp = mktime(0, 0, 0, $today['mon'], $today['mday'], $today['year']);
 			if ($dueDate != null) {
-				$dueDateParts = explode('-', $dueDate);
+				
+				// the current format is dd.mm.yyyy
+				$dueDateParts = explode('.', $dueDate);
 
 				// Ensure that the specified due date is today or after today's date.
 				if ($todayTimestamp <= strtotime($dueDate)) {
-					$reviewAssignment->setDateDue(date('Y-m-d H:i:s', mktime(0, 0, 0, $dueDateParts[1], $dueDateParts[2], $dueDateParts[0])));
+					$reviewAssignment->setDateDue(date('Y-m-d H:i:s', mktime(0, 0, 0, $dueDateParts[1], $dueDateParts[0], $dueDateParts[2])));
 				} else {
 					$reviewAssignment->setDateDue(date('Y-m-d H:i:s', $todayTimestamp));
 				}
