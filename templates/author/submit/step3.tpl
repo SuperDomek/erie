@@ -156,7 +156,7 @@ function delDiv(sel){
 </tr>
 
 <tr valign="top">
-	<td width="20%" class="label">{fieldLabel name="authors-$authorIndex-country" key="common.country"}</td>
+	<td width="20%" class="label">{fieldLabel name="authors-$authorIndex-country" key="common.country" required="true"}</td>
 	<td width="80%" class="value">
 		<select name="authors[{$authorIndex|escape}][country]" id="authors-{$authorIndex|escape}-country" class="selectForm selectMenu">
 			<option value=""></option>
@@ -247,35 +247,14 @@ function delDiv(sel){
 </tr>
 
 {if $collectAbstracts}
-	{if $isAbstract}
 <tr valign="top">
 	<td width="20%" class="label">{fieldLabel name="abstract" key="paper.abstract" required="true"}</td>
 	<td width="80%" class="value"><textarea name="abstract[{$formLocale|escape}]" id="abstract" class="textArea" rows="15" cols="60">{$abstract[$formLocale]|escape}</textarea></td>
 </tr>
-	{else}{* If there is no abstract yet, put three fields for user input. *}
 <tr valign="top">
-	<td width="20%" class="label">{fieldLabel name="abstract1" key="paper.abstract1" required="true"}</td>
-	<td width="80%" class="value">
-    <textarea name="abstract1[{$formLocale|escape}]" id="abstract1" class="textArea" rows="15" cols="60">{$abstract1[$formLocale]|escape}</textarea>
-  </td>
+	<td></td>
+	<td>{translate key="author.submit.form.abstractLimit"}</td>
 </tr>
-<tr valign="top">
-	<td width="20%" class="label">{fieldLabel name="abstract2" key="paper.abstract2" required="true"}</td>
-	<td width="80%" class="value">
-    <textarea name="abstract2[{$formLocale|escape}]" id="abstract2" class="textArea" rows="15" cols="60">{$abstract2[$formLocale]|escape}</textarea>
-  </td>
-
-</tr>
-<tr valign="top">
-	<td width="20%" class="label">{fieldLabel name="abstract3" key="paper.abstract3" required="true"}</td>
-	<td width="80%" class="value">
-    <textarea name="abstract3[{$formLocale|escape}]" id="abstract3" class="textArea" rows="15" cols="60">{$abstract3[$formLocale]|escape}</textarea>
-  </td>
-</tr>
-<tr valign="top">
-<td colspan="2"><span id="abstractCount">{translate key="author.submit.form.abstractLimit"}</span></td>
-</tr>
-	{/if}{* $isAbstract *}
 {/if}{* $collectAbstracts *}
 
 </table>

@@ -26,7 +26,7 @@ class AuthorSubmitStep3Form extends AuthorSubmitForm {
 
 		// Validation checks for this form
 		$this->addCheck(new FormValidatorCustom($this, 'authors', 'required', 'author.submit.form.authorRequired', create_function('$authors', 'return count($authors) > 0;')));
-		$this->addCheck(new FormValidatorArray($this, 'authors', 'required', 'author.submit.form.authorRequiredFields', array('firstName', 'lastName', 'affiliation_select', 'affiliation')));
+		$this->addCheck(new FormValidatorArray($this, 'authors', 'required', 'author.submit.form.authorRequiredFields', array('firstName', 'lastName', 'affiliation_select', 'affiliation', 'country')));
 		$this->addCheck(new FormValidatorArrayCustom($this, 'authors', 'required', 'author.submit.form.authorRequiredFields', create_function('$email, $regExp', 'return String::regexp_match($regExp, $email);'), array(ValidatorEmail::getRegexp()), false, array('email')));
 		$this->addCheck(new FormValidatorArrayCustom($this, 'authors', 'required', 'user.profile.form.urlInvalid', create_function('$url, $regExp', 'return empty($url) ? true : String::regexp_match($regExp, $url);'), array(ValidatorUrl::getRegexp()), false, array('url')));
 		$this->addCheck(new FormValidatorLocale($this, 'title', 'required', 'author.submit.form.titleRequired'));
@@ -40,31 +40,14 @@ class AuthorSubmitStep3Form extends AuthorSubmitForm {
 		$reviewMode = $paper->getReviewMode();
 		$formLocale = Request::getUserVar('formLocale');
 		if ($reviewMode != REVIEW_MODE_PRESENTATIONS_ALONE) {
-			if(empty($this->getData('abstract')[$formLocale])){ // Creation phase: show 3 abstract fields
-				$trackDao =& DAORegistry::getDAO('TrackDAO');
-				$track = $trackDao->getTrack($paper->getTrackId());
-				/** using old methods and fields from word count; now char count **/
-				$abstractCharCount = $track->getAbstractWordCount();
-				$this->addCheck(new FormValidatorLocale($this, 'abstract1', 'required', 'author.submit.form.abstractRequired'));
-				$this->addCheck(new FormValidatorLocale($this, 'abstract2', 'required', 'author.submit.form.abstractRequired'));
-				$this->addCheck(new FormValidatorLocale($this, 'abstract3', 'required', 'author.submit.form.abstractRequired'));
-				if (isset($abstractCharCount) && $abstractCharCount > 0) {
-					// The anonymous function uses an array of multi-language abstract
-					$this->addCheck(new FormValidatorCustom($this, 'abstract1', 'required', 'author.submit.form.wordCountAlert', create_function('$abstract, $charCount, $form', 'foreach ($abstract as $key => $localizedAbstract) {return $form->getData(\'abstractTotalChars\')[$key] <= $charCount; }'), array($abstractCharCount, &$this)));
-					$this->addCheck(new FormValidatorCustom($this, 'abstract2', 'required', 'author.submit.form.wordCountAlert', create_function('$abstract, $charCount, $form', 'foreach ($abstract as $key => $localizedAbstract) {return $form->getData(\'abstractTotalChars\')[$key] <= $charCount; }'), array($abstractCharCount, &$this)));
-					$this->addCheck(new FormValidatorCustom($this, 'abstract3', 'required', 'author.submit.form.wordCountAlert', create_function('$abstract, $charCount, $form', 'foreach ($abstract as $key => $localizedAbstract) {return $form->getData(\'abstractTotalChars\')[$key] <= $charCount; }'), array($abstractCharCount, &$this)));
-				}
-			}
-			else { // getting back to already filled in abstract
-				$this->addCheck(new FormValidatorLocale($this, 'abstract', 'required', 'author.submit.form.abstractRequired'));
+			
+			$this->addCheck(new FormValidatorLocale($this, 'abstract', 'required', 'author.submit.form.abstractRequired'));
 
-				$trackDao =& DAORegistry::getDAO('TrackDAO');
-				$track = $trackDao->getTrack($paper->getTrackId());
-				/** using old methods and fields from word count; now char count **/
-				$abstractCharCount = $track->getAbstractWordCount();
-				if (isset($abstractCharCount) && $abstractCharCount > 0) {
-					$this->addCheck(new FormValidatorCustom($this, 'abstract', 'required', 'author.submit.form.wordCountAlert', create_function('$abstract, $charCount', 'foreach ($abstract as $localizedAbstract) {return strlen(strip_tags($localizedAbstract)) <= $charCount; }'), array($abstractCharCount)));
-				}
+			$trackDao =& DAORegistry::getDAO('TrackDAO');
+			$track = $trackDao->getTrack($paper->getTrackId());
+			$abstractWordCount = $track->getAbstractWordCount();
+			if (isset($abstractWordCount) && $abstractWordCount > 0) {
+				$this->addCheck(new FormValidatorCustom($this, 'abstract', 'required', 'author.submit.form.wordCountAlert', create_function('$abstract, $wordCount', 'foreach ($abstract as $localizedAbstract) {return count(explode(" ",strip_tags($localizedAbstract))) < $wordCount; }'), array($abstractWordCount)));
 			}
 		}
 	}
@@ -146,27 +129,8 @@ class AuthorSubmitStep3Form extends AuthorSubmitForm {
 		$reviewMode = $this->paper->getReviewMode();
 		if ($reviewMode != REVIEW_MODE_PRESENTATIONS_ALONE) {
 			$userVars[] = 'abstract';
-			// EDIT Three sub-abstracts
-			$userVars[] = 'abstract1';
-			$userVars[] = 'abstract2';
-			$userVars[] = 'abstract3';
-			// EDIT END
 		}
 		$this->readUserVars($userVars);
-
-		// EDIT Three sub-abstracts
-		// Setting up Total length of abstract fields for validation
-		if($this->getData('abstract1') !== NULL){ // Am I collecting abstracts?
-			$abstractTotalChars = array();
-			$abstract1 = $this->getData('abstract1');
-			$abstract2 = $this->getData('abstract2');
-			$abstract3 = $this->getData('abstract3');
-			foreach ($abstract1 as $key => $localizedAbstract) {
-				$abstractTotalChars[$key] = strlen(strip_tags($localizedAbstract) . strip_tags($abstract2[$key]) . strip_tags($abstract3[$key]));
-			}
-			$this->_data['abstractTotalChars'] = $abstractTotalChars;		
-		}
-		// END EDIT
 
 		// Load the track. This is used in the step 2 form to
 		// determine whether or not to display indexing options.
@@ -184,11 +148,6 @@ class AuthorSubmitStep3Form extends AuthorSubmitForm {
 		$reviewMode = $this->paper->getReviewMode();
 		if ($reviewMode != REVIEW_MODE_PRESENTATIONS_ALONE) {
 			$returner[] = 'abstract';
-			// EDIT Three sub-abstracts
-			$returner[] = 'abstract1';
-			$returner[] = 'abstract2';
-			$returner[] = 'abstract3';
-			// EDIT END
 		}
 		return $returner;
 	}
@@ -223,17 +182,9 @@ class AuthorSubmitStep3Form extends AuthorSubmitForm {
 		$paperId = $this->paper->getID();
 		$templateMgr->assign('JELClassification', $JEL->getClassification());*/
 
-		// limit of abstracts
-		$trackDao =& DAORegistry::getDAO('TrackDAO');
-		$track = $trackDao->getTrack($this->paper->getTrackId());
-		$abstractWordCount = $track->getAbstractWordCount(); // total
-		$templateMgr->assign('abstractWordCount', $abstractWordCount);
-
 		$schedConf =& Request::getSchedConf();
 		$reviewMode = $this->paper->getReviewMode();
 		$templateMgr->assign('collectAbstracts', $reviewMode != REVIEW_MODE_PRESENTATIONS_ALONE);
-		// getData returns field
-		$templateMgr->assign('isAbstract', empty($this->getData('abstract')[$formLocale]) ? false : true);
 		parent::display();
 	}
 
@@ -257,36 +208,7 @@ class AuthorSubmitStep3Form extends AuthorSubmitForm {
 
 		$reviewMode = $this->paper->getReviewMode();
 		if ($reviewMode != REVIEW_MODE_PRESENTATIONS_ALONE) {
-			/* Writing abstract data
-			*  Getting data directly from the form field
-			*/
-			// $paper->setAbstract($this->getData('abstract'), null); // Localized
-
-			// EDIT Three sub-abstracts
-			// The three abstracts from submission creation form here merge into one.
-			// After the merge there is only one abstract for the whole submission.
-
-			// initialization of abstract parts names (hardcoded)
-			$nameAbstract1 = 'Paper’s objective(s)';
-			$nameAbstract2 = 'Data/Methods';
-			$nameAbstract3 = 'Results/Conclusions';
-			// initialization of abstracts from form
-			$abstract1 = $this->getData('abstract1');
-			$abstract2 = $this->getData('abstract2');
-			$abstract3 = $this->getData('abstract3');
-			// initialization of abstract from paper
-			$paperAbstracts = $paper->getAbstract(null);
-			// cycle through locale abstracts from form
-			// and assign each locale version in paper abstract
-			foreach ($abstract1 as $key => $value) {
-				// if current locale version is not yet in paper abstract
- 				if(!isset($paperAbstracts[$key])){
-					 $newAbstract = "<strong>" . $nameAbstract1 . ":</strong> " . $abstract1[$key] . "\n<strong>" . $nameAbstract2 . ":</strong> " . $abstract2[$key] . "\n<strong>" . $nameAbstract3 . ":</strong> " . $abstract3[$key];
-					// version without TinyMCE
-					//$newAbstract = $nameAbstract1 . ': ' . $abstract1[$key] . '\\n' . $nameAbstract2 . ': ' . $abstract2[$key] . '\\n' . $nameAbstract3 . ': ' . $abstract3[$key];
-					$paper->setAbstract($newAbstract, $key); // Localized
-				}
-			}
+			 $paper->setAbstract($this->getData('abstract'), null); // Localized
 		}
 
 		// Set up JEL codes
@@ -388,7 +310,7 @@ class AuthorSubmitStep3Form extends AuthorSubmitForm {
 		import('paper.log.PaperLog');
 		import('paper.log.PaperEventLogEntry');
 		// not logging authors submission because we don't want track director to see authors
-		//PaperLog::logEvent($this->paperId, PAPER_LOG_ABSTRACT_SUBMIT, LOG_TYPE_AUTHOR, $user->getId(), 'log.author.abstractSubmitted', array('submissionId' => $paper->getId(), 'authorName' => $user->getFullName()));
+		PaperLog::logEvent($this->paperId, PAPER_LOG_ABSTRACT_SUBMIT, LOG_TYPE_AUTHOR, $user->getId(), 'log.author.abstractSubmitted', array('submissionId' => $paper->getId(), 'authorName' => $user->getFullName()));
 		return $this->paperId;
 	}
 }

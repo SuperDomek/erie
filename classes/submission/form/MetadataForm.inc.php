@@ -61,12 +61,11 @@ class MetadataForm extends Form {
 			$trackDao =& DAORegistry::getDAO('TrackDAO');
 			$track = $trackDao->getTrack($paper->getTrackId());
 			/** using old methods and fields from word count; now char count **/
-			$abstractCharCount = $track->getAbstractWordCount();
+			$abstractWordCount = $track->getAbstractWordCount();
 			
-			if (isset($abstractCharCount) && $abstractCharCount > 0) {
+			if (isset($abstractWordCount) && $abstractWordCount > 0) {
 				// adding the length of mandatory fields in abstract
-				$abstractCharCount = $abstractCharCount + 70;
-				$this->addCheck(new FormValidatorCustom($this, 'abstract', 'required', 'author.submit.form.wordCountAlert', create_function('$abstract, $charCount', 'foreach ($abstract as $localizedAbstract) {return strlen(strip_tags($localizedAbstract)) <= $charCount; }'), array($abstractCharCount)));
+				$this->addCheck(new FormValidatorCustom($this, 'abstract', 'required', 'author.submit.form.wordCountAlert', create_function('$abstract, $wordCount', 'foreach ($abstract as $localizedAbstract) {return count(explode(" ",strip_tags($localizedAbstract))) < $wordCount; }'), array($abstractWordCount)));
 			}
 
 			if ($schedConf->getSetting('metaSubjectClass')){
