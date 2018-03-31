@@ -174,6 +174,7 @@
 	<message key="paper.authors">Authors</message>
 	<message key="paper.authors.mail">Mail the authors</message>
 	<message key="paper.conferenceTrack">Conference Track</message>
+	<message key="paper.editing">Editing</message>
 	<message key="paper.file">File</message>
 	<message key="paper.suppFile">Supplementary File</message>
 	<message key="paper.suppFiles">Supplementary File(s)</message>
@@ -224,7 +225,8 @@
 	<message key="submission.fileChanges">Checklist of adjustments (more than 10 characters)</message>
 	<message key="submission.changeTrack">Change to</message>
 	<message key="submission.acceptance">Agreed to Review</message>
-	<message key="submission.complete.description">Add the submission to the list of accepted Presentations.</message>
+	<message key="submission.complete.editing">The submission requires editing.</message>
+	<message key="submission.complete.description">Click Complete to add submission to accepted Presentations.</message>
 	<message key="submission.directorDecision">Editor Decision</message>
 	<message key="submission.directorDecisionComment">Editor's comment to the last decision</message>
 	<message key="submission.stage">Stage&amp;nbsp;{$stage}</message>

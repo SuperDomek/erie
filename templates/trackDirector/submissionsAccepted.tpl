@@ -17,6 +17,7 @@
 		<!--<td width="4%">{sort_search key="paper.sessionType" sort="sessionType"}</td>-->
 		<td width="15%">{translate key="paper.authors"}</td>
 		<td>{translate key="paper.title"}</td>
+		<td>{translate key="paper.editing"}</td>
 		<td width="10%" align="right">{translate key="common.status"}</td>
 	</tr>
 </thead>
@@ -36,6 +37,13 @@
 		</td>-->
 		<td>{$submission->getAuthorString(true)|truncate:40:"..."|escape}</td>
 		<td><a href="{url op="submissionReview" path=$paperId}" class="action">{$submission->getLocalizedTitle()|strip_tags|truncate:60:"..."|default:"&mdash;"}</a></td>
+		<td>
+		{if $submission->getEditing()}
+		{translate key="common.yes"}
+		{else}
+		{translate key="common.no"}
+		{/if}
+		</td>
 		<td align="right">
 			{assign var="status" value=$submission->getStatus()}
 			{if $status == STATUS_ARCHIVED}

@@ -791,6 +791,22 @@ class Submission extends DataObject {
 	}
 
 	/**
+	 * Get submission editing status.
+	 * @return int
+	 */
+	function getEditing() {
+		return $this->getData('editing');
+	}
+
+	/**
+	 * Set submission editing status.
+	 * @param $editing int
+	 */
+	function setEditing($editing) {
+		return $this->setData('editing', $editing);
+	}
+
+	/**
 	 * Get a map for status constant to locale key.
 	 * @return array
 	 */

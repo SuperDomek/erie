@@ -149,6 +149,7 @@ class PaperDAO extends DAO {
 		$paper->setLayoutFileId($row['layout_file_id']);
 		$paper->setDirectorFileId($row['director_file_id']);
 		$paper->setPages($row['pages']);
+		$paper->setEditing($row['editing']);
 		$paper->setCommentsStatus($row['comments_status']);
 
 		$paper->setAuthors($this->authorDao->getAuthorsByPaper($row['paper_id']));
@@ -191,6 +192,7 @@ class PaperDAO extends DAO {
 				 layout_file_id,
 				 director_file_id,
 				 pages,
+				 editing,
 				 comments_status)
 				VALUES
 				(?, ?, ?, ?, ?, ?, %s, %s, %s, %s, %s, %s, %s, %s, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
@@ -212,6 +214,7 @@ class PaperDAO extends DAO {
 				$paper->getLayoutFileId(),
 				$paper->getDirectorFileId(),
 				$paper->getPages(),
+				$paper->getEditing(),
 				$paper->getCommentsStatus() === null ? 0 : $paper->getCommentsStatus()
 			)
 		);
@@ -261,6 +264,7 @@ class PaperDAO extends DAO {
 					layout_file_id = ?,
 					director_file_id = ?,
 					pages = ?,
+					editing = ?,
 					comments_status = ?
 				WHERE paper_id = ?',
 				$this->datetimeToDB($paper->getDateSubmitted()), $this->datetimeToDB($paper->getDateStatusModified()), $this->datetimeToDB($paper->getLastModified()), $this->datetimeToDB($paper->getDateReminded()), $this->datetimeToDB($paper->getStartTime()), $this->datetimeToDB($paper->getEndTime()), $this->datetimeToDB($paper->getDateToPresentations()), $this->datetimeToDB($paper->getDateToArchive())),
@@ -280,6 +284,7 @@ class PaperDAO extends DAO {
 				$paper->getLayoutFileId(),
 				$paper->getDirectorFileId(),
 				$paper->getPages(),
+				$paper->getEditing(),
 				$paper->getCommentsStatus(),
 				$paper->getId()
 			)

@@ -252,6 +252,7 @@ class TrackDirectorSubmissionDAO extends DAO {
 			$paper->setLayoutFileId($trackDirectorSubmission->getLayoutFileId());
 			$paper->setDirectorFileId($trackDirectorSubmission->getDirectorFileId());
 			$paper->setStatus($trackDirectorSubmission->getStatus());
+			$paper->setEditing($trackDirectorSubmission->getEditing());
 			$paper->setDateStatusModified($trackDirectorSubmission->getDateStatusModified());
 			$paper->setDateToPresentations($trackDirectorSubmission->getDateToPresentations());
 			$paper->setDateToArchive($trackDirectorSubmission->getDateToArchive());

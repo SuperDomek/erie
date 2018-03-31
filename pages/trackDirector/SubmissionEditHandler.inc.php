@@ -480,12 +480,19 @@ class SubmissionEditHandler extends TrackDirectorHandler {
 		$conference =& Request::getConference();
 		$schedConf =& Request::getSchedConf();
 		$submission =& $this->submission;
+		
+		if(Request::getUserVar('editing') == "on")
+			$editing = 1;
+		else
+			$editing = 0;
 
-		if (Request::getUserVar('complete')) $complete = true;
+		if (Request::getUserVar('complete')) {
+			$complete = true;
+		}
 		elseif (Request::getUserVar('remove')) $complete = false;
 		else Request::redirect(null, null, null, 'index');
 
-		TrackDirectorAction::completePaper($submission, $complete);
+		TrackDirectorAction::completePaper($submission, $complete, $editing);
 
 		Request::redirect(null, null, null, 'submissions', array($complete?'submissionsAccepted':'submissionsInReview'));
 	}
