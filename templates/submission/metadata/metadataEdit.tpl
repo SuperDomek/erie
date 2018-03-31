@@ -62,28 +62,6 @@ function showAffilBox(sel, authorIndex) {
   }
 }
 
-// Check for the section text in abstract
-var objectives = '<strong>Paper’s objective(s):</strong>';
-var methods = '<strong>Data/Methods:</strong>';
-var results = '<strong>Results/Conclusions:</strong>';
-var tempAbstract = '{/literal}{$abstract[$formLocale]|escape:javascript}{literal}';
-
-$('#abstract').live('input',function() {
-    if (String($(this).val()).indexOf(objectives) == -1) {
-        $(this).val(tempAbstract);
-				alert("{/literal}{translate key="paper.abstract.editWarning"}{literal}");
-    }
-		else if (String($(this).val()).indexOf(methods) == -1) {
-        $(this).val(tempAbstract);
-				alert("{/literal}{translate key="paper.abstract.editWarning"}{literal}");
-		}
-    else if (String($(this).val()).indexOf(results) == -1) {
-        $(this).val(tempAbstract);
-				alert("{/literal}{translate key="paper.abstract.editWarning"}{literal}");
-		}
-		tempAbstract = $(this).val();
-});
-
 // Delete the parent div of passed object
 function delDiv(sel){
   var parent = sel.parentNode;
