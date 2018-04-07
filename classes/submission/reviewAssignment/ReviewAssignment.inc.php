@@ -652,9 +652,9 @@ class ReviewAssignment extends DataObject {
 			$reviewerRecommendationOptions = array(
 				'' => 'common.chooseOne',
 				SUBMISSION_REVIEWER_RECOMMENDATION_ACCEPT => 'reviewer.paper.decision.accept',
-				SUBMISSION_REVIEWER_RECOMMENDATION_PENDING_REVISIONS => 'reviewer.paper.decision.pendingRevisions',
-				//SUBMISSION_REVIEWER_RECOMMENDATION_PENDING_MINOR_REVISIONS => 'reviewer.paper.decision.pendingMinorRevisions',
-				//SUBMISSION_REVIEWER_RECOMMENDATION_PENDING_MAJOR_REVISIONS => 'reviewer.paper.decision.pendingMajorRevisions',
+				//SUBMISSION_REVIEWER_RECOMMENDATION_PENDING_REVISIONS => 'reviewer.paper.decision.pendingRevisions',
+				SUBMISSION_REVIEWER_RECOMMENDATION_PENDING_MINOR_REVISIONS => 'reviewer.paper.decision.pendingMinorRevisions',
+				SUBMISSION_REVIEWER_RECOMMENDATION_PENDING_MAJOR_REVISIONS => 'reviewer.paper.decision.pendingMajorRevisions',
 				SUBMISSION_REVIEWER_RECOMMENDATION_DECLINE => 'reviewer.paper.decision.decline'
 
 			);
