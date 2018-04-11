@@ -95,7 +95,8 @@
       {if $decision.decision == SUBMISSION_DIRECTOR_DECISION_ACCEPT}
         <span style="color:#0b9e3f;">ACC</span>
       {elseif $decision.decision == SUBMISSION_DIRECTOR_DECISION_PENDING_MINOR_REVISIONS ||
-      $decision.decision == SUBMISSION_DIRECTOR_DECISION_PENDING_MAJOR_REVISIONS}
+      $decision.decision == SUBMISSION_DIRECTOR_DECISION_PENDING_MAJOR_REVISIONS ||
+			$decision.decision == SUBMISSION_DIRECTOR_DECISION_PENDING_REVISIONS}
         <span style="color:#ea5b0d;">REV</span>
       {elseif $decisionAbstract.decision == SUBMISSION_DIRECTOR_DECISION_DECLINE}
         <span style="color:#e85a09;">DEC</span>
