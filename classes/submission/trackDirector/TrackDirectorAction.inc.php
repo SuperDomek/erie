@@ -1437,7 +1437,7 @@ class TrackDirectorAction extends Action {
 	 * @param $complete boolean If true, complete the submission. If false,
 	 * 	return it to the queue (unpublish it).
 	 */
-	function completePaper($trackDirectorSubmission, $complete, $editing) {
+	function completePaper($trackDirectorSubmission, $complete) {
 		import('file.PaperFileManager');
 		$paperFileManager = new PaperFileManager($trackDirectorSubmission->getPaperId());
 		$trackDirectorSubmissionDao =& DAORegistry::getDAO('TrackDirectorSubmissionDAO');
@@ -1448,7 +1448,7 @@ class TrackDirectorAction extends Action {
 
 		if ($complete) { // Publish the paper.
 			$trackDirectorSubmission->setStatus(STATUS_PUBLISHED);
-			$trackDirectorSubmission->setEditing((int) $editing);
+			
 			$trackDirectorSubmissionDao->updateTrackDirectorSubmission($trackDirectorSubmission);
 
 			// Add a published paper object

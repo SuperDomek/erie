@@ -230,6 +230,7 @@
 	<message key="submission.acceptance">Souhlas s posouzením</message>
 	<message key="submission.complete.editing">Příspěvek vyžaduje úpravy.</message>
 	<message key="submission.complete.description">Přidat příspěvek na seznam přijatých prezentací.</message>
+	<message key="submission.complete.pages">Počet stran příspěvku:</message>
 	<message key="submission.directorDecision">Rozhodnutí</message>
 	<message key="submission.directorDecisionComment">Komentář editora k poslednímu rozhodnutí</message>
 	<message key="submission.stage">Fáze&amp;nbsp;{$stage}</message>

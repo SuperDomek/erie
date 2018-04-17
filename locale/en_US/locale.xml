@@ -227,6 +227,7 @@
 	<message key="submission.acceptance">Agreed to Review</message>
 	<message key="submission.complete.editing">The submission requires editing.</message>
 	<message key="submission.complete.description">Click Complete to add submission to accepted Presentations.</message>
+	<message key="submission.complete.pages">Number of pages:</message>
 	<message key="submission.directorDecision">Editor Decision</message>
 	<message key="submission.directorDecisionComment">Editor's comment to the last decision</message>
 	<message key="submission.stage">Stage&amp;nbsp;{$stage}</message>

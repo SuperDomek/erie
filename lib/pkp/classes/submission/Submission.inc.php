@@ -902,7 +902,7 @@ class Submission extends DataObject {
 
 	/**
 	 * get pages
-	 * @return string
+	 * @return int
 	 */
 	function getPages() {
 		return $this->getData('pages');
@@ -910,10 +910,10 @@ class Submission extends DataObject {
 
 	/**
 	 * set pages
-	 * @param $pages string
+	 * @param $pages int
 	 */
 	function setPages($pages) {
-		return $this->setData('pages',$pages);
+		return $this->setData('pages', intval($pages));
 	}
 
 	/**

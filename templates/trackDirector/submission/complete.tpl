@@ -14,8 +14,12 @@
 <form method="post" action="{url op="completePaper"}">
 	<input type="hidden" name="paperId" value="{$submission->getPaperId()}" />
 	<p>
-	<input name="editing" type="checkbox" {if $submission->getStatus() == STATUS_PUBLISHED}disabled="disabled" {/if} {if $submission->getEditing()}checked="checked"{/if}/>
-	{translate key="submission.complete.editing"}
+	<label for="pages">{translate key="submission.complete.pages"}</label>
+	<input name="pages" id="pages" type="number" min="0" max="20" {if $submission->getStatus() == STATUS_PUBLISHED}disabled="disabled" {/if} {if $submission->getPages()}value="{$submission->getPages()}"{else}value="0"{/if}/>
+	</p>
+	<p>
+	<label for="editing">{translate key="submission.complete.editing"}</label>
+	<input name="editing" id="editing" type="checkbox" {if $submission->getStatus() == STATUS_PUBLISHED}disabled="disabled" {/if} {if $submission->getEditing()}checked="checked"{/if}/>
 	</p>
 	<p>{translate key="submission.complete.description"}</p>
 	<input name="complete" {if $submission->getStatus() == STATUS_PUBLISHED}disabled="disabled" {/if}type="submit" value="{translate key="submission.complete"}" class="button" />
