@@ -58,6 +58,7 @@ function sortSearch(heading, direction) {
 </form>
 </div>
 <div style="position:relative;float:right;">
+<a href="{url op="submissions" path=$pageToDisplay|to_array:"XLSX"}"><img src="{$baseUrl}/lib/pkp/templates/images/structure/excel.png" alt="Export to MS Excel" width="64px"/></a>
 <a href="javascript:window.print()"><img src="{$baseUrl}/lib/pkp/templates/images/structure/pdf.png" alt="Download PDF" width="64px"/></a>
 </div>
 &nbsp;
