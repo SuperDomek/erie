@@ -15,9 +15,8 @@
 	<tr>
 		<td width="7%">{translate key="common.id"}</td>
 		<td width="7%"><span class="disabled">MM-DD</span><br />{translate key="common.assigned"}</td>
-		<td width="58%">{translate key="paper.title"}</td>
+		<td width="68%">{translate key="paper.title"}</td>
 		<td width="8%">{translate key="submission.due"}</td>
-		<td width="10%">{translate key="submissions.reviewType"}</td>
     <td width="10%">{translate key="submission.fileOkayed"}</td>
 	</tr>
 </thead>
