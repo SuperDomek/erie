@@ -52,7 +52,8 @@
 	<header>{translate key="common.dateSubmitted"}</header>
 	{$submission->getDateSubmitted()|date_format:$dateFormatShort}
 </li>
-{*<li>
+{if $isDirector}{*track director could be a reviewer as well*}
+<li>
 	<header>{translate key="track.track"}</header>
 	{if $tracks|@count == 1}
 		{assign var="trackId" value=$submission->getTrackId()}
@@ -67,7 +68,8 @@
 			<input type="submit" value="{translate key="common.record"}" class="button" />
 		</form>
 	{/if}
-</li>*}
+</li>
+{/if}
 
 {assign var=sessionType value=$submission->getData('sessionType')}
 {if is_array($sessionTypes) && !empty($sessionTypes) && !(count($sessionTypes) == 1 && !empty($sessionType) && isset($sessionTypes[$sessionType]))}

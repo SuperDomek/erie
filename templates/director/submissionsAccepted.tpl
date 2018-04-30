@@ -16,10 +16,11 @@
 		<td width="3%">{translate key="common.id"}</td>
 		<td width="4%">{translate key="submissions.track"}</td>
 		<td width="19%">{translate key="paper.authors"}</td>
-		<td width="51%">{translate key="paper.title"}</td>
+		<td width="48%">{translate key="paper.title"}</td>
 		<!--<td width="8%">{translate key="common.order"}</td>-->
 		<td width="8%">{translate key="common.country"}</td>
-		<td width="5%">{translate key="paper.editing"}</td>
+		<td width="4%">{translate key="paper.editing"}</td>
+		<td width="4%">{translate key="paper.pages"}</td>
 		<td width="10%" align="right">{translate key="common.status"}</td>
 	</tr>
 </thead>
@@ -44,11 +45,10 @@
 			{$user->getCountry()}
 		</td>
 		<td>
-		{if $submission->getEditing()}
-		{translate key="common.yes"}
-		{else}
-		{translate key="common.no"}
-		{/if}
+			{if $submission->getEditing()}{translate key="common.yes"}{else}{translate key="common.no"}{/if}
+		</td>
+		<td>
+			{$submission->getPages()|escape}
 		</td>
 		<td align="right">
 			{assign var="status" value=$submission->getStatus()}

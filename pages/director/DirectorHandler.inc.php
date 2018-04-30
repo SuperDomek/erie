@@ -1006,7 +1006,9 @@ class DirectorHandler extends TrackDirectorHandler {
 				->setCellValue($column++ . $row, __('paper.authors'))
 				->setCellValue($column++ . $row, __('paper.title'))
 				->setCellValue($column++ . $row, __('common.country'))
-				->setCellValue($column++ . $row, __('submissions.track'));
+				->setCellValue($column++ . $row, __('submissions.track'))
+				->setCellValue($column++ . $row, __('paper.pages'))
+				->setCellValue($column++ . $row, __('paper.editing'));
 
 			$spreadsheet->getActiveSheet()->getStyle('A1:'. $column . $row)
 				->getFont()->setBold(true);
@@ -1018,13 +1020,16 @@ class DirectorHandler extends TrackDirectorHandler {
 				$column = 'A';
 				$row++;
 				$user = $submission->getUser();
-
+				$editing = $submission->getEditing() ? __('common.yes') : __('common.no');
 				$spreadsheet->getActiveSheet()
 				->setCellValue($column++ . $row, $submission->getPaperId())
 				->setCellValue($column++ . $row, $submission->getAuthorString(true))
 				->setCellValue($column++ . $row, $submission->getLocalizedTitle())
 				->setCellValue($column++ . $row, $user->getcountry())
-				->setCellValue($column++ . $row, $submission->getTrackTitle());
+				->setCellValue($column++ . $row, $submission->getTrackTitle())
+				->setCellValue($column++ . $row, $submission->getPages())
+				->setCellValue($column++ . $row, $editing);
+				unset($editing);
 			}
 			// Formatting
 
@@ -1139,6 +1144,7 @@ class DirectorHandler extends TrackDirectorHandler {
 					case SUBMISSION_DIRECTOR_DECISION_ACCEPT:
 					$decisionTag = 'ACC';
 					break;
+					case SUBMISSION_DIRECTOR_DECISION_PENDING_REVISIONS:
 					case SUBMISSION_DIRECTOR_DECISION_PENDING_MINOR_REVISIONS:
 					case SUBMISSION_DIRECTOR_DECISION_PENDING_MAJOR_REVISIONS:
 					$decisionTag = 'REV';

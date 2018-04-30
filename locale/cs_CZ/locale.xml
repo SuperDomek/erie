@@ -204,6 +204,7 @@
 	<message key="paper.details">Podrobnosti</message>
 	<message key="paper.location">Místo</message>
 	<message key="paper.time">Čas</message>
+	<message key="paper.pages">Strany</message>
 	<message key="paper.comments.trackDefault">Předdefinováno</message>
 	<message key="paper.comments.disable">Vypnout</message>
 	<message key="paper.comments.enable">Zapnout</message>
