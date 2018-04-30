@@ -286,7 +286,8 @@
 				{if $reviewAssignment->getDeclined()}
 					{translate key="trackDirector.regrets"}
 				{else}
-					<a href="{url op="setDueDate" path=$reviewAssignment->getPaperId()|to_array:$reviewAssignment->getId()}">{if $reviewAssignment->getDateDue()}{$reviewAssignment->getDateDue()|date_format:$dateFormatShort}{else}&mdash;{/if}</a>
+					{*<a href="{url op="setDueDate" path=$reviewAssignment->getPaperId()|to_array:$reviewAssignment->getId()}">{if $reviewAssignment->getDateDue()}{$reviewAssignment->getDateDue()|date_format:$dateFormatShort}{else}&mdash;{/if}</a>*}
+					{if $reviewAssignment->getDateDue()}{$reviewAssignment->getDateDue()|date_format:$dateFormatShort}{else}&mdash;{/if}
 				{/if}
 			</td>
 			<td class="colRevForm"> {* Review Form *}
@@ -357,12 +358,14 @@
   						<a href="{url op="clearReview" path=$submission->getPaperId()|to_array:$reviewAssignment->getId()}" class="action"><button class="negative button">{translate key="director.paper.clearReview"}</button></a>
   					{elseif $reviewAssignment->getDeclined() or not $reviewAssignment->getDateCompleted()}
   						<a href="{url op="cancelReview" paperId=$submission->getPaperId() reviewId=$reviewAssignment->getId()}" class="action"><button class="negative button">{translate key="director.paper.cancelReview"}</button></a>
+					{elseif $isDirector}
+						<a href="{url op="cancelReview" paperId=$submission->getPaperId() reviewId=$reviewAssignment->getId()}" class="action"><button class="negative button">{translate key="director.paper.cancelReview"}</button></a>
   					{/if}
         {*/if*}
 			</td>
 			<td> {* Remind *}
-				{if $user->getId() != $reviewAssignment->getReviewerId()}
-					{if $greyOut}
+				{if $user->getId() != $reviewAssignment->getReviewerId()} {* Not actual user's review *}
+					{if $reviewAssignment->getDateCompleted()}
 						<button class="button" disabled="disabled">{translate key="reviewer.paper.sendReminder"}</button>
 					{else}
 						<a href="{url op="remindReviewer" paperId=$submission->getPaperId() reviewId=$reviewAssignment->getId()}" class="action">
