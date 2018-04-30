@@ -90,7 +90,7 @@ $('#file_changes').live('input',function() {
 				<label>{translate key="common.checklistOfAdjustments"}</label>
 			</td>
 			<td class="value" width="80%">
-					<span>{$changes|escape}</span>
+					<span>{$changes|nl2br}</span>
 			</td>
 		</tr>
 		<tr valign="top">

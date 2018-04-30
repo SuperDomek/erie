@@ -147,7 +147,7 @@
 					<header>{translate key="common.checklistOfAdjustments"}</header>
 					<p>
 					{if $changes}
-						{$changes|escape}
+						{$changes|nl2br}
 					{else}
 						{translate key="common.none"}
 					{/if}
