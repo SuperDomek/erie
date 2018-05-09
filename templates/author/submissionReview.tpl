@@ -32,7 +32,7 @@
 			{translate key="submission.paperReview"}</a>
 		</li>
 	{else}
-		<li><a href="{url op="submissionReview" path=$submission->getPaperId()|to_array:$smarty.const.REVIEW_STAGE_ABSTRACT}">{translate key="submission.review"}</a></li>
+		<li><a href="{url op="submissionReview" path=$submission->getPaperId()}">{translate key="submission.review"}</a></li>
 	{/if}
 </ul>
 

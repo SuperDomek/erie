@@ -13,11 +13,14 @@
 {include file="common/header.tpl"}
 {/strip}
 
+{assign var="formLocale" value="en_US"}
+
 <h3>{if $galleyId}{translate key="submission.layout.editGalley"}{else}{translate key="submission.layout.addGalley"}{/if}</h3>
 
 <br />
 
 <form method="post" action="{url op="saveGalley" path=$paperId|to_array:$galleyId:$stage}" enctype="multipart/form-data">
+<input type="hidden" id="galleyLocale" name="galleyLocale" value="en_US" />
 {include file="common/formErrors.tpl"}
 <div id="galleyFileData">
 <p>{translate key="submission.layout.galleyFileData"}</p>
@@ -29,15 +32,6 @@
 <tr valign="top">
 	<td>&nbsp;</td>
 	<td class="instruct">{translate key="submission.layout.galleyLabelInstructions"}</td>
-</tr>
-
-<tr valign="top">
-	<td class="label">{fieldLabel name="galleyLocale" required="true" key="common.language"}</td>
-	<td class="value">
-		<select name="galleyLocale" id="galleyLocale" class="selectMenu">
-		{html_options options=$supportedLocales selected=$galleyLocale|default:$formLocale}
-		</select>
-	</td>
 </tr>
 
 <tr valign="top">

@@ -546,8 +546,8 @@ class TrackDirectorAction extends Action {
 
 		if ($reviewAssignment->getPaperId() == $trackDirectorSubmission->getPaperId()) {
 			// Only cancel the review if it is currently not cancelled but has previously
-			// been initiated, and has not been completed.
-			if ($reviewAssignment->getDateNotified() != null && !$reviewAssignment->getCancelled() && ($reviewAssignment->getDateCompleted() == null || $reviewAssignment->getDeclined())) {
+			// been initiated
+			if ($reviewAssignment->getDateNotified() != null && !$reviewAssignment->getCancelled()) {
 				import('mail.PaperMailTemplate');
 				$email = new PaperMailTemplate($trackDirectorSubmission, 'REVIEW_CANCEL');
 

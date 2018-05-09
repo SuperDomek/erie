@@ -147,13 +147,31 @@ function showMenu(){
 			{if $isValid.Author.$conferenceId.$schedConfId}
 				{assign var="authorSubmissionsCount" value=$submissionsCount.Author.$conferenceId.$schedConfId}
 				<tr>
-					<td colspan="3">&#187; <a href="{url conference=$conferencePath schedConf=$schedConfPath  page="author"}">{translate key="user.role.author"}</a></td>
 					<td colspan="2">
-            {if $authorSubmissionsCount[0]}
-							<a href="{url conference=$conferencePath schedConf=$schedConfPath  page="author"}">{$authorSubmissionsCount[0]} {translate key="common.queue.short.active"}</a>
-						{else}<span class="disabled">0 {translate key="common.queue.short.active"}</span>{/if}
+						&#187; <a href="{url conference=$conferencePath schedConf=$schedConfPath  page="author"}">{translate key="user.role.author"}</a>
 					</td>
-					<td align="right"><a href="{url conference=$conferencePath schedConf=$schedConfPath  page="author" op="submit"}"><button type="button">{translate key="author.submit"}</button></a></td>
+					{* In Review *}
+					<td colspan="1">
+					{if $authorSubmissionsCount[0]}
+						<a href="{url conference=$conferencePath schedConf=$schedConfPath  page="author"}">{$authorSubmissionsCount[0]} {translate key="common.queue.short.active"}</a>
+					{else}
+						<span class="disabled">0 {translate key="common.queue.short.active"}</span>
+					{/if}
+					</td>
+					{* Archived *}
+					<td colspan="2">
+					{if $authorSubmissionsCount[2]}
+						<a href="{url conference=$conferencePath schedConf=$schedConfPath  page="author"}">{$authorSubmissionsCount[2]} {translate key="common.queue.short.submissionsArchives"}</a>
+					{else}
+						<span class="disabled">0 {translate key="common.queue.short.submissionsArchives"}</span>
+					{/if}
+					</td>
+
+					<td align="right">
+						<a href="{url conference=$conferencePath schedConf=$schedConfPath  page="author" op="submit"}">
+							<button type="button">{translate key="author.submit"}</button>
+						</a>
+					</td>
 				</tr>
 			{/if}
 			{if $isValid.Reviewer.$conferenceId.$schedConfId}
