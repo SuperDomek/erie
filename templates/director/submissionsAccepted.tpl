@@ -51,13 +51,17 @@
 			{$submission->getPages()|escape}
 		</td>
 		<td align="right">
+			{$submission->getLayoutFileId()}
 			{assign var="status" value=$submission->getStatus()}
 			{if $status == STATUS_ARCHIVED}
 				{translate key="submissions.archived"}&nbsp;&nbsp;<a href="{url op="deleteSubmission" path=$paperId}" onclick="return confirm('{translate|escape:"jsparam" key="director.submissionArchive.confirmDelete"}')" class="action">{translate key="common.delete"}</a>
+			{elseif $status == STATUS_PUBLISHED && $submission->getLayoutFileId()}
+				<span>Layout</span>
 			{elseif $status == STATUS_PUBLISHED}
 				{translate key="submissions.published"}
 			{elseif $status == STATUS_DECLINED}
 				{translate key="submissions.declined"}&nbsp;&nbsp;<a href="{url op="deleteSubmission" path=$paperId}" onclick="return confirm('{translate|escape:"jsparam" key="director.submissionArchive.confirmDelete"}')" class="action">{translate key="common.delete"}</a>
+			
 			{/if}
 		</td>
 	</tr>

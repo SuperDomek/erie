@@ -893,6 +893,7 @@ Validation may fail on search URLs that require posted form data.]]></message>
 	<message key="notification.type.editing">Editing Events</message>
 	<message key="notification.type.directorDecision">An editor decision for "{$param}" has been added.</message>
 	<message key="notification.type.directorDecisionComment">A comment has been left on the editor decision for "{$param}".</message>
+	<message key="notification.type.LayoutUploaded">A layout file has been uploaded for "{$param}".</message>
 	<message key="notification.type.galleyModified">A galley has been modified for "{$param}".</message>
 	<message key="notification.type.metadataModified">"{$param}'s" metadata has been modified.</message>
 	<message key="notification.type.abstractModified">"{$param}'s" abstract has been modified.</message>

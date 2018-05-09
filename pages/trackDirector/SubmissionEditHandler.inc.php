@@ -1460,9 +1460,12 @@ class SubmissionEditHandler extends TrackDirectorHandler {
 	function uploadLayoutFile() {
 		$layoutFileType = Request::getUserVar('layoutFileType');
 		$stage = (int) Request::getUserVar('stage');
+		$paperId = Request::getUserVar('paperId');
+		$paperDao =& DAORegistry::getDAO('PaperDAO');
+		$paper =& $paperDao->getPaper($paperId);
 
-		import('file.FileManager');
-		$fileManager = new FileManager();
+		import('file.PaperFileManager');
+		$fileManager = new PaperFileManager($paperId);
 		if ($fileManager->uploadError('layoutFile')) {
 			$templateMgr =& TemplateManager::getManager();
 			$this->setupTemplate(true);
@@ -1475,10 +1478,11 @@ class SubmissionEditHandler extends TrackDirectorHandler {
 
 		if ($layoutFileType == 'galley') {
 			$this->uploadGalley('layoutFile', $stage);
-
 		} else if ($layoutFileType == 'supp') {
 			$this->uploadSuppFile('layoutFile', $stage);
-
+		} else if ($layoutFileType == 'layout'){
+			$fileId = $fileManager->uploadLayoutFile('layoutFile');
+			TrackDirectorAction::setLayoutFileId($paper, $fileId);
 		} else {
 			Request::redirect(null, null, null, 'submission', Request::getUserVar('paperId'));
 		}

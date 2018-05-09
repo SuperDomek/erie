@@ -83,7 +83,7 @@
 	<input type="hidden" name="from" value="submissionReview" />
 	<input type="hidden" name="paperId" value="{$submission->getPaperId()}" />
 	<input type="hidden" name="stage" value="{$stage|escape}" />
-	<input type="hidden" name="layoutFileType" value="galley" />
+	<input type="hidden" name="layoutFileType" value="layout" />
 	{translate key="submission.uploadFileTo"}
 		<!--<input type="radio" checked="checked" name="layoutFileType" id="layoutFileTypeGalley" value="galley" />
 		<label for="layoutFileTypeGalley">{translate key="submission.galley"}</label>,

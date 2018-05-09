@@ -1539,6 +1539,59 @@ class TrackDirectorAction extends Action {
 	//
 
 	/**
+	 * Upload a layout File
+	 * @param $paper object
+	 * @param $layoutFileId int
+	 */
+	function setLayoutFileId($paper, $layoutFileId) {
+		if (is_null($layoutFileId)) return error_log("Error uploading a layoutFile");
+
+		$paperDao =& DAORegistry::getDAO('PaperDAO');
+		$userDao =& DAORegistry::getDAO('UserDAO');
+		$paperId = $paper->getId();
+		$author =& $userDao->getUser($paper->getUserId());
+		$conference =& Request::getConference();
+		$schedConf =& Request::getSchedConf();
+		$user =& Request::getUser();
+
+		$paper->setLayoutFileId($layoutFileId);
+		$paperDao->updatePaper($paper);
+
+		// Send e-mail to the author
+		import('mail.PaperMailTemplate');
+		$email = new PaperMailTemplate($paper, 'SUBMISSION_LAYOUT_FILE');
+		$paperUrl = Request::url(null, null, 'author', 'submissionReview', $paperId);
+		$paramArray = array(
+			'authorName' => $author->getFullName(),
+			'paperTitle' => $paper->getLocalizedTitle(),
+			'paperUrl' => $paperUrl,
+			'editorialContactSignature' => $schedConf->getSetting('contactName') . "\n" . $conference->getConferenceTitle(),
+		);
+		$email->addRecipient($author->getEmail(), $author->getFullName());
+		$email->setFrom($user->getEmail(), $user->getFullName());
+		$email->assignParams($paramArray);
+		$email->send();
+
+		// Send a notification to author and editors
+		import('notification.NotificationManager');
+		$notificationManager = new NotificationManager();
+		$paperDao =& DAORegistry::getDAO('PaperDAO');
+		$notificationUsers = $paper->getAssociatedUserIds(true, false);
+		foreach ($notificationUsers as $userRole) {
+			$url = Request::url(null, null, $userRole['role'], 'submissionReview', $paperId, null, 'layout');
+			$notificationManager->createNotification(
+				$userRole['id'], 'notification.type.LayoutUploaded',
+				$paper->getLocalizedTitle(), $url, 1, NOTIFICATION_TYPE_LAYOUT_UPLOADED
+			);
+		}
+		// Add log
+		import('paper.log.PaperLog');
+		import('paper.log.PaperEventLogEntry');
+		PaperLog::logEvent($paperId, PAPER_LOG_LAYOUT_SET_FILE, LOG_TYPE_FILE, $layoutFileId, 'log.layout.layoutFileSet', array('directorName' => $user->getFullName(), 'paperId' => $paperId));
+
+	}
+
+	/**
 	 * Change the sequence order of a galley.
 	 * @param $paper object
 	 * @param $galleyId int
