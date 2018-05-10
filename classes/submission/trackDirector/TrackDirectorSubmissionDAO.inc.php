@@ -463,7 +463,7 @@ class TrackDirectorSubmissionDAO extends DAO {
 			$trackDirectorId, $schedConfId, $trackId,
 			$searchField, $searchMatch, $search,
 			$dateField, $dateFrom, $dateTo,
-			'p.status = ' . STATUS_PUBLISHED,
+			'p.status BETWEEN ' . STATUS_LAYOUT . ' AND ' . STATUS_PUBLISHED,
 			$rangeInfo, $sortBy, $sortDirection
 		);
 
@@ -490,7 +490,7 @@ class TrackDirectorSubmissionDAO extends DAO {
 			$trackDirectorId, $schedConfId, $trackId,
 			$searchField, $searchMatch, $search,
 			$dateField, $dateFrom, $dateTo,
-			'p.status <> ' . STATUS_QUEUED . ' AND p.status <> ' . STATUS_PUBLISHED,
+			'p.status NOT BETWEEN ' . STATUS_QUEUED . ' AND ' . STATUS_PUBLISHED,
 			$rangeInfo, $sortBy, $sortDirection
 		);
 
@@ -530,7 +530,7 @@ class TrackDirectorSubmissionDAO extends DAO {
 				LEFT JOIN edit_decisions d2 ON (p.paper_id = d2.paper_id AND d.edit_decision_id < d2.edit_decision_id)
 			WHERE	p.sched_conf_id = ?
 				AND e.director_id = ?
-				AND p.status = ' . STATUS_QUEUED . '
+				AND p.status BETWEEN ' . STATUS_LAYOUT . ' AND ' . STATUS_PUBLISHED . '
 				AND d2.edit_decision_id IS NULL
 				AND d.decision = ' . SUBMISSION_DIRECTOR_DECISION_ACCEPT,
 			array((int) $schedConfId, (int) $trackDirectorId)

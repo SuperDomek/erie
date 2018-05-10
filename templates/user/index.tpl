@@ -153,7 +153,7 @@ function showMenu(){
 					{* In Review *}
 					<td colspan="1">
 					{if $authorSubmissionsCount[0]}
-						<a href="{url conference=$conferencePath schedConf=$schedConfPath  page="author"}">{$authorSubmissionsCount[0]} {translate key="common.queue.short.active"}</a>
+						<a href="{url conference=$conferencePath schedConf=$schedConfPath  page="author" op="index" path="active"}">{$authorSubmissionsCount[0]} {translate key="common.queue.short.active"}</a>
 					{else}
 						<span class="disabled">0 {translate key="common.queue.short.active"}</span>
 					{/if}
@@ -161,7 +161,7 @@ function showMenu(){
 					{* Archived *}
 					<td colspan="2">
 					{if $authorSubmissionsCount[2]}
-						<a href="{url conference=$conferencePath schedConf=$schedConfPath  page="author"}">{$authorSubmissionsCount[2]} {translate key="common.queue.short.submissionsArchives"}</a>
+						<a href="{url conference=$conferencePath schedConf=$schedConfPath  page="author" op="index" path="completed"}">{$authorSubmissionsCount[2]} {translate key="common.queue.short.submissionsArchives"}</a>
 					{else}
 						<span class="disabled">0 {translate key="common.queue.short.submissionsArchives"}</span>
 					{/if}

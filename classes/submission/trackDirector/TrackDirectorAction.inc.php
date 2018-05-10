@@ -1555,6 +1555,7 @@ class TrackDirectorAction extends Action {
 		$user =& Request::getUser();
 
 		$paper->setLayoutFileId($layoutFileId);
+		$paper->setStatus(STATUS_LAYOUT);
 		$paperDao->updatePaper($paper);
 
 		// Send e-mail to the author

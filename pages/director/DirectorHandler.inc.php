@@ -1008,7 +1008,8 @@ class DirectorHandler extends TrackDirectorHandler {
 				->setCellValue($column++ . $row, __('common.country'))
 				->setCellValue($column++ . $row, __('submissions.track'))
 				->setCellValue($column++ . $row, __('paper.pages'))
-				->setCellValue($column++ . $row, __('paper.editing'));
+				->setCellValue($column++ . $row, __('paper.editing'))
+				->setCellValue($column++ . $row, __('common.status'));
 
 			$spreadsheet->getActiveSheet()->getStyle('A1:'. $column . $row)
 				->getFont()->setBold(true);
@@ -1021,6 +1022,18 @@ class DirectorHandler extends TrackDirectorHandler {
 				$row++;
 				$user = $submission->getUser();
 				$editing = $submission->getEditing() ? __('common.yes') : __('common.no');
+				$status = $submission->getStatus();
+				if ($status == STATUS_ARCHIVED)
+					$statusOut = __('submissions.archived');
+				else if ($status == STATUS_LAYOUT)
+					$statusOut = __('submission.layout');
+				else if ($status == STATUS_PUBLISHED && $submission->getLayoutFileId())
+					$statusOut = __('submissions.published');
+				else if ($status == STATUS_PUBLISHED && !$submission->getLayoutFileId())
+					$statusOut = __('submission.accepted');
+				else if ($status == STATUS_DECLINED)
+					$statusOut = __('submissions.declined');
+				
 				$spreadsheet->getActiveSheet()
 				->setCellValue($column++ . $row, $submission->getPaperId())
 				->setCellValue($column++ . $row, $submission->getAuthorString(true))
@@ -1028,8 +1041,10 @@ class DirectorHandler extends TrackDirectorHandler {
 				->setCellValue($column++ . $row, $user->getcountry())
 				->setCellValue($column++ . $row, $submission->getTrackTitle())
 				->setCellValue($column++ . $row, $submission->getPages())
-				->setCellValue($column++ . $row, $editing);
+				->setCellValue($column++ . $row, $editing)
+				->setCellValue($column++ . $row, $statusOut);
 				unset($editing);
+				unset($statusOut);
 			}
 			// Formatting
 

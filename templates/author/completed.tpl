@@ -32,7 +32,10 @@
 		<td align="right">
 			{assign var="status" value=$submission->getSubmissionStatus()}
 			{if $status == STATUS_ARCHIVED}{translate key="submissions.archived"}
-			{elseif $status == STATUS_PUBLISHED}{translate key="submissions.published"}
+			{elseif $status == STATUS_PUBLISHED && $submission->getLayoutFileId()}
+				{translate key="submissions.published"}
+			{elseif $status == STATUS_PUBLISHED && !$submission->getLayoutFileId()}
+				{translate key="submission.accepted"}
 			{elseif $status == STATUS_DECLINED}{translate key="submissions.declined"}
 			{/if}
 		</td>

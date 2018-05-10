@@ -41,11 +41,11 @@
 					{if $currentStage>=REVIEW_STAGE_PRESENTATION}
 						<a href="{url op="submissionReview" path=$paperId|to_array}" class="action">
 							{if $submission->getAuthorFileRevisions($submission->getCurrentStage())}
-            		<span>{translate key="author.submissions.queuedPaperReviewRevisions.uploaded"}</span>
-              {elseif $decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_REVISIONS ||
-              $decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MINOR_REVISIONS ||
-              $decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MAJOR_REVISIONS}
-                {translate key="author.submissions.queuedPaperReviewRevisions"}
+            					<span>{translate key="author.submissions.queuedPaperReviewRevisions.uploaded"}</span>
+							{elseif $decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_REVISIONS ||
+							$decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MINOR_REVISIONS ||
+							$decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MAJOR_REVISIONS}
+								{translate key="author.submissions.queuedPaperReviewRevisions"}
 							{else}
 								{translate key="submissions.queuedPaperReview"}
 							{/if}
@@ -53,14 +53,15 @@
 					{else}
 						<a href="{url op="submissionReview" path=$paperId|to_array}" class="action">
 							{if $decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_REVISIONS ||
-              $decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MINOR_REVISIONS ||
-              $decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MAJOR_REVISIONS}
-                {translate key="author.submissions.queuedAbstractReviewRevisions"}
+							$decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MINOR_REVISIONS ||
+							$decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MAJOR_REVISIONS}
+								{translate key="author.submissions.queuedAbstractReviewRevisions"}
 							{else}{translate key="submissions.queuedAbstractReview"}
 							{/if}
 						</a>
 					{/if}
-				{elseif $status == STATUS_QUEUED_EDITING}
+				{elseif $status == STATUS_QUEUED_EDITING ||
+				$status == STATUS_LAYOUT}
 					<a href="{url op="submissionReview" path=$paperId|to_array}" class="action">{translate key="submissions.queuedEditing"}</a>
 				{/if}
 			</td>

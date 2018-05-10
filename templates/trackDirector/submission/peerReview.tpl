@@ -48,39 +48,47 @@
 	<li><header>{translate key="paper.authors"}</header>
 			{url|assign:"url" page="user" op="email" redirectUrl=$currentUrl to=$submission->getAuthorEmails() subject=$submission->getLocalizedTitle() paperId=$submission->getPaperId()}
 			<a href="{$url}" alt="Mail the author" title="Mail the author">{$submission->getAuthorString()|escape}</a>{*icon name="mail" url=$url*}
-</li>
-  {/if}
-<li><header>{translate key="paper.submitterId"}</header>
-      {$submitterId}</li>
-<li><header>{translate key="paper.title"}</header>
-		{$submission->getLocalizedTitle()|strip_unsafe_html}</li>
-{*<li><header>{translate key="track.track"}</header>
-<form name="trackForm" id="trackForm" action="{url op="changeTrack" paperId=$submission->getPaperId()}" method="post">
-	<input type="hidden" name="from" value="submissionReview" />
-	<input type="hidden" name="stage" value="{$stage|escape}" />
-	<select name="trackId" size="1" class="selectMenu">{html_options options=$tracks selected=$submission->getTrackId()}</select>
-	<button type="submit" name="submit" form="trackForm" id="track_submit" value="Submit" class="button">{translate key="common.record"}</button>
-</form>
-</li>*}
-<li><header>{translate key="user.role.trackDirector"}</header>
-			{assign var=editAssignments value=$submission->getEditAssignments()}
-			{foreach from=$editAssignments item=editAssignment}
-				{if $isDirector}
-					{url|assign:"url" page="director" op="userProfile" path=$editAssignment->getDirectorId()}
-					<a href="{$url}" alt="{translate key="user.profile.publicProfile" user=$editAssignment->getDirectorFullName()|escape}" title="{translate key="user.profile.publicProfile" user=$editAssignment->getDirectorFullName()|escape}">{$editAssignment->getDirectorFullName()|escape}</a>
-				{else}
-					{$editAssignment->getDirectorFullName()|escape}
-				{/if}
-				<br/>
-			{foreachelse}
-				{if $isDirector}
-				<a href="{url page="director" op="assignDirector" path="trackDirector" paperId=$submission->getPaperId()}">
-					<button class="button">{translate key="director.paper.assignTrackDirector"}</button></a>
-				{else}
-					{translate key="common.noneAssigned"}
-				{/if}
-			{/foreach}
-			</li>
+	</li>
+	{/if}
+	<li><header>{translate key="paper.submitterId"}</header>
+		{$submitterId}</li>
+	<li><header>{translate key="paper.title"}</header>
+			{$submission->getLocalizedTitle()|strip_unsafe_html}</li>
+	{*<li><header>{translate key="track.track"}</header>
+	<form name="trackForm" id="trackForm" action="{url op="changeTrack" paperId=$submission->getPaperId()}" method="post">
+		<input type="hidden" name="from" value="submissionReview" />
+		<input type="hidden" name="stage" value="{$stage|escape}" />
+		<select name="trackId" size="1" class="selectMenu">{html_options options=$tracks selected=$submission->getTrackId()}</select>
+		<button type="submit" name="submit" form="trackForm" id="track_submit" value="Submit" class="button">{translate key="common.record"}</button>
+	</form>
+	</li>*}
+	<li><header>{translate key="user.role.trackDirector"}</header>
+	{assign var=editAssignments value=$submission->getEditAssignments()}
+	{foreach from=$editAssignments item=editAssignment}
+		{if $isDirector}
+			{url|assign:"url" page="director" op="userProfile" path=$editAssignment->getDirectorId()}
+			<a href="{$url}" alt="{translate key="user.profile.publicProfile" user=$editAssignment->getDirectorFullName()|escape}" title="{translate key="user.profile.publicProfile" user=$editAssignment->getDirectorFullName()|escape}">{$editAssignment->getDirectorFullName()|escape}</a>
+		{else}
+			{$editAssignment->getDirectorFullName()|escape}
+		{/if}
+		<br/>
+	{foreachelse}
+		{if $isDirector}
+		<a href="{url page="director" op="assignDirector" path="trackDirector" paperId=$submission->getPaperId()}">
+			<button class="button">{translate key="director.paper.assignTrackDirector"}</button></a>
+		{else}
+			{translate key="common.noneAssigned"}
+		{/if}
+	{/foreach}
+	</li>
+	{if $layoutFile && $isDirector}
+	<li><header>{translate key="submission.layout.layoutFile"}</header>
+		<a href="{url op="downloadFile" path=$submission->getPaperId()|to_array:$layoutFile->getFileId()}" class="file" >
+			{icon name="page_text"} {$layoutFile->getFileName()|escape}
+		</a>
+	</li>
+	{/if}
+</ul>
 </div>
 
 	{if $reviewingAbstractOnly}

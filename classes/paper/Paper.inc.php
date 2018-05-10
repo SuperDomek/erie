@@ -24,6 +24,7 @@
 // Submission status constants
 define('STATUS_ARCHIVED', 0);
 define('STATUS_QUEUED', 1);
+define('STATUS_LAYOUT', 2);
 define('STATUS_PUBLISHED', 3);
 define('STATUS_DECLINED', 4);
 
