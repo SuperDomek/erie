@@ -159,6 +159,7 @@
 	<message key="submission.layout.galleyStyle">Style</message>
 	<message key="submission.layout.initialGalleyCreation">Initial Galley Creation</message>
 	<message key="submission.layout.layoutFile">Layout File</message>
+	<message key="submission.layout.layoutDescription">If you find a mistake in the layout file please reply to the information mail you received.</message>
 	<message key="submission.layout">Layout</message>
 	<message key="submission.layout.layoutVersion">Layout Version</message>
 	<message key="submission.layout.newGalley">Create New Galley</message>

@@ -435,10 +435,11 @@ class Mail extends DataObject {
 		} else {
 			$sent = String::mail($recipients, $subject, $mailBody, $headers, $additionalParameters);
 		}
-		// testing sequence
+		// MAIL TEST 
 		///////////////////
 		/*
-		 error_log("Sending e-mail to: " . $recipients . " a " . $ccs . " a " . $bccs);
+		 error_log("Sending e-mail from: " . $from);
+		 error_log("Sending e-mail to: " . $recipients . "; copy to: " . $ccs . "; hidden copy to: " . $bccs);
 		 error_log("The subject of the e-mail: " . $subject);
 		 error_log("The body of the e-mail: " . $mailBody);
 		*/

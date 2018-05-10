@@ -1539,7 +1539,7 @@ class TrackDirectorAction extends Action {
 	//
 
 	/**
-	 * Upload a layout File
+	 * Assign a layout File to the paper and notify author
 	 * @param $paper object
 	 * @param $layoutFileId int
 	 */

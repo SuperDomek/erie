@@ -224,6 +224,7 @@ class TrackSubmissionHandler extends AuthorHandler {
 		$templateMgr->assign_by_ref('submissionFile', $authorSubmission->getSubmissionFile());
 		$templateMgr->assign_by_ref('revisedFile', $authorSubmission->getRevisedFile());
 		$templateMgr->assign_by_ref('suppFiles', $authorSubmission->getSuppFiles());
+		$templateMgr->assign_by_ref('layoutFile', $authorSubmission->getLayoutFile());
 		$templateMgr->assign('lastDirectorDecision', $lastDecision);
 		$templateMgr->assign('lastDecisionComment', $lastDecisionComment);
 		$templateMgr->assign('changes', $changes);

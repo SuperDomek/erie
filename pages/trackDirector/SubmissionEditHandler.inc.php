@@ -291,6 +291,7 @@ class SubmissionEditHandler extends TrackDirectorHandler {
 		$templateMgr->assign_by_ref('reviewFile', $submission->getReviewFile());
 		$templateMgr->assign_by_ref('revisedFile', $submission->getRevisedFile());
 		$templateMgr->assign_by_ref('directorFile', $submission->getDirectorFile());
+		$templateMgr->assign_by_ref('layoutFile', $submission->getLayoutFile());
 		$templateMgr->assign('rateReviewerOnQuality', $schedConf->getSetting('rateReviewerOnQuality'));
 		$templateMgr->assign('showPeerReviewOptions', $showPeerReviewOptions);
 		$templateMgr->assign_by_ref('tracks', $tracks);
@@ -1483,6 +1484,7 @@ class SubmissionEditHandler extends TrackDirectorHandler {
 		} else if ($layoutFileType == 'layout'){
 			$fileId = $fileManager->uploadLayoutFile('layoutFile');
 			TrackDirectorAction::setLayoutFileId($paper, $fileId);
+			Request::redirect(null, null, null, 'submissionReview', array($paperId));
 		} else {
 			Request::redirect(null, null, null, 'submission', Request::getUserVar('paperId'));
 		}

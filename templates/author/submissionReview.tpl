@@ -46,4 +46,8 @@
 
 {include file="author/submission/directorDecision.tpl"}
 
+{if $layoutFile}
+	{include file="author/submission/layout.tpl"}
+{/if}
+
 {include file="common/footer.tpl"}

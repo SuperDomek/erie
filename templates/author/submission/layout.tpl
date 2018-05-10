@@ -10,9 +10,31 @@
  *}
 {assign var=layoutFile value=$submission->getLayoutFile()}
 <div id="layout">
-<h3>{translate key="submission.layout"}</h3>
+<h3>{translate key="submission.layout.layoutFile"}</h3>
 
-<table width="100%" class="info">
+<div class="tbl-container">
+	<table class="files">
+	<tbody>
+		<tr>
+			<td width="5%">
+				<a href="{url op="downloadFile" path=$submission->getPaperId()|to_array:$layoutFile->getFileId()}" class="file" >
+					{icon name="page_text"}
+				</a>
+			</td>
+			<td width="50%">
+				<a href="{url op="downloadFile" path=$submission->getPaperId()|to_array:$layoutFile->getFileId()}" class="file" >{$layoutFile->getFileName()|escape}</a>
+			</td>
+			{*<td><span style="color: #0b9e3f;">{translate key="submission.fileAccepted"}</span></td>*}
+			<td width="10%">{$layoutFile->getNiceFileSize()}</td>
+			<td width="20%">{$layoutFile->getFileType()|truncate:30}</td>
+			<td width="15%">{$layoutFile->getDateModified()|date_format:$dateFormatShort}</td>
+		</tr>
+	</tbody>
+	</table>
+	<p>{translate key="submission.layout.layoutDescription"}</p>
+</div>
+
+{*<table width="100%" class="info">
 	<tr>
 		<td width="40%" colspan="2">{translate key="submission.layout.galleyFormat"}</td>
 		<td width="40%" colspan="2" class="heading">{translate key="common.file"}</td>
@@ -51,5 +73,5 @@
 	<tr>
 		<td colspan="5" class="separator">&nbsp;</td>
 	</tr>
-</table>
+</table>*}
 </div>	
