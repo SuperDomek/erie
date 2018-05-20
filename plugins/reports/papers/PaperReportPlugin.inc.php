@@ -88,11 +88,11 @@ class PaperReportPlugin extends ReportPlugin {
 
 		$columns = array(
 			'paper_id' => __('paper.submissionId'),
+			'user_id' => __('paper.submitterId'),
 			'title' => __('paper.title'),
 			'abstract' => __('paper.abstract'),
-			'jel_codes' => __('paper.subjectClassification'),
 			'sponsor' => __('about.sponsors'),
-			'user_id' => __('paper.submitterId')
+			
 		);
 		
 		for ($a = 1; $a <= $maxAuthors; $a++) {
@@ -121,6 +121,8 @@ class PaperReportPlugin extends ReportPlugin {
 			//'building' => __('manager.scheduler.building'),
 			//'room' => __('manager.scheduler.room'),
 			'status' => __('common.status'),
+			'pages' => __('paper.pages'),
+			'editing' => __('paper.editing'),
 			//'paper_type' => __('paper.sessionType'),
 			'comments' => __('paper.commentsToDirector')
 		));
@@ -192,8 +194,16 @@ class PaperReportPlugin extends ReportPlugin {
 					$stripped = html_entity_decode(strip_tags($withoutCRLF), ENT_QUOTES, 'UTF-8');
 					$columns[$index] = $stripped;
 				} elseif ($index == 'title' || $index == 'affiliation'){
-					$columns[$index] = html_entity_decode(strip_tags($row[$index]), ENT_QUOTES, 'UTF-8');
-				} /* EDIT Not using building and room functionality
+					$withoutCRLF = str_replace(array("\r\n", "\n\r", "\n", "\r"), "\n", $row[$index]);
+					$columns[$index] = html_entity_decode(strip_tags($withoutCRLF), ENT_QUOTES, 'UTF-8');
+				} elseif ($index == 'editing'){
+					if($row[$index] == 1)
+						$columns[$index] = __('common.yes');
+					else{
+						$columns[$index] = __('common.no');
+					}
+				}
+				 /* EDIT Not using building and room functionality
 					elseif ($index == 'start_time' || $index == 'end_time') {
 					$columns[$index] = $row[$index];
 				} elseif ($index == 'building') {

@@ -821,7 +821,8 @@ class Submission extends DataObject {
 				STATUS_QUEUED_UNASSIGNED => 'submissions.queuedUnassigned',
 				STATUS_QUEUED_REVIEW => 'submissions.queuedReview',
 				STATUS_QUEUED_EDITING => 'submissions.queuedEditing',
-				STATUS_INCOMPLETE => 'submissions.incomplete'
+				STATUS_INCOMPLETE => 'submissions.incomplete',
+				STATUS_LAYOUT => 'submission.layout'
 			);
 		}
 		return $statusMap;

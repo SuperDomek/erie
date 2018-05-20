@@ -238,7 +238,7 @@ class PaperFile extends DataObject {
 
 	/**
 	 * Get checked.
-	 * @return boolean
+	 * @return int
 	 */
 
 	function getChecked() {

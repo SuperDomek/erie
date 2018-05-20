@@ -40,14 +40,14 @@ class PaperReportDAO extends DAO {
 				p.paper_id AS paper_id,
 				p.user_id AS user_id,
 				p.comments_to_dr as comments,
-				GROUP_CONCAT(jel.code ORDER BY jel.code ASC SEPARATOR ", ") as jel_codes,
 				COALESCE(psl1.setting_value, pspl1.setting_value) AS title,
 				COALESCE(psl2.setting_value, pspl2.setting_value) AS abstract,
 				COALESCE(psl3.setting_value, pspl3.setting_value) AS sponsor,
 				COALESCE(tl.setting_value, tpl.setting_value) AS track_title,
-				COALESCE(cvesl.setting_value, cvesp.setting_value) AS paper_type,
 				p.language AS language,
-				p.current_stage AS stage
+				p.current_stage AS stage,
+				p.pages AS pages,
+				p.editing AS editing
 			FROM	papers p
 				LEFT JOIN published_papers pp ON (p.paper_id = pp.paper_id)
 				LEFT JOIN paper_settings pspl1 ON (pspl1.paper_id=p.paper_id AND pspl1.setting_name = ? AND pspl1.locale = ?)
@@ -57,7 +57,6 @@ class PaperReportDAO extends DAO {
 				LEFT JOIN paper_settings pspl3 ON (pspl3.paper_id=p.paper_id AND pspl3.setting_name = ? AND pspl3.locale = ?)
 				LEFT JOIN paper_settings psl3 ON (psl3.paper_id=p.paper_id AND psl3.setting_name = ? AND psl3.locale = ?)
 				LEFT JOIN paper_settings pti ON (pti.paper_id=p.paper_id AND pti.setting_name = ?)
-				INNER JOIN paper_jel_codes jel ON (p.paper_id = jel.paper_id)
 				LEFT JOIN controlled_vocabs cv ON (cv.symbolic = ? AND cv.assoc_type = ? AND cv.assoc_id = ?)
 				LEFT JOIN controlled_vocab_entries cve ON (cve.controlled_vocab_id = cv.controlled_vocab_id AND pti.setting_value = cve.controlled_vocab_entry_id)
 				LEFT JOIN controlled_vocab_entry_settings cvesp ON (cve.controlled_vocab_entry_id = cvesp.controlled_vocab_entry_id AND cvesp.setting_name = ? AND cvesp.locale = ?)
