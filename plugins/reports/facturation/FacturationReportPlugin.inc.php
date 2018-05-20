@@ -114,8 +114,10 @@ class FacturationReportPlugin extends ReportPlugin {
 			}
 			foreach ($columns as $index => $junk) {
 				if (isset($row[$index])) {
-					if ($index == 'affiliation')
-						$columns[$index] = html_entity_decode(strip_tags($row[$index]), ENT_QUOTES, 'UTF-8');
+					if ($index == 'affiliation' || $index == 'billing_address'){
+						$withoutCRLF = str_replace(array("\r\n", "\n\r", "\n", "\r"), "\n", $row[$index]);
+						$columns[$index] = html_entity_decode(strip_tags($withoutCRLF), ENT_QUOTES, 'UTF-8');
+					}
 					else if ($index == 'regdate' || $index == 'paiddate')
 						$columns[$index] = $facturationReportDao->dateFromDB($row[$index]);
 					else
