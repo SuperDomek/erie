@@ -115,7 +115,7 @@ class FacturationReportPlugin extends ReportPlugin {
 			foreach ($columns as $index => $junk) {
 				if (isset($row[$index])) {
 					if ($index == 'affiliation'){
-						$withoutCRLF = str_replace(array("\r\n", "\n\r", "\n", "\r"), "\n", $row[$index]);
+						$withoutCRLF = str_replace(array("\r\n", "\n\r", "\n", "\r"), ", ", $row[$index]);
 						$columns[$index] = html_entity_decode(strip_tags($withoutCRLF), ENT_QUOTES, 'UTF-8');
 					}
 					elseif ($index == 'billing_address') {
