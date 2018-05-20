@@ -194,7 +194,7 @@ class PaperReportPlugin extends ReportPlugin {
 					$stripped = html_entity_decode(strip_tags($withoutCRLF), ENT_QUOTES, 'UTF-8');
 					$columns[$index] = $stripped;
 				} elseif ($index == 'title' || $index == 'affiliation'){
-					$withoutCRLF = str_replace(array("\r\n", "\n\r", "\n", "\r"), "\n", $row[$index]);
+					$withoutCRLF = str_replace(array("\r\n", "\n\r", "\n", "\r"), ", ", $row[$index]);
 					$columns[$index] = html_entity_decode(strip_tags($withoutCRLF), ENT_QUOTES, 'UTF-8');
 				} elseif ($index == 'editing'){
 					if($row[$index] == 1)
