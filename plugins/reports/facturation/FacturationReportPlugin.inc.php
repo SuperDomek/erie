@@ -133,6 +133,17 @@ class FacturationReportPlugin extends ReportPlugin {
 							$columns[$index] = __('submissions.layout');
 						else if ($row[$index] == 3)
 							$columns[$index] = __('submissions.published');
+						else if ($row[$index] == 'None')
+							$columns[$index] = "None";
+					}
+					elseif ($index == 'editing'){
+						if($row[$index] == 1)
+							$columns[$index] = __('common.yes');
+						else if($row[$index] == 'None')
+							$columns[$index] = "None";
+						else{
+							$columns[$index] = __('common.no');
+						}
 					}
 					else
 						$columns[$index] = $row[$index];
