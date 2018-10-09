@@ -18,7 +18,8 @@ function showCommentBox(sel) {
 	var commentBox = document.getElementById("decision_comment");
 	if(selected.value == "{/literal}{$smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_REVISIONS}{literal}" ||
 	selected.value == "{/literal}{$smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MINOR_REVISIONS}{literal}" ||
-	selected.value == "{/literal}{$smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MAJOR_REVISIONS}{literal}"){
+	selected.value == "{/literal}{$smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MAJOR_REVISIONS}{literal}" ||
+	selected.value == "{/literal}{$smarty.const.SUBMISSION_DIRECTOR_DECISION_DECLINE}{literal}"){
     commentBox.style.display = "table-row";
 		document.getElementById("decision_submit").disabled = "disabled"; // turn off the submit button
 		// turn on submit after at least 10 chars submitted to the comment box
@@ -125,7 +126,8 @@ function confirmDecision(sel){
 
   {if $lastDecision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MINOR_REVISIONS ||
       $lastDecision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MAJOR_REVISIONS ||
-			$lastDecision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_REVISIONS}
+		$lastDecision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_REVISIONS ||
+		$lastDecision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_DECLINE}
 	<p><h5>{translate key="submission.directorDecisionComment"}</h5>
 	<span>{$decisionComment|escape}</span>
 	</p>

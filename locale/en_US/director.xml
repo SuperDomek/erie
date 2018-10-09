@@ -66,7 +66,7 @@
 	<message key="director.paper.uploadReviewForReviewer">Upload review</message>
 	<message key="director.paper.peerReviewOptions">Peer Review Options</message>
 	<message key="director.paper.decision">Decision</message>
-	<message key="director.paper.decisionComment">Please explain what should the author change. (at least 10 characters.)</message>
+	<message key="director.paper.decisionComment">Please explain to the author the reasons for this decision alternatively what should be changed. (at least 10 characters.)</message>
 	<message key="director.paper.recordDecision">Record Decision</message>
 	<message key="director.paper.changeDecision">Change Decision</message>
 	<message key="director.paper.cannotRecord">Cannot record a decision. All reviews must be completed first.</message>

@@ -68,7 +68,7 @@
 	<message key="director.paper.uploadReviewForReviewer">Nahrát posudek</message>
 	<message key="director.paper.peerReviewOptions">Možnosti oponentury</message>
 	<message key="director.paper.decision">Rozhodnutí</message>
-	<message key="director.paper.decisionComment">Prosíme popište autorovi, co by měl změnit. (alespoň 10 znaků)</message>
+	<message key="director.paper.decisionComment">Prosíme vysvětlete autorovi důvody pro své rozhodnutí, případně co by měl změnit. (alespoň 10 znaků)</message>
 	<message key="director.paper.recordDecision">Uložit rozhodnutí</message>
 	<message key="director.paper.changeDecision">Změnit rozhodnutí</message>
 	<message key="director.paper.cannotRecord">Není možné uložit rozhodnutí. Nejdříve musí být dokončeny všechny zadané recenze.</message>

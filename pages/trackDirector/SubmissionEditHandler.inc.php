@@ -440,10 +440,11 @@ class SubmissionEditHandler extends TrackDirectorHandler {
 		$schedConf =& Request::getSchedConf();
 		$submission =& $this->submission;
 
-		// Use comment field only when Revision decision
+		// Use comment field only when Revision decision or decline
 		if($decision == SUBMISSION_DIRECTOR_DECISION_PENDING_REVISIONS ||
 		$decision == SUBMISSION_DIRECTOR_DECISION_PENDING_MINOR_REVISIONS ||
-		$decision == SUBMISSION_DIRECTOR_DECISION_PENDING_MAJOR_REVISIONS)
+		$decision == SUBMISSION_DIRECTOR_DECISION_PENDING_MAJOR_REVISIONS ||
+		$decision == SUBMISSION_DIRECTOR_DECISION_DECLINE)
 			$comment = Request::getUserVar('comment_text');
 		else
 			$comment = null;
