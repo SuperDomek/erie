@@ -97,7 +97,11 @@ class FacturationReportPlugin extends ReportPlugin {
 		$columns = array_merge($columns, array(
 			'regdate' => __('manager.registration.dateRegistered'),
 			'paiddate' => __('manager.registration.datePaid'),
-			'source' => __('plugins.reports.facturation.source')
+			'source' => __('plugins.reports.facturation.source'),
+			'paperid' => __('paper.submissionId'),
+			'pages' => __('paper.pages'),
+			'editing' => __('paper.editing'),
+			'status' => __('common.status')
 			));
 
 		//EDIT Add BOM
@@ -124,6 +128,23 @@ class FacturationReportPlugin extends ReportPlugin {
 					}
 					else if ($index == 'regdate' || $index == 'paiddate')
 						$columns[$index] = $facturationReportDao->dateFromDB($row[$index]);
+					else if ($index == 'status'){
+						if ($row[$index] == 2)
+							$columns[$index] = __('submissions.layout');
+						else if ($row[$index] == 3)
+							$columns[$index] = __('submissions.published');
+						else if ($row[$index] == 'None')
+							$columns[$index] = "None";
+					}
+					elseif ($index == 'editing'){
+						if($row[$index] == 1)
+							$columns[$index] = __('common.yes');
+						else if($row[$index] == 'None')
+							$columns[$index] = "None";
+						else{
+							$columns[$index] = __('common.no');
+						}
+					}
 					else
 						$columns[$index] = $row[$index];
 				} else if (isset($options[$index])) {

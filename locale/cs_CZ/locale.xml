@@ -248,6 +248,7 @@
 	<message key="submissions.track">Sekce</message>
 	<message key="submissions.queuedAbstractReview">Abstrakt oponování</message>
 	<message key="submissions.queuedPaperReview">Příspěvek oponován</message>
+	<message key="submissions.layout">Sazba</message>
 	<message key="submissions.published">Dokončeno</message>
 	<message key="submissions.accepted">Přijato</message>
 	<message key="submissions.reviewStage">Fáze</message>
