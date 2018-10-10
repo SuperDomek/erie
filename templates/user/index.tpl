@@ -132,11 +132,25 @@ function showMenu(){
 				<tr>
 					<td>&#187; <a href="{url conference=$conferencePath schedConf=$schedConfPath  page="trackDirector"}">{translate key="user.role.trackDirector"}</a></td>
 					<td></td>
-					<td colspan="4">
+					<td>
 						{if $trackDirectorSubmissionsCount[0]}
 							<a href="{url conference=$conferencePath schedConf=$schedConfPath  page="trackDirector" op="index" path="submissionsInReview"}">{$trackDirectorSubmissionsCount[0]} {translate key="common.queue.short.submissionsInReview"}</a>
 						{else}
 							<span class="disabled">0 {translate key="common.queue.short.submissionsInReview"}</span>
+						{/if}
+					</td>
+					<td>
+						{if $trackDirectorSubmissionsCount[1]}
+							<a href="{url conference=$conferencePath schedConf=$schedConfPath  page="trackDirector" op="index" path="submissionsAccepted"}">{$trackDirectorSubmissionsCount[1]} {translate key="common.queue.short.submissionsAccepted"}</a>
+						{else}
+							<span class="disabled">0 {translate key="common.queue.short.submissionsAccepted"}</span>
+						{/if}
+					</td>
+					<td colspan="2">
+						{if $trackDirectorSubmissionsCount[2]}
+							<a href="{url conference=$conferencePath schedConf=$schedConfPath  page="trackDirector" op="index" path="submissionsArchives"}">{$trackDirectorSubmissionsCount[2]} {translate key="common.queue.short.submissionsArchives"}</a>
+						{else}
+							<span class="disabled">0 {translate key="common.queue.short.submissionsArchives"}</span>
 						{/if}
 					</td>
 				</tr>

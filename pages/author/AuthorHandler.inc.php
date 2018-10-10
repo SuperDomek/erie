@@ -41,12 +41,15 @@ class AuthorHandler extends Handler {
 		$this->validate();
 		$this->setupTemplate();
 		
-		$conference =& Request::getConference();
 		$schedConf =& Request::getSchedConf();
+
+		$conferenceId = $schedConf->getConferenceId();
+		$schedConfId = $schedConf->getId();
 
 		$user =& Request::getUser();
 		$rangeInfo =& Handler::getRangeInfo('submissions');
 		$authorSubmissionDao =& DAORegistry::getDAO('AuthorSubmissionDAO');
+		$authorSubmissionsCount = $authorSubmissionDao->getSubmissionsCount($user->getId(), $schedConfId);
 
 		$page = isset($args[0]) ? $args[0] : '';
 		switch($page) {
@@ -64,7 +67,7 @@ class AuthorHandler extends Handler {
 
 		if ($sort == 'status') {
 			// FIXME Does not pass $rangeInfo else we only get partial results
-			$submissions = $authorSubmissionDao->getAuthorSubmissions($user->getId(), $schedConf->getId(), $active, null, $sort, $sortDirection);
+			$submissions = $authorSubmissionDao->getAuthorSubmissions($user->getId(), $schedConfId, $active, null, $sort, $sortDirection);
 
 			// Sort all submissions by status, which is too complex to do in the DB
 			$submissionsArray = $submissions->toArray();
@@ -78,17 +81,19 @@ class AuthorHandler extends Handler {
 			import('core.ArrayItemIterator');
 			$submissions =& ArrayItemIterator::fromRangeInfo($submissionsArray, $rangeInfo);
 		} else {
-			$submissions = $authorSubmissionDao->getAuthorSubmissions($user->getId(), $schedConf->getId(), $active, $rangeInfo, $sort, $sortDirection);
+			$submissions = $authorSubmissionDao->getAuthorSubmissions($user->getId(), $schedConfId, $active, $rangeInfo, $sort, $sortDirection);
 		}
 
 		$templateMgr =& TemplateManager::getManager();
 		$templateMgr->assign('pageToDisplay', $page);
 		$templateMgr->assign_by_ref('submissions', $submissions);
 
+		$templateMgr->assign('authorSubmissionsCount', $authorSubmissionsCount);
+
 		$submissionsOpenDate = $schedConf->getSetting('submissionsOpenDate');
 		$submissionsCloseDate = $schedConf->getSetting('submissionsCloseDate');
 
-		if (Validation::isDirector($schedConf->getConferenceId(), $schedConf->getId())) {
+		if (Validation::isDirector($conferenceId, $schedConfId)) {
 			// Directors or track directors may always submit
 			$acceptingSubmissions = true;
 		} elseif (!$submissionsOpenDate || !$submissionsCloseDate || time() < $submissionsOpenDate) {

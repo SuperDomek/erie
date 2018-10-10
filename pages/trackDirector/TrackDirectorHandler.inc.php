@@ -60,6 +60,7 @@ class TrackDirectorHandler extends Handler {
 
 		$page = isset($args[0]) ? $args[0] : '';
 		$tracks =& $trackDao->getTrackTitles($schedConfId);
+		$trackDirectorSubmissionsCount = $trackDirectorSubmissionDao->getTrackDirectorSubmissionsCount($user->getId(), $schedConfId);
 
 		$sort = Request::getUserVar('sort');
 		$sort = isset($sort) ? $sort : 'id';
@@ -139,6 +140,7 @@ class TrackDirectorHandler extends Handler {
 		$templateMgr->assign('trackOptions', $filterTrackOptions);
 		$templateMgr->assign('filterTrack', $filterTrack);
 		$templateMgr->assign_by_ref('submissions', $submissions);
+		$templateMgr->assign('trackDirectorSubmissionsCount', $trackDirectorSubmissionsCount);
 		$templateMgr->assign('track', Request::getUserVar('track'));
 		$templateMgr->assign('pageToDisplay', $page);
 		$templateMgr->assign('trackDirector', $user->getFullName());

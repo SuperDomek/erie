@@ -81,6 +81,7 @@ class DirectorHandler extends TrackDirectorHandler {
 		$page = isset($args[0]) ? $args[0] : '';
 		$export = isset($args[1]) ? $args[1] : '';
 		$tracks =& $trackDao->getTrackTitles($schedConfId);
+		$directorSubmissionsCount = $directorSubmissionDao->getDirectorSubmissionsCount($schedConfId);
 
 		$filterDirectorOptions = array(
 			FILTER_DIRECTOR_ALL => AppLocale::Translate('director.allDirectors'),
@@ -320,6 +321,7 @@ class DirectorHandler extends TrackDirectorHandler {
 			$templateMgr->assign('pageToDisplay', $page);
 			$templateMgr->assign('director', $user->getFullName());
 			$templateMgr->assign('directorOptions', $filterDirectorOptions);
+			$templateMgr->assign('directorSubmissionsCount', $directorSubmissionsCount);
 			$templateMgr->assign('trackOptions', $filterTrackOptions);
 			$templateMgr->assign_by_ref('submissions', $submissions);
 			$templateMgr->assign_by_ref('reviewFiles', $reviewFiles); //workaround

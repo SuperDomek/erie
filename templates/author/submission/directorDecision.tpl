@@ -62,12 +62,13 @@ $('#file_changes').live('input',function() {
 	</tr>
 	{if $lastDirectorDecision.decision == SUBMISSION_DIRECTOR_DECISION_PENDING_REVISIONS ||
 		$lastDirectorDecision.decision == SUBMISSION_DIRECTOR_DECISION_PENDING_MINOR_REVISIONS ||
-		$lastDirectorDecision.decision == SUBMISSION_DIRECTOR_DECISION_PENDING_MAJOR_REVISIONS}
+		$lastDirectorDecision.decision == SUBMISSION_DIRECTOR_DECISION_PENDING_MAJOR_REVISIONS ||
+		$lastDirectorDecision.decision == SUBMISSION_DIRECTOR_DECISION_DECLINE}
 		{*if $lastDecisionComment*}
 			<tr valign="top">
 				<td class="label" width="20%">{translate key="submission.directorDecisionComment"}</td>
 				<td class="value" width="80%">
-					<p>{$lastDecisionComment|escape}</p>
+					<span>{$lastDecisionComment|escape}</span>
 				</td>
 			</tr>
 		{*/if*}

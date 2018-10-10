@@ -537,6 +537,25 @@ class TrackDirectorSubmissionDAO extends DAO {
 		);
 		$submissionsCount[1] = $result->Fields('editing_count');
 		$result->Close();
+
+		// Fetch a count of submissions in archive.
+		// "d2" and "d" are used to fetch only a single assignment
+		// if several exist.
+		$result =& $this->retrieve(
+			'SELECT	COUNT(*) AS archive_count
+			FROM	papers p
+				LEFT JOIN edit_assignments d ON (p.paper_id = d.paper_id)
+				LEFT JOIN edit_assignments d2 ON (p.paper_id = d2.paper_id AND d.edit_id < d2.edit_id)
+			WHERE	p.sched_conf_id = ?
+				AND d.director_id = ?
+				AND (p.status = ' . STATUS_ARCHIVED . '
+				OR (p.status NOT BETWEEN ' . STATUS_QUEUED . ' AND ' . STATUS_PUBLISHED . '))
+				AND d2.edit_id IS NULL
+				AND (p.submission_progress = 0 OR (p.review_mode = ' . REVIEW_MODE_BOTH_SEQUENTIAL . ' AND p.submission_progress <> 1))',
+			array((int) $schedConfId, (int) $trackDirectorId)
+		);
+		$submissionsCount[2] = $result->Fields('archive_count');
+		$result->Close();
 		return $submissionsCount;
 	}
 
