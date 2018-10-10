@@ -42,6 +42,7 @@ class ReviewerHandler extends Handler {
 		$user =& Request::getUser();
 		$reviewerSubmissionDao =& DAORegistry::getDAO('ReviewerSubmissionDAO');
 		$rangeInfo = Handler::getRangeInfo('submissions');
+		$reviewerSubmissionsCount = $reviewerSubmissionDao->getSubmissionsCount($user->getId(), $schedConf->getId());
 
 		$page = isset($args[0]) ? $args[0] : '';
 		switch($page) {
@@ -61,6 +62,7 @@ class ReviewerHandler extends Handler {
 		$templateMgr->assign('pageToDisplay', $page);
 		$templateMgr->assign_by_ref('submissions', $submissions);
 		$templateMgr->assign_by_ref('schedConf', $schedConf);
+		$templateMgr->assign('reviewerSubmissionsCount', $reviewerSubmissionsCount);
 
 		import('submission.reviewAssignment.ReviewAssignment');
 		$templateMgr->assign_by_ref('reviewerRecommendationOptions', ReviewAssignment::getReviewerRecommendationOptions());

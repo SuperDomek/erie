@@ -192,10 +192,15 @@ function showMenu(){
 				{assign var="reviewerSubmissionsCount" value=$submissionsCount.Reviewer.$conferenceId.$schedConfId}
 				<tr>
 					<td colspan="3">&#187; <a href="{url conference=$conferencePath schedConf=$schedConfPath  page="reviewer"}">{translate key="user.role.reviewer"}</a></td>
-					<td colspan="3">
+					<td>
             {if $reviewerSubmissionsCount[0]}
-							<a href="{url conference=$conferencePath schedConf=$schedConfPath  page="reviewer"}">{$reviewerSubmissionsCount[0]} {translate key="common.queue.short.active"}</a>
+							<a href="{url conference=$conferencePath schedConf=$schedConfPath  page="reviewer" op="index" path="active"}">{$reviewerSubmissionsCount[0]} {translate key="common.queue.short.active"}</a>
 						{else}<span class="disabled">0 {translate key="common.queue.short.active"}</span>{/if}
+					</td>
+					<td colspan="2">
+            {if $reviewerSubmissionsCount[1]}
+							<a href="{url conference=$conferencePath schedConf=$schedConfPath  page="reviewer" op="index" path="completed"}">{$reviewerSubmissionsCount[1]} {translate key="common.queue.short.completed"}</a>
+						{else}<span class="disabled">0 {translate key="common.queue.short.completed"}</span>{/if}
 					</td>
 				</tr>
 			{/if}
