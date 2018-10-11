@@ -14,20 +14,31 @@
 
 <div class="tbl-container">
 	<table class="files">
+	<thead>
+		<tr>
+			<td>{translate key="common.fileName"}</td>
+			<td>{translate key="common.fileSize"}</td>
+			<td>{translate key="common.fileType"}</td>
+			<td>{translate key="common.dateUploaded"}</td>
+			<td></td>
+		</tr>
+	</thead>
 	<tbody>
 		<tr>
-			<td width="5%">
+			<td width="40%">
 				<a href="{url op="downloadFile" path=$submission->getPaperId()|to_array:$layoutFile->getFileId()}" class="file" >
 					{icon name="page_text"}
 				</a>
-			</td>
-			<td width="50%">
 				<a href="{url op="downloadFile" path=$submission->getPaperId()|to_array:$layoutFile->getFileId()}" class="file" >{$layoutFile->getFileName()|escape}</a>
 			</td>
 			{*<td><span style="color: #0b9e3f;">{translate key="submission.fileAccepted"}</span></td>*}
 			<td width="10%">{$layoutFile->getNiceFileSize()}</td>
 			<td width="20%">{$layoutFile->getFileType()|truncate:30}</td>
-			<td width="15%">{$layoutFile->getDateModified()|date_format:$dateFormatShort}</td>
+			<td width="10%">{$layoutFile->getDateModified()|date_format:$dateFormatShort}</td>
+			<td width="20%">
+				<a href="#"><button class="button positive">{translate key="common.accept"}</button></a>
+				<a href="#"><button class="button negative">{translate key="common.comment"}</button></a>
+			</td>
 		</tr>
 	</tbody>
 	</table>

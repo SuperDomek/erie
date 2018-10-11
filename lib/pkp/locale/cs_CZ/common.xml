@@ -34,6 +34,7 @@
 	<message key="announcement.viewLink">Více...</message>
 	<message key="announcement.view">Zobrazit oznámení</message>
 	<message key="common.refresh">Obnovit</message>
+	<message key="common.accept">Schválit</message>
 	<message key="common.action">Akce</message>
 	<message key="common.active">Aktivní</message>
 	<message key="common.add">Přidat</message>
@@ -73,6 +74,7 @@
 	<message key="common.chooseOne">Vyberte rozhodnutí</message>
 	<message key="common.close">Zavřít</message>
 	<message key="common.closeWindow">Zavřít okno</message>
+	<message key="common.comment">Komentovat</message>
 	<message key="common.complete">Dokončit</message>
 	<message key="common.completed">Dokončený</message>
 	<message key="common.continue">Pokračovat</message>

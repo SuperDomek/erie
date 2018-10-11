@@ -205,8 +205,20 @@ ul header {
 	overflow-wrap: break-word;
 }
 
+table.files thead{
+	background-color: #cfcfcf;
+	font-weight: bold;
+}
+
+table.files thead td{
+	padding: 10px;
+}
+
 table.files td{
 	padding: 10px;
+}
+table.files {
+	width: 100%;
 }
 
 .tbl-container {

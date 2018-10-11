@@ -31,6 +31,7 @@
 	<message key="announcement.posted">Posted</message>
 	<message key="announcement.viewLink">More...</message>
 	<message key="announcement.view">View Announcement</message>
+	<message key="common.accept">Accept</message>
 	<message key="common.refresh">Refresh</message>
 	<message key="common.action">Action</message>
 	<message key="common.active">Active</message>
@@ -75,6 +76,7 @@
 	<message key="common.chooseOne">Choose One</message>
 	<message key="common.close">Close</message>
 	<message key="common.closeWindow">Close Window</message>
+	<message key="common.comment">Comment</message>
 	<message key="common.complete">Complete</message>
 	<message key="common.completed">Completed</message>
 	<message key="common.continue">Continue</message>

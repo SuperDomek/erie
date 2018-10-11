@@ -26,20 +26,25 @@
 {if $layoutFile}
 <div class="tbl-container">
 	<table class="files">
+	<thead>
+		<tr>
+			<td>{translate key="common.fileName"}</td>
+			<td>{translate key="common.status"}</td>
+			<td>{translate key="common.fileSize"}</td>
+			<td>{translate key="common.fileType"}</td>
+			<td>{translate key="common.dateUploaded"}</td>
+		</tr>
+	</thead>
 	<tbody>
 		<tr>
-			<td width="5%">
-				<a href="{url op="downloadFile" path=$submission->getPaperId()|to_array:$layoutFile->getFileId()}" class="file" >
-					{icon name="page_text"}
-				</a>
-			</td>
 			<td width="50%">
+				<a href="{url op="downloadFile" path=$submission->getPaperId()|to_array:$layoutFile->getFileId()}" class="file" >{icon name="page_text"}</a>
 				<a href="{url op="downloadFile" path=$submission->getPaperId()|to_array:$layoutFile->getFileId()}" class="file" >{$layoutFile->getFileName()|escape}</a>
 			</td>
-			{*<td><span style="color: #0b9e3f;">{translate key="submission.fileAccepted"}</span></td>*}
+			<td width="10%"><span style="color: #0b9e3f;">{translate key="submission.fileAccepted"}</span></td>
 			<td width="10%">{$layoutFile->getNiceFileSize()}</td>
 			<td width="20%">{$layoutFile->getFileType()|truncate:30}</td>
-			<td width="15%">{$layoutFile->getDateModified()|date_format:$dateFormatShort}</td>
+			<td width="10%">{$layoutFile->getDateModified()|date_format:$dateFormatShort}</td>
 		</tr>
 	</tbody>
 	</table>
