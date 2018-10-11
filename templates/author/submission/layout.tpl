@@ -8,6 +8,27 @@
  *
  * $Id$
  *}
+
+{literal}
+<script type="text/javascript">
+<!--
+// shows/hides comment box
+function showCommentBox(sel) {
+	var commentBlock = document.getElementById("layoutComment");
+	var accButton = document.getElementById("layoutAccept");
+	if(commentBlock.style.display == "none"){
+		commentBlock.style.display = "table-row";
+		accButton.disabled = "disabled";
+	}
+	else {
+		commentBlock.style.display = "none";
+		accButton.disabled = "";
+	}
+}
+// -->
+</script>
+{/literal}
+
 {assign var=layoutFile value=$submission->getLayoutFile()}
 <div id="layout">
 <h3>{translate key="submission.layout.layoutFile"}</h3>
@@ -36,9 +57,20 @@
 			<td width="20%">{$layoutFile->getFileType()|truncate:30}</td>
 			<td width="10%">{$layoutFile->getDateModified()|date_format:$dateFormatShort}</td>
 			<td width="20%">
-				<a href="#"><button class="button positive">{translate key="common.accept"}</button></a>
-				<a href="#"><button class="button negative">{translate key="common.comment"}</button></a>
+				<a href="#"><button class="button positive" id="layoutAccept">{translate key="common.accept"}</button></a>
+				<button class="button negative" onclick="showCommentBox(this);">{translate key="common.comment"}</button>
 			</td>
+		</tr>
+		<!-- If comment entered then don't show buttons and show the comment text below -->
+		<tr id="layoutComment" style="display:none;">
+		<form method="post" id="formLayout" action="{url op="layoutRespond"}">
+			<td colspan="4">
+				<input type="hidden" name="paperId" value="{$submission->getPaperId()}"/>
+				<input type="hidden" name="fileId" value="{$layoutFile->getFileId()}"/>
+				<textarea id="layoutCommentText" name="layoutCommentText" class="textArea" rows="5"></textarea>
+			</td>
+			<td><button type="submit" form="formLayout" name="submit" value="1" class="button positive">{translate key="form.submit"}</button></td>
+		</form>
 		</tr>
 	</tbody>
 	</table>

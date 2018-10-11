@@ -35,7 +35,9 @@ a:hover {
 input.textField, select.selectMenu, textarea.textArea, input.uploadField {
 	background-color: #eeeeee;
 }
-
+textarea.textArea {
+	width: 100%;
+}
 input.defaultButton {
 	background-color: #000000;
 	color: #ffffff;
