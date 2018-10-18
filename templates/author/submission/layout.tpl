@@ -45,6 +45,7 @@ function showCommentBox(sel) {
 		</tr>
 	</thead>
 	<tbody>
+	<form method="post" id="formLayout" action="{url op="saveLayoutResp" path=$submission->getPaperId()|to_array}">
 		<tr>
 			<td width="40%">
 				<a href="{url op="downloadFile" path=$submission->getPaperId()|to_array:$layoutFile->getFileId()}" class="file" >
@@ -57,21 +58,21 @@ function showCommentBox(sel) {
 			<td width="20%">{$layoutFile->getFileType()|truncate:30}</td>
 			<td width="10%">{$layoutFile->getDateModified()|date_format:$dateFormatShort}</td>
 			<td width="20%">
-				<a href="#"><button class="button positive" id="layoutAccept">{translate key="common.accept"}</button></a>
-				<button class="button negative" onclick="showCommentBox(this);">{translate key="common.comment"}</button>
+				<button type="submit" form="formLayout" name="layoutAccept" class="button positive" id="layoutAccept" value="1">{translate key="common.accept"}</button>
+				<button type="button" class="button negative" onclick="showCommentBox(this);">{translate key="common.comment"}</button>
 			</td>
 		</tr>
 		<!-- If comment entered then don't show buttons and show the comment text below -->
 		<tr id="layoutComment" style="display:none;">
-		<form method="post" id="formLayout" action="{url op="layoutRespond"}">
 			<td colspan="4">
 				<input type="hidden" name="paperId" value="{$submission->getPaperId()}"/>
 				<input type="hidden" name="fileId" value="{$layoutFile->getFileId()}"/>
-				<textarea id="layoutCommentText" name="layoutCommentText" class="textArea" rows="5"></textarea>
+				<textarea id="layoutCommentText" name="layoutCommentText" class="textArea" rows="5">{$layoutComment}</textarea>
 			</td>
+			<!-- Add javascript check for empty comment -->
 			<td><button type="submit" form="formLayout" name="submit" value="1" class="button positive">{translate key="form.submit"}</button></td>
-		</form>
 		</tr>
+	</form>
 	</tbody>
 	</table>
 	<p>{translate key="submission.layout.layoutDescription"}</p>

@@ -803,6 +803,7 @@ Your server currently supports mbstring: <strong>{$supportsMBString}</strong>]]>
 	<message key="log.default.paperPeriodExpired">The paper submission window for incomplete paper {$paperId} has expired. Paper moved to graveyard.</message>
 	<message key="log.author.abstractSubmitted">{$authorName} has entered a submission abstract, ID {$submissionId}.</message>
 	<message key="log.author.presentationSubmitted">{$authorName} has uploaded a presentation, ID {$submissionId}.</message>
+	<message key="log.author.layoutFileResponse">{$authorName} has responded to a layout file of paper {$paperId}</message>
 	<message key="log.author.documentRevised">{$authorName} has revised paper {$paperId}. The new file ID is {$fileId}.</message>
 	<message key="log.review.reviewerAssigned">{$reviewerName} has been assigned to review submission {$paperId} for review stage {$stage}.</message>
 	<message key="log.review.reviewerUnassigned">{$reviewerName} has been unassigned from reviewing submission {$paperId} for review stage {$stage}.</message>

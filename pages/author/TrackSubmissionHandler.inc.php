@@ -263,6 +263,49 @@ class TrackSubmissionHandler extends AuthorHandler {
 	}
 
 	/**
+	 * Save author layout comment or acceptance.
+	 * @param $args array ($paperId)
+	 */
+	function saveLayoutResp($args) {
+		$paperId = isset($args[0]) ? (int) $args[0] : 0;
+		$this->validate($paperId, false);
+		$paperCommentDao =& DAORegistry::getDAO('PaperCommentDAO');
+		$authorSubmission =& $this->submission;
+		$comment = Request::getUserVar('layoutCommentText');
+		$accept = Request::getUserVar('layoutAccept');
+		$fileId = Request::getUserVar('fileId');
+		if ($accept) {
+			echo "Accept layout file";
+			// Accept last layout file
+			// E-mail co-editor
+			// log
+		}
+		if (Request::getUserVar('submit') && !empty($comment)){
+			echo "Comment to the layout.";
+			$paperComment = new PaperComment();
+			$paperComment->setCommentType(COMMENT_TYPE_AUTHOR_REVISION_CHANGES);
+			$paperComment->setRoleId(ROLE_ID_AUTHOR);
+			$paperComment->setPaperId($paperId);
+			$paperComment->setAuthorId($authorSubmission->getUserId());
+			$paperComment->setCommentTitle("Layout comment");
+			$paperComment->setComments($comment);
+			$paperComment->setDatePosted(Core::getCurrentDate());
+			$paperComment->setViewable(true);
+			$paperComment->setAssocId($fileId);
+			$paperCommentDao->insertPaperComment($paperComment);
+
+			//E-mail co-editor
+
+			$user =& Request::getUser();
+			import('paper.log.PaperLog');
+			import('paper.log.PaperEventLogEntry');
+			PaperLog::logEvent($authorSubmission->getPaperId(), PAPER_LOG_AUTHOR_LAYOUT_RESPONSE, LOG_TYPE_AUTHOR, $user->getId(), 'log.author.layoutFileResponse', array('authorName' => $user->getFullName(), 'paperId' => $paperId));
+			//Request::redirect(null, null, null, 'submissionReview', $paperId);
+		}
+		Request::redirect(null, null, null, 'submissionReview', $paperId);
+	}
+
+	/**
 	 * Add a supplementary file.
 	 * @param $args array ($paperId)
 	 */

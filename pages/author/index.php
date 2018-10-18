@@ -46,6 +46,7 @@ switch ($op) {
 	case 'uploadRevisedVersion':
 	case 'viewMetadata':
 	case 'saveMetadata':
+	case 'saveLayoutResp':
 	//
 	// Misc.
 	//
