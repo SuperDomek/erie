@@ -316,6 +316,80 @@ class AuthorAction extends Action {
 		}
 	}
 
+	/**
+	 * Email co-editors the layout comment or acceptance.
+	 * @param $authorSubmission object
+	 * @param $comment string
+	 * @param $acc boolean
+	 */
+	function emailLayoutResp($authorSubmission, $acc, $comment = null) {
+		$userDao =& DAORegistry::getDAO('UserDAO');
+		$conference =& Request::getConference();
+		$schedConf =& Request::getSchedConf();
+
+		$user =& Request::getUser();
+		import('mail.PaperMailTemplate');
+
+		$directors = array();
+		$editAssignments = $authorSubmission->getEditAssignments();
+		foreach ($editAssignments as $editAssignment) {
+			array_push($directors, $userDao->getUser($editAssignment->getDirectorId()));
+		}
+		$paperUrl = Request::url(null, null, 'trackDirector', 'submissionReview', $authorSubmission->getId());
+
+		if($acc){
+			$email = new PaperMailTemplate($authorSubmission, 'AUTHOR_LAYOUT_ACC');
+			$paramArray = array( 
+				'paperTitle' => $authorSubmission->getLocalizedTitle(),
+				'paperId' => $authorSubmission->getId(),
+				'paperUrl' => $paperUrl,
+				'editorialContactSignature' => $schedConf->getSetting('contactName') . "\n" . $conference->getConferenceTitle(),
+			);
+		}
+		else if($acc == false && !empty($comment)){
+			$email = new PaperMailTemplate($authorSubmission, 'AUTHOR_LAYOUT_REJECT');
+			$paramArray = array( 
+				'paperTitle' => $authorSubmission->getLocalizedTitle(),
+				'paperId' => $authorSubmission->getId(),
+				'paperUrl' => $paperUrl,
+				'editorialContactSignature' => $schedConf->getSetting('contactName') . "\n" . $conference->getConferenceTitle(),
+				'comment' => $comment,
+			);
+		}
+		else {
+			fatalError("Cannot send e-mail. The comment cannot be empty.");
+		}
+		
+		// set sender as the conference itself
+		$email->setFrom($schedConf->getSetting('contactEmail'), $schedConf->getSetting('contactName'));
+
+		// sending to each co-editor separately
+		if (!empty($directors)) {
+			foreach ($directors as $director) {
+				$email->clearRecipients();
+				$email->addRecipient($director->getEmail(), $director->getFullName());
+				$email->assignParams($paramArray);
+				$email->send();
+				// Test for the mail being sent
+				error_log("Odesílám mail z adresy: " . $email->getFromString());
+				error_log("Odesílám mail na adresy: " . $email->getRecipientString());
+				error_log("Předmět mailu je: " . $email->getSubject());
+				error_log("Tělo mailu: " . $email->getBody());
+			}
+		}
+		else {
+			$email->addRecipient($schedConf->getSetting('contactEmail'), $schedConf->getSetting('contactName'));
+			$email->assignParams($paramArray);
+			$email->send();
+			// Test for the mail being sent
+			error_log("Odesílám mail z adresy: " . $email->getFromString());
+			error_log("Odesílám mail na adresy: " . $email->getRecipientString());
+			error_log("Předmět mailu je: " . $email->getSubject());
+			error_log("Tělo mailu: " . $email->getBody());
+		}
+		return true;
+	}
+
 	//
 	// Misc
 	//

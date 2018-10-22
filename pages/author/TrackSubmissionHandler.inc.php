@@ -274,14 +274,21 @@ class TrackSubmissionHandler extends AuthorHandler {
 		$comment = Request::getUserVar('layoutCommentText');
 		$accept = Request::getUserVar('layoutAccept');
 		$fileId = Request::getUserVar('fileId');
+		$user =& Request::getUser();
+
 		if ($accept) {
 			echo "Accept layout file";
 			// Accept last layout file
-			// E-mail co-editor
+			
+			// E-mail co-editors
+			AuthorAction::emailLayoutResp($authorSubmission, $accept);
+
 			// log
+			import('paper.log.PaperLog');
+			import('paper.log.PaperEventLogEntry');
+			PaperLog::logEvent($authorSubmission->getPaperId(), PAPER_LOG_AUTHOR_LAYOUT_RESPONSE, LOG_TYPE_AUTHOR, $user->getId(), 'log.author.layoutFileResponse.Accept', array('authorName' => $user->getFullName(), 'paperId' => $paperId));
 		}
-		if (Request::getUserVar('submit') && !empty($comment)){
-			echo "Comment to the layout.";
+		else if (Request::getUserVar('submit') && !empty($comment)){
 			$paperComment = new PaperComment();
 			$paperComment->setCommentType(COMMENT_TYPE_AUTHOR_REVISION_CHANGES);
 			$paperComment->setRoleId(ROLE_ID_AUTHOR);
@@ -294,13 +301,16 @@ class TrackSubmissionHandler extends AuthorHandler {
 			$paperComment->setAssocId($fileId);
 			$paperCommentDao->insertPaperComment($paperComment);
 
-			//E-mail co-editor
+			//E-mail co-editors
+			AuthorAction::emailLayoutResp($authorSubmission, false, $comment);
 
-			$user =& Request::getUser();
+			// log
 			import('paper.log.PaperLog');
 			import('paper.log.PaperEventLogEntry');
-			PaperLog::logEvent($authorSubmission->getPaperId(), PAPER_LOG_AUTHOR_LAYOUT_RESPONSE, LOG_TYPE_AUTHOR, $user->getId(), 'log.author.layoutFileResponse', array('authorName' => $user->getFullName(), 'paperId' => $paperId));
-			//Request::redirect(null, null, null, 'submissionReview', $paperId);
+			PaperLog::logEvent($authorSubmission->getPaperId(), PAPER_LOG_AUTHOR_LAYOUT_RESPONSE, LOG_TYPE_AUTHOR, $user->getId(), 'log.author.layoutFileResponse.Reject', array('authorName' => $user->getFullName(), 'paperId' => $paperId, 'comment' => $comment));
+		}
+		else {
+			trigger_error("Cannot set the layout comment: The comment is not set.");
 		}
 		Request::redirect(null, null, null, 'submissionReview', $paperId);
 	}

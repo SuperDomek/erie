@@ -812,7 +812,8 @@ Váš server v tomto momentě podporuje mbstring: <strong>{$supportsMBString}</s
 	<message key="log.default.paperPeriodExpired">Časový limit okna pro zadání nekompletního příspěvku {$paperId} vypršel. Příspěvek byl vymazán.</message>
 	<message key="log.author.abstractSubmitted">{$authorName} vložil abstrakt příspěvku, ID {$submissionId}.</message>
 	<message key="log.author.presentationSubmitted">{$authorName} odeslal prezentaci, ID {$submissionId}.</message>
-	<message key="log.author.layoutFileResponse">{$authorName} se vyjádřil k layout souboru příspěvku {$paperId}</message>
+	<message key="log.author.layoutFileResponse.Accept">{$authorName} schválil layout soubor příspěvku {$paperId}</message>
+	<message key="log.author.layoutFileResponse.Reject">{$authorName} se vyjádřil k layout souboru příspěvku {$paperId}. Komentář: {$comment}</message>
 	<message key="log.author.documentRevised">{$authorName} vložil upravený příspěvek {$paperId}. Nové ID souboru je {$fileId}.</message>
 	<message key="log.review.reviewerAssigned">{$reviewerName} byl nastaven jako oponent příspěvku {$paperId} v rámci oponentury {$stage}.</message>
 	<message key="log.review.reviewerUnassigned">{$reviewerName} byl odebrán od oponování příspěvku {$paperId} v rámci oponentury {$stage}.</message>
