@@ -210,6 +210,13 @@ class SubmissionEditHandler extends TrackDirectorHandler {
 		else
 			$decisionComment = null;
 
+		// Set up layout comment
+		$layoutCommentTemp = $commentDao->getMostRecentPaperComment($paperId, COMMENT_TYPE_AUTHOR_LAYOUT, $submission->getLayoutFile()->getFileId());
+		if($layoutCommentTemp)
+			$layoutComment = $layoutCommentTemp->getComments();
+		else
+			$layoutComment = null;
+
 		// Prepare an array to store the 'Notify Reviewer' email logs
 		$notifyReviewerLogs = array();
 		if($submission->getReviewAssignments($stage)) {
@@ -304,6 +311,7 @@ class SubmissionEditHandler extends TrackDirectorHandler {
 		$templateMgr->assign('submitterId', $submission->getUserId());
 		$templateMgr->assign('changes', $changes);
 		$templateMgr->assign('decisionComment', $decisionComment);
+		$templateMgr->assign('layoutComment', $layoutComment);
 		$templateMgr->assign('abstractChangesLast', $abstractChangesLast);
 
 		/*if ($reviewMode != REVIEW_MODE_BOTH_SEQUENTIAL || $stage >= REVIEW_STAGE_PRESENTATION) {

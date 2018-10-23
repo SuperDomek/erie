@@ -71,8 +71,8 @@ class PaperMailTemplate extends MailTemplate {
 	/**
 	 * @see parent::send()
 	 */
-	function send() {
-		if (parent::send()) {
+	function send($clearAttachments = true, $noSignature = false) {
+		if (parent::send($clearAttachments, $noSignature)) {
 			if (!isset($this->skip) || !$this->skip) $this->log();
 			return true;
 

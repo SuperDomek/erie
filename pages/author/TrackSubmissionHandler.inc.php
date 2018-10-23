@@ -212,6 +212,13 @@ class TrackSubmissionHandler extends AuthorHandler {
 		else
 			$lastDecisionComment = null;
 
+		// Set up layout comment
+		$layoutCommentTemp = $commentDao->getMostRecentPaperComment($paperId, COMMENT_TYPE_AUTHOR_LAYOUT, $authorSubmission->getLayoutFile()->getFileId());
+		if($layoutCommentTemp)
+			$layoutComment = $layoutCommentTemp->getComments();
+		else
+			$layoutComment = null;
+
 		$templateMgr =& TemplateManager::getManager();
 		$templateMgr->assign_by_ref('submission', $authorSubmission);
 		$templateMgr->assign_by_ref('reviewAssignments', $authorSubmission->getReviewAssignments());
@@ -227,6 +234,7 @@ class TrackSubmissionHandler extends AuthorHandler {
 		$templateMgr->assign_by_ref('layoutFile', $authorSubmission->getLayoutFile());
 		$templateMgr->assign('lastDirectorDecision', $lastDecision);
 		$templateMgr->assign('lastDecisionComment', $lastDecisionComment);
+		$templateMgr->assign('layoutComment', $layoutComment);
 		$templateMgr->assign('changes', $changes);
 		$templateMgr->assign('isError', $isError);
 		$templateMgr->assign('errors', $errors);
@@ -277,9 +285,8 @@ class TrackSubmissionHandler extends AuthorHandler {
 		$user =& Request::getUser();
 
 		if ($accept) {
-			echo "Accept layout file";
 			// Accept last layout file
-			
+			AuthorAction::makeLayoutChecked($paperId, $fileId, $accept);
 			// E-mail co-editors
 			AuthorAction::emailLayoutResp($authorSubmission, $accept);
 
@@ -289,8 +296,9 @@ class TrackSubmissionHandler extends AuthorHandler {
 			PaperLog::logEvent($authorSubmission->getPaperId(), PAPER_LOG_AUTHOR_LAYOUT_RESPONSE, LOG_TYPE_AUTHOR, $user->getId(), 'log.author.layoutFileResponse.Accept', array('authorName' => $user->getFullName(), 'paperId' => $paperId));
 		}
 		else if (Request::getUserVar('submit') && !empty($comment)){
+			// submit comment
 			$paperComment = new PaperComment();
-			$paperComment->setCommentType(COMMENT_TYPE_AUTHOR_REVISION_CHANGES);
+			$paperComment->setCommentType(COMMENT_TYPE_AUTHOR_LAYOUT);
 			$paperComment->setRoleId(ROLE_ID_AUTHOR);
 			$paperComment->setPaperId($paperId);
 			$paperComment->setAuthorId($authorSubmission->getUserId());
@@ -300,6 +308,9 @@ class TrackSubmissionHandler extends AuthorHandler {
 			$paperComment->setViewable(true);
 			$paperComment->setAssocId($fileId);
 			$paperCommentDao->insertPaperComment($paperComment);
+
+			// set checked to 0 (default)
+			AuthorAction::makeLayoutChecked($paperId, $fileId);
 
 			//E-mail co-editors
 			AuthorAction::emailLayoutResp($authorSubmission, false, $comment);

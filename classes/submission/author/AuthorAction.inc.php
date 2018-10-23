@@ -319,8 +319,8 @@ class AuthorAction extends Action {
 	/**
 	 * Email co-editors the layout comment or acceptance.
 	 * @param $authorSubmission object
-	 * @param $comment string
 	 * @param $acc boolean
+	 * @param $comment string
 	 */
 	function emailLayoutResp($authorSubmission, $acc, $comment = null) {
 		$userDao =& DAORegistry::getDAO('UserDAO');
@@ -344,6 +344,7 @@ class AuthorAction extends Action {
 				'paperId' => $authorSubmission->getId(),
 				'paperUrl' => $paperUrl,
 				'editorialContactSignature' => $schedConf->getSetting('contactName') . "\n" . $conference->getConferenceTitle(),
+				'templateSignature' => $schedConf->getLocalizedSetting('emailSignature')
 			);
 		}
 		else if($acc == false && !empty($comment)){
@@ -354,6 +355,7 @@ class AuthorAction extends Action {
 				'paperUrl' => $paperUrl,
 				'editorialContactSignature' => $schedConf->getSetting('contactName') . "\n" . $conference->getConferenceTitle(),
 				'comment' => $comment,
+				'templateSignature' => $schedConf->getLocalizedSetting('emailSignature'),
 			);
 		}
 		else {
@@ -369,25 +371,42 @@ class AuthorAction extends Action {
 				$email->clearRecipients();
 				$email->addRecipient($director->getEmail(), $director->getFullName());
 				$email->assignParams($paramArray);
-				$email->send();
-				// Test for the mail being sent
+				$email->send(true, true);
+				/*// Test for the mail being sent
 				error_log("Odesílám mail z adresy: " . $email->getFromString());
 				error_log("Odesílám mail na adresy: " . $email->getRecipientString());
 				error_log("Předmět mailu je: " . $email->getSubject());
-				error_log("Tělo mailu: " . $email->getBody());
+				error_log("Tělo mailu: " . $email->getBody());*/
 			}
 		}
 		else {
 			$email->addRecipient($schedConf->getSetting('contactEmail'), $schedConf->getSetting('contactName'));
 			$email->assignParams($paramArray);
 			$email->send();
-			// Test for the mail being sent
+			/*// Test for the mail being sent
 			error_log("Odesílám mail z adresy: " . $email->getFromString());
 			error_log("Odesílám mail na adresy: " . $email->getRecipientString());
 			error_log("Předmět mailu je: " . $email->getSubject());
-			error_log("Tělo mailu: " . $email->getBody());
+			error_log("Tělo mailu: " . $email->getBody());*/
 		}
 		return true;
+	}
+
+	/**
+	 * Makes a layout file accepted or rejected.
+	 * @param $paperId int
+	 * @param $fileId int
+	 * @param $checked boolean
+	 */
+	function makeLayoutChecked($paperId, $fileId, $checked = 0) {
+		if (empty($fileId) || empty($paperId)){
+			trigger_error("Cannot set Layout checked: ID not specified");
+		}
+		$paperFileDao =& DAORegistry::getDAO('PaperFileDAO');
+		// PaperId set up for security purpose in case of falsified FileId in POST
+		$paperFile =& $paperFileDao->getPaperFile($fileId, null, $paperId);
+		$paperFile->setChecked($checked);
+		$paperFileDao->updatePaperFile($paperFile);
 	}
 
 	//

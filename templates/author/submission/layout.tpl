@@ -30,6 +30,7 @@ function showCommentBox(sel) {
 {/literal}
 
 {assign var=layoutFile value=$submission->getLayoutFile()}
+{assign var=layoutFileChecked value=$layoutFile->getChecked()}
 <div id="layout">
 <h3>{translate key="submission.layout.layoutFile"}</h3>
 
@@ -58,24 +59,37 @@ function showCommentBox(sel) {
 			<td width="20%">{$layoutFile->getFileType()|truncate:30}</td>
 			<td width="10%">{$layoutFile->getDateModified()|date_format:$dateFormatShort}</td>
 			<td width="20%">
+				{if $layoutFileChecked == null}
 				<button type="submit" form="formLayout" name="layoutAccept" class="button positive" id="layoutAccept" value="1">{translate key="common.accept"}</button>
 				<button type="button" class="button negative" onclick="showCommentBox(this);">{translate key="common.comment"}</button>
+				{elseif $layoutFileChecked == 1}
+				<span style="color: #0b9e3f;">{translate key="submission.fileAccepted"}
+				{elseif $layoutFileChecked == 0}
+				<span style="color:#e85a09;">{translate key="submission.comments.comments"}
+				{/if}
 			</td>
 		</tr>
 		<!-- If comment entered then don't show buttons and show the comment text below -->
+		{if $layoutFileChecked == null}
 		<tr id="layoutComment" style="display:none;">
 			<td colspan="4">
 				<input type="hidden" name="paperId" value="{$submission->getPaperId()}"/>
 				<input type="hidden" name="fileId" value="{$layoutFile->getFileId()}"/>
-				<textarea id="layoutCommentText" name="layoutCommentText" class="textArea" rows="5">{$layoutComment}</textarea>
+				<textarea id="layoutCommentText" name="layoutCommentText" class="textArea" rows="5">{$layoutComment}</textarea>	
 			</td>
 			<!-- Add javascript check for empty comment -->
 			<td><button type="submit" form="formLayout" name="submit" value="1" class="button positive">{translate key="form.submit"}</button></td>
 		</tr>
+		{elseif $layoutFileChecked == 0}
+		<tr id="layoutComment">
+			<td colspan="5">
+				<textarea id="layoutCommentText" name="layoutCommentText" class="textArea" rows="5" disabled="disabled">{$layoutComment}</textarea>
+			</td>
+		</tr>
+		{/if}
 	</form>
 	</tbody>
 	</table>
-	<p>{translate key="submission.layout.layoutDescription"}</p>
 </div>
 
 {*<table width="100%" class="info">

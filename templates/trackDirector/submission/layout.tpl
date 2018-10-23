@@ -24,6 +24,7 @@
 </p>-->
 
 {if $layoutFile}
+{assign var=layoutFileChecked value=$layoutFile->getChecked()}
 <div class="tbl-container">
 	<table class="files">
 	<thead>
@@ -41,11 +42,24 @@
 				<a href="{url op="downloadFile" path=$submission->getPaperId()|to_array:$layoutFile->getFileId()}" class="file" >{icon name="page_text"}</a>
 				<a href="{url op="downloadFile" path=$submission->getPaperId()|to_array:$layoutFile->getFileId()}" class="file" >{$layoutFile->getFileName()|escape}</a>
 			</td>
-			<td width="10%"><span style="color: #0b9e3f;">{translate key="submission.fileAccepted"}</span></td>
+			<td width="10%">
+			{if $layoutFileChecked == 1}
+				<span style="color: #0b9e3f;">{translate key="submission.fileAccepted"}</span></td>
+			{elseif $layoutFileChecked === null}
+				<span style="color: #e85a09">{translate key="submission.filePending"}
+			
+			{elseif $layoutFileChecked == 0}
+				<span style="color:#e85a09;">{translate key="submission.comments.comments"}
+			{/if}
 			<td width="10%">{$layoutFile->getNiceFileSize()}</td>
 			<td width="20%">{$layoutFile->getFileType()|truncate:30}</td>
 			<td width="10%">{$layoutFile->getDateModified()|date_format:$dateFormatShort}</td>
 		</tr>
+		{if $layoutFileChecked === 0}
+			<td colspan="5">
+				<textarea id="layoutCommentText" name="layoutCommentText" class="textArea" rows="5" disabled="disabled">{$layoutComment}</textarea>
+			</td>
+		{/if}
 	</tbody>
 	</table>
 </div>

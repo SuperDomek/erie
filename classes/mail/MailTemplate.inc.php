@@ -152,8 +152,9 @@ class MailTemplate extends PKPMailTemplate {
 	 * Aside from calling the parent method, this actually attaches
 	 * the persistent attachments if they are used.
 	 * @param $clearAttachments boolean Whether to delete attachments after
+	 * @param $noSignature boolean append signature or not
 	 */
-	function send($clearAttachments = true) {
+	function send($clearAttachments = true, $noSignature = false) {
 		$schedConf =& Request::getSchedConf();
 
 		if($schedConf) {
@@ -161,7 +162,7 @@ class MailTemplate extends PKPMailTemplate {
 			$emailSignature = $schedConf->getLocalizedSetting('emailSignature');
 		}
 
-		if (isset($emailSignature)) {
+		if (isset($emailSignature) && $noSignature == false) {
 			//If {$templateSignature} exists in the body of the
 			// message, replace it with the conference signature;
 			// otherwise just append it. This is here to
