@@ -41,7 +41,7 @@ function showMenu(){
 
 {if $isSiteAdmin}
 {*assign var="hasRole" value=1*}
-	&#187; <a href="{url conference="index" page=$isSiteAdmin->getRolePath()}">{translate key=$isSiteAdmin->getRoleName()}</a>
+	&#187; <a href="{url conference="index" schedConf=$currentSchedConf->getPath() page=$isSiteAdmin->getRolePath()}">{translate key=$isSiteAdmin->getRoleName()}</a>
 	{call_hook name="Templates::User::Index::Admin"}
 {/if}
 
@@ -54,17 +54,17 @@ function showMenu(){
 
 <div id="conference">
   {if $isValid.ConferenceManager.$conferenceId.0}
-<h4><a href="{url conference=$conference->getPath() page="user"}">{$conference->getConferenceTitle()|escape}</a></h4>
+<h4><a href="{url conference=$conference->getPath() schedConf=$currentSchedConf->getPath() page="user"}">{$conference->getConferenceTitle()|escape}</a></h4>
 
 	{* Display conference roles *}
 
 	<table width="100%" class="info">
 			<tr>
-				<td>&#187; <a href="{url conference=$conferencePath page="manager"}">{translate key="user.role.manager"}</a></td>
+				<td>&#187; <a href="{url conference=$conferencePath schedConf=$currentSchedConf->getPath() page="manager"}">{translate key="user.role.manager"}</a></td>
 				<td></td>
 				<td></td>
 				<td></td>
-				<td align="right">{if $setupIncomplete.$conferenceId}[<a href="{url conference=$conferencePath schedConf=$schedConfPath  page="manager" op="setup" path="1"}">{translate key="manager.schedConfSetup"}</a>]{/if}</td>
+				<td align="right">{if $setupIncomplete.$conferenceId}[<a href="{url conference=$conferencePath schedConf=$currentSchedConf->getPath()  page="manager" op="setup" path="1"}">{translate key="manager.schedConfSetup"}</a>]{/if}</td>
 			</tr>
 
 	</table>
@@ -243,7 +243,7 @@ function showMenu(){
 			<li>
 				&#187;
 				{if $allowRegAuthor}
-					<a href="{url schedConf="2018" page="user" op="become" path="author" source=$sourceUrl}">{translate key="user.noRoles.regAuthor" schedConfTitle=$currentSchedConf->getSchedConfTitle()|escape}</a>
+					<a href="{url schedConf=$currentSchedConf->getPath() page="user" op="become" path="author" source=$sourceUrl}">{translate key="user.noRoles.regAuthor" schedConfTitle=$currentSchedConf->getSchedConfTitle()|escape}</a>
 				{else}{* $allowRegAuthor *}
 					{translate key="user.noRoles.regAuthorClosed"}
 				{/if}{* $allowRegAuthor *}
@@ -252,7 +252,7 @@ function showMenu(){
 				&#187;
 				{if $allowRegReviewer}
 					{url|assign:"userHomeUrl" page="user" op="index"}
-					<a href="{url op="become" schedConf="2018" path="reviewer" source=$userHomeUrl}">{translate key="user.noRoles.regReviewer"}</a>
+					<a href="{url op="become" schedConf=$currentSchedConf->getPath() path="reviewer" source=$userHomeUrl}">{translate key="user.noRoles.regReviewer"}</a>
 				{else}
 					{translate key="user.noRoles.regReviewerClosed"}
 				{/if}
@@ -260,7 +260,7 @@ function showMenu(){
 			<li>
 				&#187;
 				{if $schedConfPaymentsEnabled}
-					<a href="{url page="schedConf" schedConf="2018" op="registration"}">{translate key="user.noRoles.register"}</a>
+					<a href="{url page="schedConf" schedConf=$currentSchedConf->getPath() op="registration"}">{translate key="user.noRoles.register"}</a>
 				{else}{* $schedConfPaymentsEnabled *}
 					{translate key="user.noRoles.registerUnavailable"}
 				{/if}{* $schedConfPaymentsEnabled *}
@@ -276,13 +276,13 @@ function showMenu(){
 <ul class="plain">
 	{if $hasOtherConferences}
 		{if !$showAllConferences}
-			<li>&#187; <a href="{url conference="index" page="user"}">{translate key="user.showAllConferences"}</a></li>
+			<li>&#187; <a href="{url conference="index" schedConf=$currentSchedConf->getPath() page="user"}">{translate key="user.showAllConferences"}</a></li>
 		{/if}
 	{/if}
-  {if $schedConfPostPayment}<li>&#187; <a href="{url page="schedConf" schedConf="2018" op="registration"}">{translate key="schedConf.registration"}</a></li>{/if}
-	<li>&#187; <a href="{url page="user" schedConf="2018" op="profile"}">{translate key="user.editMyProfile"}</a></li>
-	<li>&#187; <a href="{url page="user" op="changePassword"}">{translate key="user.changeMyPassword"}</a></li>
-	<li>&#187; <a href="{url page="login" op="signOut"}">{translate key="user.logOut"}</a></li>
+  {if $schedConfPostPayment}<li>&#187; <a href="{url page="schedConf" schedConf=$currentSchedConf->getPath() op="registration"}">{translate key="schedConf.registration"}</a></li>{/if}
+	<li>&#187; <a href="{url page="user" schedConf=$currentSchedConf->getPath() op="profile"}">{translate key="user.editMyProfile"}</a></li>
+	<li>&#187; <a href="{url page="user" schedConf=$currentSchedConf->getPath() op="changePassword"}">{translate key="user.changeMyPassword"}</a></li>
+	<li>&#187; <a href="{url page="login" schedConf=$currentSchedConf->getPath() op="signOut"}">{translate key="user.logOut"}</a></li>
 	{call_hook name="Templates::User::Index::MyAccount"}
 </ul>
 </div>

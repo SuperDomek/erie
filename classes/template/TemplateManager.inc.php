@@ -38,6 +38,14 @@ class TemplateManager extends PKPTemplateManager {
 
 			$conference =& Request::getConference();
 			$schedConf =& Request::getSchedConf();
+
+			$schedConfDao =& DAORegistry::getDAO('SchedConfDAO');
+			$currentSchedConfs =& $schedConfDao->getCurrentSchedConfs($conference->getId());
+			if ($currentSchedConfs && $currentSchedConfs->getCount() == 1) {
+				// If only one sched conf exists, redirect to it.
+				$schedConf =& $currentSchedConfs->next();
+			}
+
 			$site =& Request::getSite();
 			$this->assign('siteTitle', $site->getLocalizedTitle());
 

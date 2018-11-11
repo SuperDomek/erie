@@ -39,7 +39,17 @@ class OCSPaymentManager extends PaymentManager {
 	}
 
 	function &getPaymentPlugin() {
+		$conference =& Request::getConference();
 		$schedConf =& Request::getSchedConf();
+
+		// Workaround for error with using traditional SchedConf
+		$schedConfDao =& DAORegistry::getDAO('SchedConfDAO');
+		$currentSchedConfs =& $schedConfDao->getCurrentSchedConfs($conference->getId());
+		$currentSchedConfsArr =& $currentSchedConfs->toArray();
+		
+		//get the last SchedConf
+		$schedConf =& end($currentSchedConfsArr);
+
 		$paymentMethodPluginName = $schedConf->getSetting('paymentMethodPluginName');
 		$paymentMethodPlugin = null;
 		if (!empty($paymentMethodPluginName)) {

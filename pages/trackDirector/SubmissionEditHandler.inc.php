@@ -211,11 +211,13 @@ class SubmissionEditHandler extends TrackDirectorHandler {
 			$decisionComment = null;
 
 		// Set up layout comment
-		$layoutCommentTemp = $commentDao->getMostRecentPaperComment($paperId, COMMENT_TYPE_AUTHOR_LAYOUT, $submission->getLayoutFile()->getFileId());
-		if($layoutCommentTemp)
-			$layoutComment = $layoutCommentTemp->getComments();
-		else
-			$layoutComment = null;
+		if($submission->getLayoutFile()){
+			$layoutCommentTemp = $commentDao->getMostRecentPaperComment($paperId, COMMENT_TYPE_AUTHOR_LAYOUT, $submission->getLayoutFile()->getFileId());
+			if($layoutCommentTemp)
+				$layoutComment = $layoutCommentTemp->getComments();
+			else
+				$layoutComment = null;
+		}
 
 		// Prepare an array to store the 'Notify Reviewer' email logs
 		$notifyReviewerLogs = array();
@@ -419,6 +421,8 @@ class SubmissionEditHandler extends TrackDirectorHandler {
 		$trackId = Request::getUserVar('trackId');
 
 		TrackDirectorAction::changeTrack($submission, $trackId);
+
+		$this->assignTrackDirectors($submission);
 
 		Request::redirect(null, null, null, $from, array($paperId, $fromStage));
 	}
@@ -758,6 +762,44 @@ class SubmissionEditHandler extends TrackDirectorHandler {
 		if (TrackDirectorAction::notifyReviewer($submission, $reviewId, $send)) {
 			Request::redirect(null, null, null, 'submissionReview', $paperId);
 		}
+	}
+
+	/**
+	 * Automatically assign Track Directors submissions.
+	 * @param $paper object
+	 * @return array of track directors
+	 */
+
+	function assignTrackDirectors(&$paper) {
+		$trackId = $paper->getTrackId();
+		$schedConf =& Request::getSchedConf();
+
+		$trackDirectorsDao =& DAORegistry::getDAO('TrackDirectorsDAO');
+		$editAssignmentDao =& DAORegistry::getDAO('EditAssignmentDAO');
+
+		$trackDirectors =& $trackDirectorsDao->getDirectorsByTrackId($schedConf->getId(), $trackId);
+		// get already assigned trackDirectors for the paper
+		$paperEditAssignments =& $editAssignmentDao->getTrackDirectorAssignmentsByPaperId($paper->getId());
+		$paperEditAssignments =& $paperEditAssignments->toArray();
+		$paperTrackDirectors = array();
+		// Store the names and ID of trackDirectors in an array
+		foreach ($paperEditAssignments as $editAssignment){
+			$paperTrackDirectors[$editAssignment->getDirectorLastName()] = $editAssignment->getDirectorId();
+		}
+		foreach ($trackDirectors as $trackDirector) {
+			// check whether this trackDirector isn't already assigned
+			if(!in_array($trackDirector->getId(), $paperTrackDirectors, true)){
+				$editAssignment = new EditAssignment();
+				$editAssignment->setPaperId($paper->getId());
+				$editAssignment->setDirectorId($trackDirector->getId());
+				$editAssignmentDao->insertEditAssignment($editAssignment);
+				unset($editAssignment);
+			}
+			/*else
+				error_log($trackDirector->getFullName() . "already assigned.");*/
+		}
+
+		return $trackDirectors;
 	}
 
 	function clearReview($args) {

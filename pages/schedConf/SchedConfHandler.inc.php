@@ -55,6 +55,9 @@ class SchedConfHandler extends Handler {
 				$templateMgr->assign('enableAnnouncementsHomepage', $enableAnnouncementsHomepage);
 			}
 		}
+		else { // if the announcements are turned off then go directly to the user home page
+			Request::redirect(null, null, 'user');
+		}
 
 		$templateMgr->assign('schedConf', $schedConf);
 

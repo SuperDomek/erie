@@ -157,9 +157,10 @@ class EditAssignmentDAO extends DAO {
 	function insertEditAssignment(&$editAssignment) {
 		$this->update(
 			sprintf('INSERT INTO edit_assignments
-				(paper_id, director_id, date_notified, date_underway)
+				(paper_id, director_id, date_assigned, date_notified, date_underway)
 				VALUES
-				(?, ?, %s, %s)',
+				(?, ?, %s, %s, %s)',
+				$this->datetimeToDB(date('Y-m-d G:i:s')),
 				$this->datetimeToDB($editAssignment->getDateNotified()),
 				$this->datetimeToDB($editAssignment->getDateUnderway())),
 			array(

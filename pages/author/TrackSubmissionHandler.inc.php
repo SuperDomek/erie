@@ -213,11 +213,13 @@ class TrackSubmissionHandler extends AuthorHandler {
 			$lastDecisionComment = null;
 
 		// Set up layout comment
-		$layoutCommentTemp = $commentDao->getMostRecentPaperComment($paperId, COMMENT_TYPE_AUTHOR_LAYOUT, $authorSubmission->getLayoutFile()->getFileId());
-		if($layoutCommentTemp)
-			$layoutComment = $layoutCommentTemp->getComments();
-		else
-			$layoutComment = null;
+		if($authorSubmission->getLayoutFile()){
+			$layoutCommentTemp = $commentDao->getMostRecentPaperComment($paperId, COMMENT_TYPE_AUTHOR_LAYOUT, $authorSubmission->getLayoutFile()->getFileId());
+			if($layoutCommentTemp)
+				$layoutComment = $layoutCommentTemp->getComments();
+			else
+				$layoutComment = null;
+		}
 
 		$templateMgr =& TemplateManager::getManager();
 		$templateMgr->assign_by_ref('submission', $authorSubmission);

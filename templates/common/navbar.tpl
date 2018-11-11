@@ -12,7 +12,7 @@
 		<!--<li><a href="{url context=$homeContext op="index"}">{translate key="navigation.home"}</a></li>-->
 		{if $isUserLoggedIn}
       {* Hardcoded link to home page of the user in current conference *}
-			<li><a href="{url conference="erie" schedConf="2018" page="user"}">{translate key="navigation.home"}</a></li>
+			<li><a href="{url schedConf=$currentSchedConf->getPath() page="user"}">{translate key="navigation.home"}</a></li>
       <li><a href="https://erie.pef.czu.cz" target="_blank">{translate key="navigation.about"}</a></li>
       <li><a href="https://erie.pef.czu.cz/en/r-13313-for-authors" target="_blank">{translate key="navigation.infoForAuthors"}</a></li>
       <li><a href="{url page="login" op="signOut"}">{translate key="user.logOut"}</a></li>

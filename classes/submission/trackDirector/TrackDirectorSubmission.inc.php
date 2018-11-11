@@ -445,6 +445,7 @@ class TrackDirectorSubmission extends Paper {
 	function &getDirectorDecisionOptions($schedConf = null, $stage = null) {
 		$submission =& $this->submission;
 		$directorDecisionOptions = array('' => 'common.chooseOne');
+
 		if ($stage == REVIEW_STAGE_ABSTRACT && $submission->getReviewMode() == REVIEW_MODE_BOTH_SEQUENTIAL)
 			$directorDecisionOptions[SUBMISSION_DIRECTOR_DECISION_INVITE] = 'director.paper.decision.invitePresentation';
 		if ($stage != REVIEW_STAGE_ABSTRACT || $submission->getReviewMode() != REVIEW_MODE_BOTH_SEQUENTIAL)
