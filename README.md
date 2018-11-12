@@ -1,2 +1,2 @@
-# AP
-Open Conference Systems instalace pro konferenci AP
+# ERIE
+Open Conference Systems instalace pro konferenci ERIE
