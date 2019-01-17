@@ -9,7 +9,9 @@
  *}
 <div id="breadcrumb">
   {* Hardcoded: The conference home is the user home on the current conference*}
+	{if $currentSchedConf}
 	<a href="{url schedConf=$currentSchedConf->getPath() page="user"}">{translate key="navigation.home"}</a> &gt;
+	{/if}
 	{foreach from=$pageHierarchy item=hierarchyLink}
 		<a href="{$hierarchyLink[0]|escape}" class="hierarchyLink">{if not $hierarchyLink[2]}{translate key=$hierarchyLink[1]}{else}{$hierarchyLink[1]|escape}{/if}</a> &gt;
 	{/foreach}

@@ -49,12 +49,13 @@ class OCSPaymentManager extends PaymentManager {
 		
 		//get the last SchedConf
 		$schedConf =& end($currentSchedConfsArr);
-
-		$paymentMethodPluginName = $schedConf->getSetting('paymentMethodPluginName');
-		$paymentMethodPlugin = null;
-		if (!empty($paymentMethodPluginName)) {
-			$plugins =& PluginRegistry::loadCategory('paymethod');
-			if (isset($plugins[$paymentMethodPluginName])) $paymentMethodPlugin =& $plugins[$paymentMethodPluginName];
+		if($schedConf){
+			$paymentMethodPluginName = $schedConf->getSetting('paymentMethodPluginName');
+			$paymentMethodPlugin = null;
+			if (!empty($paymentMethodPluginName)) {
+				$plugins =& PluginRegistry::loadCategory('paymethod');
+				if (isset($plugins[$paymentMethodPluginName])) $paymentMethodPlugin =& $plugins[$paymentMethodPluginName];
+			}
 		}
 		return $paymentMethodPlugin;
 	}
