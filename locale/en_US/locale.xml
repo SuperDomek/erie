@@ -369,6 +369,7 @@
 	<message key="event.logType.conference">Conference</message>
 
 	<message key="event.eventLog">Event Log</message>
+	<message key="event.emailLog">Email log</message>
 	<message key="event.logLevel">Level</message>
 
 	<message key="event.logLevel.info">Info</message>
@@ -446,6 +447,7 @@ Note that the OAI interface can be disabled for this site by editing the OCS sys
 	<message key="conference.event.deleteLogEntry">Delete Log Entry</message>
 	<message key="conference.event.backToEventLog">Back to Event Log</message>
 	<message key="conference.history.conferenceEventLog">Event Log</message>
+	<message key="conference.history.conferenceEmailLog">Email Log</message>
 	<message key="conference.history.clearLog">Clear Log</message>
 	<message key="conference.history.noLogEntries">No log entries.</message>
 

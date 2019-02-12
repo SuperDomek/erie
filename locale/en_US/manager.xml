@@ -22,6 +22,7 @@
 	<message key="manager.announcements.form.schedConfId">Scheduled Conference</message>
 	<message key="manager.announcements.schedConf">Scheduled Conference</message>
 	<message key="manager.conferenceEventLog">Event Log</message>
+	<message key="manager.conferenceEmailLog">Log of sent emails</message>
 	<message key="manager.conferenceSiteManagement">Conference Site Management</message>
 	<message key="manager.currentConferences">Current Conferences</message>
 	<message key="manager.emails.confirmResetAll">Are you sure you want to reset all email templates in this conference? You will lose any customizations you have made.</message>

@@ -318,6 +318,7 @@ switch ($op) {
 	// Conference History
 	//
 	case 'conferenceEventLog':
+	case 'conferenceEmailLog':
 	case 'conferenceEventLogType':
 	case 'clearConferenceEventLog':
 		define('HANDLER_CLASS', 'ConferenceHistoryHandler');

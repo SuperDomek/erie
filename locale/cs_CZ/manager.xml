@@ -24,6 +24,7 @@
 	<message key="manager.announcements.form.schedConfId">Aktuální konference</message>
 	<message key="manager.announcements.schedConf">Aktuální konference</message>
 	<message key="manager.conferenceEventLog">Registr událostí</message>
+	<message key="manager.conferenceEmailLog">Seznam odeslaných emailů</message>
 	<message key="manager.conferenceSiteManagement">Správa konferenčního webu</message>
 	<message key="manager.currentConferences">Aktuální konference</message>
 	<message key="manager.emails.confirmResetAll">Skutečně chcete obnovit všechny emailové šablony této konference? Ztratíte všechny provedené změny.</message>

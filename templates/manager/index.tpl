@@ -55,6 +55,7 @@ function showMenu(){
 	<li>&#187; <a href="{url op="languages"}">{translate key="common.languages"}</a></li>
 	{if $loggingEnabled}
 		<li>&#187; <a href="{url op="conferenceEventLog" clearPageContext=1}">{translate key="manager.conferenceEventLog"}</a></li>
+		<li>&#187; <a href="{url op="conferenceEmailLog" clearPageContext=1}">{translate key="manager.conferenceEmailLog"}</a></li>
 	{/if}
 	<li>&#187; <a href="{url op="plugins"}">{translate key="manager.plugins"}</a></li>
 	{call_hook name="Templates::Manager::Index::ManagementPages"}

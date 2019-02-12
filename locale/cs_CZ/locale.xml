@@ -372,6 +372,7 @@
 	<message key="event.logType.conference">Konference</message>
 
 	<message key="event.eventLog">Záznam událostí</message>
+	<message key="event.emailLog">Seznam emailů</message>
 	<message key="event.logLevel">Úroveň</message>
 
 	<message key="event.logLevel.info">Informace</message>
@@ -452,6 +453,7 @@ OAI interface lze pro tyto stránky odpojit editací konfigurace systému OCS. B
 	<message key="conference.event.deleteLogEntry">Vymazat položku</message>
 	<message key="conference.event.backToEventLog">Zpět k registru</message>
 	<message key="conference.history.conferenceEventLog">Registr událostí</message>
+	<message key="conference.history.conferenceEmailLog">Seznam emailů</message>
 	<message key="conference.history.clearLog">Vymazat registr</message>
 	<message key="conference.history.noLogEntries">Žádné položky.</message>
 

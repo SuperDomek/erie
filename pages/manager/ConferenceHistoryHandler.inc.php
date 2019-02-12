@@ -64,6 +64,50 @@ class ConferenceHistoryHandler extends ManagerHandler {
 	}
 
 	/**
+	 * View conference email log.
+	 */
+	function conferenceEmailLog($args) {
+		$paperId = isset($args[0]) ? (int) $args[0] : 0;
+		$emailId = isset($args[0]) ? (int) $args[0] : 0;
+		$this->validate();
+
+		$conference =& Request::getConference();
+
+		$this->setupTemplate(true);
+
+		$templateMgr =& TemplateManager::getManager();
+
+		$templateMgr->assign_by_ref('conference', $conference);
+		if($paperId){
+			//zobrazení všech mailů daného paperu
+		}
+		if ($logId) {
+			// zobrazení daného mailu
+			$logDao =& DAORegistry::getDAO('ConferenceEventLogDAO');
+			$logEntry =& $logDao->getLogEntry($logId);
+			if ($logEntry && $logEntry->getConferenceId() != $conference->getId()) Request::redirect(null, null, null, 'index');
+		}
+
+		if (isset($logEntry)) {
+			$templateMgr->assign('logEntry', $logEntry);
+			$templateMgr->display('manager/conferenceEmailLogEntry.tpl');
+		} else {
+			$rangeInfo =& Handler::getRangeInfo('eventLogEntries', array());
+
+			import('conference.log.ConferenceLog');
+			while (true) {
+				$eventLogEntries =& ConferenceLog::getEventLogEntries($conference->getId(), null, $rangeInfo);
+				if ($eventLogEntries->isInBounds()) break;
+				unset($rangeInfo);
+				$rangeInfo =& $eventLogEntries->getLastPageRangeInfo();
+				unset($eventLogEntries);
+			}
+			$templateMgr->assign('eventLogEntries', $eventLogEntries);
+			$templateMgr->display('manager/conferenceEmailLog.tpl');
+		}
+	}
+
+	/**
 	 * View conference event log by record type.
 	 */
 	function conferenceEventLogType($args) {
