@@ -13,13 +13,13 @@
 	<thead>
 	<tr>
 		<td width="5%">{translate key="common.id"}</td>
-		<td width="8%">{translate key="submissions.submit"}</td>
+		<td class="sorttable_ddmm" width="8%">{translate key="submissions.submit"}</td>
 		<!--<td width="5%">{sort_search key="submissions.track" sort="track"}</td>-->
 		<!--<td width="5%">{sort_search key="paper.sessionType" sort="sessionType"}</td>->
   <!--
 		<td width="20%">{sort_search key="paper.authors" sort="authors"}</td>
   -->
-		<td width="49%">{translate key="paper.title"}</td>
+		<td width="39%">{translate key="paper.title"}</td>
 		<td width="25%">
 			<center style="border-bottom: 1px solid gray;margin-bottom: 3px;">{translate key="submission.peerReview"}</center>
 			<table width="100%">
@@ -31,6 +31,7 @@
 			</table>
 		</td>
 		<td width="7%">{translate key="submissions.ruling"}</td>
+		<td width="10%">{translate key="user.role.trackDirectors"}</td>
     <td width="6%">{translate key="submission.fileOkayed"}</td>
 	</tr>
 	</thead>
@@ -104,6 +105,7 @@
         <span style="color:#a5a3a5;"></span>
       {/if}
 		</td>
+		<td>{$submission->getTrackDirectorString(true)|truncate:30:"..."|escape}</td>
     <td style="vertical-align: middle;">
       {assign var=reviewFile value=$submission->getReviewFile()}
       {if $reviewFile}
@@ -121,7 +123,7 @@
 
 {if $submissions->wasEmpty()}
 	<tr>
-		<td colspan="8" class="nodata">{translate key="submissions.noSubmissions"}</td>
+		<td colspan="9" class="nodata">{translate key="submissions.noSubmissions"}</td>
 	</tr>
 {/if}
 </tbody>

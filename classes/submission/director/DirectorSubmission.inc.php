@@ -25,24 +25,6 @@ class DirectorSubmission extends TrackDirectorSubmission {
 	function DirectorSubmission() {
 		parent::TrackDirectorSubmission();
 	}
-
-	/**
-	 * Return string of trackDirectors' names, separated by the specified token
-	 * @param $lastOnly boolean return list of lastnames only (default false)
-	 * @param $separator string separator for names (default comma+space)
-	 * @return string
-	 */
-	function getTrackDirectorString($lastOnly = false, $separator = ', ') {
-		$str = '';
-		$editAssignments = $this->getEditAssignments();
-		foreach ($editAssignments as $assignment) {
-			if (!empty($str)) {
-				$str .= $separator;
-			}
-			$str .= $lastOnly ? $assignment->getDirectorLastName() : $assignment->getDirectorFullName();
-		}
-		return $str;
-	}
 }
 
 ?>

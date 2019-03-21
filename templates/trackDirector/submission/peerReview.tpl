@@ -71,15 +71,17 @@
 		{else}
 			{$editAssignment->getDirectorFullName()|escape}
 		{/if}
+		{if $editAssignment->getIsDirector()} (main){/if}
 		<br/>
 	{foreachelse}
-		{if $isDirector}
+		{translate key="common.noneAssigned"}
+		<br />
+	{/foreach}
+	<br />
+	{if $isDirector}
 		<a href="{url page="director" op="assignDirector" path="trackDirector" paperId=$submission->getPaperId()}">
 			<button class="button">{translate key="director.paper.assignTrackDirector"}</button></a>
-		{else}
-			{translate key="common.noneAssigned"}
-		{/if}
-	{/foreach}
+	{/if}
 	</li>
 	{if $layoutFile && $isDirector}
 	<li><header>{translate key="submission.layout.layoutFile"}</header>

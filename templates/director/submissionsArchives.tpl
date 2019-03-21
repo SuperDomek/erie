@@ -13,7 +13,7 @@
 <thead>
 	<tr>
 		<td width="5%">{translate key="common.id"}</td>
-		<td width="15%">{translate key="submissions.submitted"}</td>
+		<td class="sorttable_ddmm" width="15%">{translate key="submissions.submitted"}</td>
 		<td width="5%">{translate key="submissions.track"}</td>
 		<td width="5%">{translate key="paper.sessionType"}</td>
 		<td width="25%">{translate key="paper.authors"}</td>

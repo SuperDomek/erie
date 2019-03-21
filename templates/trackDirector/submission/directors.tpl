@@ -11,17 +11,6 @@
 <div id="directors">
 <div class="revMenu">
 	<h3>{translate key="user.role.trackDirectors"}</h3>
-	{if $isDirector}
-		<a href="{url page="director" op="assignDirector" path="trackDirector" paperId=$submission->getPaperId()}">
-			<button class="button">{translate key="director.paper.assignTrackDirector"}</button></a>
-		<a href="{url page="director" op="assignDirector" path="director" paperId=$submission->getPaperId()}">
-			<button class="button">{translate key="director.paper.assignDirector"}</button></a>
-		{if !$selfAssigned}
-			<a href="{url page="director" op="assignDirector" path="director" directorId=$userId paperId=$submission->getPaperId()}">
-				<button class="button">{translate key="common.addSelf"}</button>
-			</a>
-		{/if}
-	{/if}
 </div>
 <div class="tbl-container">
 <table class="listing sortable">
@@ -61,7 +50,17 @@
 	{/foreach}
 </tbody>
 </table>
+{if $isDirector}
+	<a href="{url page="director" op="assignDirector" path="trackDirector" paperId=$submission->getPaperId()}">
+		<button class="button">{translate key="director.paper.assignTrackDirector"}</button></a>
+	<a href="{url page="director" op="assignDirector" path="director" paperId=$submission->getPaperId()}">
+		<button class="button">{translate key="director.paper.assignDirector"}</button></a>
+	{if !$selfAssigned}
+		<a href="{url page="director" op="assignDirector" path="director" directorId=$userId paperId=$submission->getPaperId()}">
+			<button class="button">{translate key="common.addSelf"}</button>
+		</a>
+	{/if}
+{/if}
 </div>
-
 
 </div>

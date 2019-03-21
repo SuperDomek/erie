@@ -13,9 +13,10 @@
 	<thead>
 	<tr>
 		<td width="4%">{translate key="common.id"}</td>
-		<td width="7%">{translate key="submissions.submitted"}</td>
-		<td width="15%">{translate key="paper.authors"}</td>
-		<td width="34%">{translate key="paper.title"}</td>
+		<td class="sorttable_ddmm" width="7%">{translate key="submissions.submitted"}</td>
+		<td width="5%">{translate key="submissions.track"}</td>
+		<td width="14%">{translate key="paper.authors"}</td>
+		<td width="30%">{translate key="paper.title"}</td>
 		<td width="25%" class="sorttable_nosort">
 			<center style="border-bottom: 1px solid gray;margin-bottom: 3px;">{translate key="submission.peerReview"}</center>
 			<table width="100%" class="nested">
@@ -44,6 +45,7 @@
 				{$sessionType->getLocalizedName()|escape}
 			{/if}
 		</td>-->
+		<td>{$submission->getTrackAbbrev()|escape}</td>
 		<td>{$submission->getAuthorString(true)|truncate:30:"..."|escape}</td>
 		<td><a href="{url op="submissionReview" path=$submission->getPaperId()|to_array:$submission->getCurrentStage()}" class="action">{$submission->getLocalizedTitle()|strip_tags|truncate:40:"..."|default:"&mdash;"}</a></td>
 		<td>

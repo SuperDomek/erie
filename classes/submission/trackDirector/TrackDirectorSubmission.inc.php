@@ -464,6 +464,27 @@ class TrackDirectorSubmission extends Paper {
 		}
 		return ($this->getSubmissionProgress() == 0);
 	}
+
+	/**
+	 * Return string of trackDirectors' names, separated by the specified token
+	 * Returns only editAssignments to trackDirs, ignores Main directors assignments
+	 * @param $lastOnly boolean return list of lastnames only (default false)
+	 * @param $separator string separator for names (default comma+space)
+	 * @return string
+	 */
+	function getTrackDirectorString($lastOnly = false, $separator = ', ') {
+		$str = '';
+		$editAssignments = $this->getEditAssignments();
+		foreach ($editAssignments as $assignment) {
+			if (!$assignment->getIsDirector()){
+				if (!empty($str)) {
+					$str .= $separator;
+				}
+				$str .= $lastOnly ? $assignment->getDirectorLastName() : $assignment->getDirectorFullName();
+			}
+		}
+		return $str;
+	}
 }
 
 ?>
