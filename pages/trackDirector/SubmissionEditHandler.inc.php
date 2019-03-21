@@ -779,7 +779,7 @@ class SubmissionEditHandler extends TrackDirectorHandler {
 
 		$trackDirectors =& $trackDirectorsDao->getDirectorsByTrackId($schedConf->getId(), $trackId);
 		// get already assigned trackDirectors for the paper
-		$paperEditAssignments =& $editAssignmentDao->getTrackDirectorAssignmentsByPaperId($paper->getId());
+		$paperEditAssignments =& $editAssignmentDao->getEditAssignmentsByPaperId($paper->getId());
 		$paperEditAssignments =& $paperEditAssignments->toArray();
 		$paperTrackDirectors = array();
 		// Store the names and ID of trackDirectors in an array
