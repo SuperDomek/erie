@@ -239,7 +239,7 @@
 	<message key="submission.fileOkayed">Soubor zkontrolován</message>
 	<message key="submission.fileNotUploadedYet">Autor ještě nenahrál příspěvek k recenzi</message>
 	<message key="submission.noFile">Není soubor</message>
-	<message key="submission.fileAccepted">Schválen</message>
+	<message key="submission.fileAccepted">Soubor zkontrolován</message>
 	<message key="submission.filePending">Čeká</message>
 
 	<message key="submission.fileNotOkay">Nahrát opravený soubor</message>
