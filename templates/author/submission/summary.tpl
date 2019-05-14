@@ -26,37 +26,39 @@
 </li>
 <li>
   <header>{translate key="common.status"}</header>
-  {if $submissionProgress == 0}
-  {if $status == STATUS_QUEUED_UNASSIGNED}
-    <span class="warning">{translate key="submissions.queuedUnassigned"}</span>
-  {elseif $status == STATUS_QUEUED_REVIEW}
-    {assign var=decision value=$submission->getMostRecentDecision()}
-    {if $currentStage>=REVIEW_STAGE_PRESENTATION}
-      {if $submission->getAuthorFileRevisions($submission->getCurrentStage())}
-        <span>{translate key="author.submissions.queuedPaperReviewRevisions.uploaded"}</span>
-      {elseif $decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_REVISIONS ||
-      $decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MINOR_REVISIONS ||
-      $decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MAJOR_REVISIONS}
-        <span>{translate key="author.submissions.queuedPaperReviewRevisions"}</span>
-      {else}
-        <span>{translate key="submissions.queuedPaperReview"}</span>
-      {/if}
-    {else}  
-        {if $decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_REVISIONS ||
+  {if $status == STATUS_DECLINED || $status == STATUS_ARCHIVED}
+    <span>{translate key="submissions.declined"}</span>
+  {elseif $submissionProgress == 0}
+    {if $status == STATUS_QUEUED_UNASSIGNED}
+      <span class="warning">{translate key="submissions.queuedUnassigned"}</span>
+    {elseif $status == STATUS_QUEUED_REVIEW}
+      {assign var=decision value=$submission->getMostRecentDecision()}
+      {if $currentStage>=REVIEW_STAGE_PRESENTATION}
+        {if $submission->getAuthorFileRevisions($submission->getCurrentStage())}
+          <span>{translate key="author.submissions.queuedPaperReviewRevisions.uploaded"}</span>
+        {elseif $decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_REVISIONS ||
         $decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MINOR_REVISIONS ||
         $decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MAJOR_REVISIONS}
-          <span class="warning">{translate key="author.submissions.queuedAbstractReviewRevisions"}</span>
-          <a href="{url op="viewMetadata" path=$submission->getPaperId()}" class="action">
-            <button type="button">{translate key="author.submissions.editAbstract"}</button>
-          </a>
+          <span>{translate key="author.submissions.queuedPaperReviewRevisions"}</span>
         {else}
-          <span class="warning">{translate key="submissions.queuedAbstractReview"}</span>
+          <span>{translate key="submissions.queuedPaperReview"}</span>
         {/if}
-      
+      {else}  
+          {if $decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_REVISIONS ||
+          $decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MINOR_REVISIONS ||
+          $decision == $smarty.const.SUBMISSION_DIRECTOR_DECISION_PENDING_MAJOR_REVISIONS}
+            <span class="warning">{translate key="author.submissions.queuedAbstractReviewRevisions"}</span>
+            <a href="{url op="viewMetadata" path=$submission->getPaperId()}" class="action">
+              <button type="button">{translate key="author.submissions.editAbstract"}</button>
+            </a>
+          {else}
+            <span class="warning">{translate key="submissions.queuedAbstractReview"}</span>
+          {/if}
+        
+      {/if}
+    {elseif $status == STATUS_QUEUED_EDITING}
+      <a href="{url op="submissionReview" path=$paperId|to_array}" class="action">{translate key="submissions.queuedEditing"}</a>
     {/if}
-  {elseif $status == STATUS_QUEUED_EDITING}
-    <a href="{url op="submissionReview" path=$paperId|to_array}" class="action">{translate key="submissions.queuedEditing"}</a>
-  {/if}
   {elseif $submissionProgress == 1}
     {translate key="submissions.incomplete"}
   {else}

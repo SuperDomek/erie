@@ -84,7 +84,7 @@ class TrackSubmissionHandler extends AuthorHandler {
 		// The user may be coming in on an old URL e.g. from the submission
 		// ack email. If OCS is awaiting the completion of the submission,
 		// send them to the submit page.
-		if ($submission->getSubmissionProgress() != 0) {
+		if ($submission->getSubmissionProgress() != 0 && $submission->getStatus() != STATUS_DECLINED) {
 			Request::redirect(
 				null, null, null, 'submit',
 				array($submission->getSubmissionProgress()),

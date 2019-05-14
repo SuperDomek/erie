@@ -222,7 +222,7 @@ class AuthorSubmissionDAO extends DAO {
 			WHERE	p.sched_conf_id = ?
 				AND p.user_id = ?' .
 				($active?(' AND p.status BETWEEN ' . STATUS_QUEUED . ' AND ' . STATUS_LAYOUT):(
-					' AND ((p.status NOT BETWEEN ' . STATUS_QUEUED . ' AND ' . STATUS_LAYOUT . ' AND p.submission_progress = 0) OR (p.status = ' . (int) STATUS_ARCHIVED . '))'
+					' AND ((p.status NOT BETWEEN ' . STATUS_QUEUED . ' AND ' . STATUS_LAYOUT . ' AND p.submission_progress = 0) OR (p.status = ' . (int) STATUS_ARCHIVED . ') OR (p.status = ' . (int) STATUS_DECLINED . '))'
 				)) .
 				($sortBy?(' ORDER BY ' . $this->getSortMapping($sortBy) . ' ' . $this->getDirectionMapping($sortDirection)) : ''),
 			array(
