@@ -97,33 +97,33 @@ function sortSearch(heading, direction) {
 		<td>{$registration->getUserFullName()|escape}</td>
     	<td>{$registration->getUserId()|escape}</td>
 		<td>
-		{if empty($registrationId)}
-			{translate key="manager.registration.noRegistration"}
-		{else}
-			{$registration->getRegistrationTypeName()|escape}
-		{/if}
+			{if empty($registrationId)}
+				{translate key="manager.registration.noRegistration"}
+			{else}
+				{$registration->getRegistrationTypeName()|escape}
+			{/if}
 		</td>
 		<td>
-		{if empty($paperId)}
-			{translate key="common.none"}
-		{else}
-			{$paper->getLocalizedTitle()}
-		{/if}
+			{if empty($paperId)}
+				{translate key="common.none"}
+			{else}
+				<a href="{url op="submissionReview" path=$paperId}" class="action">{$paper->getLocalizedTitle()|strip_tags|truncate:25:"..."}</a>
+			{/if}
 		</td>
 		<td>
-		{if $registration->getSubmissionStatus() == 0}
-			{translate key="common.none"}
-		{else}
-			{$registration->getSubmissionStatus()|escape}
-		{/if}
+			{if $registration->getSubmissionStatus() == 0}
+				{translate key="common.none"}
+			{else}
+				{$registration->getSubmissionStatus()|escape}
+			{/if}
 		</td>
 		<td>{$registration->getDateRegistered()|date_format:$dateFormatShort}</td>
 		<td>
-		{if empty($registrationId)}
-		<!--Create Button-->
-		{else}
-			<a href="{url op="editRegistration" path=$registration->getId()}" class="action"><button class="button">{translate key="common.edit"}</button></a>&nbsp;|&nbsp;<a href="{url op="deleteRegistration" path=$registration->getId()}" onclick="return confirm('{translate|escape:"jsparam" key="manager.registration.confirmDelete"}')" class="action"><button class="button">{translate key="common.delete"}</button></a>
-		{/if}		
+			{if empty($registrationId)}
+			<!--Create Button-->
+			{else}
+				<a href="{url op="editRegistration" path=$registration->getId()}" class="action"><button class="button">{translate key="common.edit"}</button></a>&nbsp;|&nbsp;<a href="{url op="deleteRegistration" path=$registration->getId()}" onclick="return confirm('{translate|escape:"jsparam" key="manager.registration.confirmDelete"}')" class="action"><button class="button">{translate key="common.delete"}</button></a>
+			{/if}		
 		</td>
 	</tr>
 {/iterate}

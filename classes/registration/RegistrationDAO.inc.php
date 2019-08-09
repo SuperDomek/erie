@@ -412,7 +412,7 @@ class RegistrationDAO extends DAO {
 					AND p.status BETWEEN 2 AND 3';
  
 		$result =& $this->retrieveRange(
-			$sql . ' ' . $searchSql . (' ORDER BY registration_id ' . $this->getDirectionMapping($sortDirection)),
+			$sql . ' ' . $searchSql . (' ORDER BY user_id ' . $this->getDirectionMapping($sortDirection)),
 			$params,
 			$rangeInfo
 		);

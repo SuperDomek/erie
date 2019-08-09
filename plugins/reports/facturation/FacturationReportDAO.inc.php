@@ -49,7 +49,6 @@ class FacturationReportDAO extends DAO {
 				r.date_registered AS regdate,
 				r.date_paid AS paiddate,
 				r.special_requests AS specialreq,
-				"article" AS source,
 				p.paper_id AS paperid,
 				p.pages AS pages,
 				p.editing AS editing,
@@ -58,15 +57,15 @@ class FacturationReportDAO extends DAO {
 				registrations r
 					JOIN users u ON r.user_id=u.user_id
 					LEFT JOIN registration_type_settings rtsl ON (r.type_id=rtsl.type_id AND rtsl.locale=? AND rtsl.setting_name=?)
-					LEFT JOIN papers p ON (r.user_id=p.user_id)
+					LEFT JOIN papers p ON (r.user_id=p.user_id AND r.sched_conf_id = p.sched_conf_id)
 			WHERE
 				r.sched_conf_id = ?
-				AND p.sched_conf_id = ?
-				AND p.status BETWEEN 2 AND 3
+				AND r.type_id <> 0
+				AND (p.status is null OR p.status BETWEEN 2 AND 3)
 			UNION
 			SELECT
 				r.registration_id AS registration_id,
-				r.user_id AS userid,
+				u.user_id AS userid,
 				u.username AS uname,
 				u.first_name AS fname,
 				u.middle_name AS mname,
@@ -82,35 +81,26 @@ class FacturationReportDAO extends DAO {
 				r.date_registered AS regdate,
 				r.date_paid AS paiddate,
 				r.special_requests AS specialreq,
-				"self-registration" AS source,
-				"None" AS paperid,
-				"None" AS pages,
-				"None" AS editing,
-				"None" AS status
+				p.paper_id AS paperid,
+				p.pages AS pages,
+				p.editing AS editing,
+				p.status AS status
 			FROM
 				registrations r
-					JOIN users u ON r.user_id=u.user_id
 					LEFT JOIN registration_type_settings rtsl ON (r.type_id=rtsl.type_id AND rtsl.locale=? AND rtsl.setting_name=?)
+					RIGHT JOIN papers p ON (r.user_id=p.user_id AND r.sched_conf_id = p.sched_conf_id)
+					JOIN users u ON p.user_id=u.user_id
 			WHERE
-				r.sched_conf_id = ?
-				AND r.type_id <> 0
-				AND r.user_id NOT IN (
-					SELECT pp.user_id AS userid
-					FROM papers pp
-					WHERE pp.sched_conf_id = ?
-					ORDER BY userid
-				)
-			GROUP BY userid
+				p.sched_conf_id = ?
+				AND p.status BETWEEN 2 AND 3
 			ORDER BY
-				lname',
+				userid',
 			array(
 				$primaryLocale,
 				'name',
 				$schedConfId,
-				$schedConfId,
 				$primaryLocale,
 				'name',
-				$schedConfId,
 				$schedConfId
 			)
 		);
