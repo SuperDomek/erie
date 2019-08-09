@@ -189,6 +189,7 @@
 	<message key="manager.registration.ipRange">IP Range</message>
 	<message key="manager.registrationManagement">Registration Management</message>
 	<message key="manager.registration.membership">Membership</message>
+	<message key="manager.registration.noRegistration">No registration</message>
 	<message key="manager.registration.noneCreated">No registrations</message>
 	<message key="manager.registrationPolicies">Registration Policies</message>
 	<message key="manager.registrationOptions">Registration Options</message>

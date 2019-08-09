@@ -86,9 +86,9 @@ function showMenu(){
 			{/if}
 			<div id="schedConf-{$schedConf->getSequence()}">
 		{else}
-		{*if $schedConfsCount > 1 && $smarty.foreach.schedConfs.iteration == 2*}
-			<button type="button" onclick="showMenu();" id="hideButton">{translate key="common.previousSchedConfs.show"}</button>
-		{*/if*}
+			{if $schedConfsCount > 1 && $smarty.foreach.schedConfs.last}
+				<button type="button" onclick="showMenu();" id="hideButton">{translate key="common.previousSchedConfs.show"}</button>
+			{/if}
 		<div id="schedConf-{$schedConf->getSequence()}" class="hiddenMenu">
 		{/if}
 		
@@ -218,6 +218,7 @@ function showMenu(){
 		</table>
 	</div>
 	{/foreach}
+
 
 	{call_hook name="Templates::User::Index::Conference" conference=$conference}
 	</div>

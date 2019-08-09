@@ -372,7 +372,7 @@ class DirectorSubmissionDAO extends DAO {
 	 * @param $rangeInfo object
 	 * @return array DirectorSubmission
 	 */
-	function &getDirectorSubmissionsAccepted($schedConfId, $trackId, $directorId, $searchField = null, $searchMatch = null, $search = null, $dateField = null, $dateFrom = null, $dateTo = null, $rangeInfo = null, $sortBy = null, $sortDirection = "ASC") {
+	function &getDirectorSubmissionsAccepted($schedConfId, $trackId, $directorId, $searchField = null, $searchMatch = null, $search = null, $dateField = null, $dateFrom = null, $dateTo = null, $rangeInfo = null, $sortBy = null, $sortDirection = SORT_DIRECTION_ASC) {
 		$result =& $this->_getUnfilteredDirectorSubmissions(
 			$schedConfId, $trackId, $directorId,
 			$searchField, $searchMatch, $search,
@@ -398,7 +398,7 @@ class DirectorSubmissionDAO extends DAO {
 	 * @param $rangeInfo object
 	 * @return array DirectorSubmission
 	 */
-	function &getDirectorSubmissionsArchives($schedConfId, $trackId, $directorId, $searchField = null, $searchMatch = null, $search = null, $dateField = null, $dateFrom = null, $dateTo = null, $rangeInfo = null, $sortBy = null, $sortDirection = "ASC") {
+	function &getDirectorSubmissionsArchives($schedConfId, $trackId, $directorId, $searchField = null, $searchMatch = null, $search = null, $dateField = null, $dateFrom = null, $dateTo = null, $rangeInfo = null, $sortBy = null, $sortDirection = SORT_DIRECTION_ASC) {
 		$result =& $this->_getUnfilteredDirectorSubmissions(
 			$schedConfId, $trackId, $directorId,
 			$searchField, $searchMatch, $search,

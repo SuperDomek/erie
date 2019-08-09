@@ -117,13 +117,45 @@ class Registration extends DataObject {
 	}
 
 	/**
+	 * Get paper ID
+	 * @return int
+	 */
+	function getSubmissionId() {
+		return (int) $this->getData('submissionId');
+	}
+	
+	/**
+	 * Set the paper ID
+	 * @param $submissionId int
+	 */
+	function setSubmissionId($submissionId) {
+		return $this->setData('submissionId', $submissionId);
+	}
+
+	/**
+	 * Get paper status
+	 * @return int
+	 */
+	function getSubmissionStatus() {
+		return (int) $this->getData('submissionStatus');
+	}
+	
+	/**
+	 * Set the paper status
+	 * @param $submissionStatus int
+	 */
+	function setSubmissionStatus($submissionStatus) {
+		return $this->setData('submissionStatus', $submissionStatus);
+	}
+
+	/**
 	 * Get date of registration.
 	 * @return date (YYYY-MM-DD)
 	 */
 	function getDateRegistered() {
 		return $this->getData('dateRegistered');
 	}
-
+	
 	/**
 	 * Set date of registration.
 	 * @param $dateRegistered date (YYYY-MM-DD)

@@ -109,7 +109,7 @@ class DirectorHandler extends TrackDirectorHandler {
 			case 'submissionsAccepted':
 				$functionName = 'getDirectorSubmissionsAccepted';
 				$helpTopicId = 'editorial.directorsRole.submissions.presentations';
-				$sort = isset($sort) ? $sort : 'seq';
+				$sort = isset($sort) ? $sort : 'id';
 				break;
 			case 'submissionsArchives':
 				$functionName = 'getDirectorSubmissionsArchives';

@@ -191,6 +191,7 @@
 	<message key="manager.registration.ipRange">Rozsah IP</message>
 	<message key="manager.registrationManagement">Management registrací</message>
 	<message key="manager.registration.membership">Členství</message>
+	<message key="manager.registration.noRegistration">Bez registrace</message>
 	<message key="manager.registration.noneCreated">Žádné registrace</message>
 	<message key="manager.registrationPolicies">Registrační pravidla</message>
 	<message key="manager.registrationOptions">Možnosti registrace</message>

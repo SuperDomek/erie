@@ -56,7 +56,7 @@ function sortSearch(heading, direction) {
 	</select>
 	<input type="text" size="15" name="search" class="textField" value="{$search|escape}" />
 	<br/>
-	<select name="dateSearchField" size="1" class="selectMenu">
+	<!--<select name="dateSearchField" size="1" class="selectMenu">
 		{html_options_translate options=$dateFieldOptions selected=$dateSearchField}
 	</select>
 	{translate key="common.between"}
@@ -65,7 +65,7 @@ function sortSearch(heading, direction) {
 	{html_select_date prefix="dateTo" time=$dateTo all_extra="class=\"selectMenu\"" year_empty="" month_empty="" day_empty="" start_year="-5" end_year="+5"}
 	<input type="hidden" name="dateToHour" value="23" />
 	<input type="hidden" name="dateToMinute" value="59" />
-	<input type="hidden" name="dateToSecond" value="59" />
+	<input type="hidden" name="dateToSecond" value="59" />-->
 	<br/>
 	<input type="submit" value="{translate key="common.search"}" class="button" />
 </form>
@@ -73,48 +73,71 @@ function sortSearch(heading, direction) {
 <br />
 
 <div id="registrations">
-<table width="100%" class="listing">
+<pre>
+{*$papers|@print_r*}
+</pre>
+<table width="100%" class="listing sortable">
+<thead>
 	<tr>
-		<td colspan="6" class="headseparator">&nbsp;</td>
+		<td width="20%">{sort_search key="manager.registration.user" sort="user"}</td>
+    	<td width="5%">{translate key="common.specSymbol"}</td>
+		<td width="20%">{sort_search key="manager.registration.registrationType" sort="type"}</td>
+		<td width="25%">{translate key="paper.title"}</td>
+		<td width="9">{translate key="common.status"}</td>
+		<td width="9%">{sort_search key="manager.registration.dateRegistered" sort="registered"}</td>
+		<td width="12%">{translate key="common.action"}</td>
 	</tr>
-	<tr class="heading" valign="bottom">
-		<td width="27%">{sort_search key="manager.registration.user" sort="user"}</td>
-    <td width="5%">{translate key="common.specSymbol"}</td>
-		<td width="25%">{sort_search key="manager.registration.registrationType" sort="type"}</td>
-		<td width="15%">{sort_search key="manager.registration.dateRegistered" sort="registered"}</td>
-		<td width="15%">{sort_search key="manager.registration.datePaid" sort="paid"}</td>
-		<td width="13%">{translate key="common.action"}</td>
-	</tr>
-	<tr>
-		<td colspan="6" class="headseparator">&nbsp;</td>
-	</tr>
+</thead>
+<tbody>
 {iterate from=registrations item=registration}
+	{assign var="paperId" value=$registration->getSubmissionId()}
+	{assign var="paper" value=$papers.$paperId}
+	{assign var="registrationId" value=$registration->getId()}
 	<tr valign="top">
 		<td>{$registration->getUserFullName()|escape}</td>
-    <td>{$registration->getUserId()|escape}</td>
-		<td>{$registration->getRegistrationTypeName()|escape}</td>
+    	<td>{$registration->getUserId()|escape}</td>
+		<td>
+		{if empty($registrationId)}
+			{translate key="manager.registration.noRegistration"}
+		{else}
+			{$registration->getRegistrationTypeName()|escape}
+		{/if}
+		</td>
+		<td>
+		{if empty($paperId)}
+			{translate key="common.none"}
+		{else}
+			{$paper->getLocalizedTitle()}
+		{/if}
+		</td>
+		<td>
+		{if $registration->getSubmissionStatus() == 0}
+			{translate key="common.none"}
+		{else}
+			{$registration->getSubmissionStatus()|escape}
+		{/if}
+		</td>
 		<td>{$registration->getDateRegistered()|date_format:$dateFormatShort}</td>
-		<td>{$registration->getDatePaid()|date_format:$dateFormatShort}</td>
-		<td><a href="{url op="editRegistration" path=$registration->getId()}" class="action">{translate key="common.edit"}</a>&nbsp;|&nbsp;<a href="{url op="deleteRegistration" path=$registration->getId()}" onclick="return confirm('{translate|escape:"jsparam" key="manager.registration.confirmDelete"}')" class="action">{translate key="common.delete"}</a></td>
-	</tr>
-	<tr>
-		<td colspan="6" class="{if $registrations->eof()}end{/if}separator">&nbsp;</td>
+		<td>
+		{if empty($registrationId)}
+		<!--Create Button-->
+		{else}
+			<a href="{url op="editRegistration" path=$registration->getId()}" class="action"><button class="button">{translate key="common.edit"}</button></a>&nbsp;|&nbsp;<a href="{url op="deleteRegistration" path=$registration->getId()}" onclick="return confirm('{translate|escape:"jsparam" key="manager.registration.confirmDelete"}')" class="action"><button class="button">{translate key="common.delete"}</button></a>
+		{/if}		
+		</td>
 	</tr>
 {/iterate}
 {if $registrations->wasEmpty()}
 	<tr>
 		<td colspan="6" class="nodata">{translate key="manager.registration.noneCreated"}</td>
 	</tr>
-	<tr>
-		<td colspan="6" class="endseparator">&nbsp;</td>
-	</tr>
-{else}
-	<tr>
-		<td colspan="3" align="left">{page_info iterator=$registrations}</td>
-		<td colspan="3" align="right">{page_links anchor="registrations" name="registrations" iterator=$registrations searchField=$searchField searchMatch=$searchMatch search=$search dateSearchField=$dateSearchField dateFromDay=$dateFromDay dateFromYear=$dateFromYear dateFromMonth=$dateFromMonth dateToDay=$dateToDay dateToYear=$dateToYear dateToMonth=$dateToMonth sort=$sort sortDirection=$sortDirection}</td>
-	</tr>
 {/if}
+</tbody>
 </table>
+<p>
+{page_info iterator=$registrations}
+{page_links anchor="registrations" name="registrations" iterator=$registrations searchField=$searchField searchMatch=$searchMatch search=$search dateSearchField=$dateSearchField dateFromDay=$dateFromDay dateFromYear=$dateFromYear dateFromMonth=$dateFromMonth dateToDay=$dateToDay dateToYear=$dateToYear dateToMonth=$dateToMonth sort=$sort sortDirection=$sortDirection}
+</p>
 
 <a href="{url op="selectRegistrant"}" class="action">{translate key="manager.registration.create"}</a>
 </div>

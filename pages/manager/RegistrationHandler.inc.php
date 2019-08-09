@@ -35,16 +35,23 @@ class RegistrationHandler extends ManagerHandler {
 		$schedConf =& Request::getSchedConf();
 		$rangeInfo =& Handler::getRangeInfo('registrations', array());
 		$registrationDao =& DAORegistry::getDAO('RegistrationDAO');
+		$paperDao =& DAORegistry::getDAO('PaperDAO');
 
 		// Get the user's search conditions, if any
 		$searchField = Request::getUserVar('searchField');
 		$dateSearchField = Request::getUserVar('dateSearchField');
 		$searchMatch = Request::getUserVar('searchMatch');
 		$search = Request::getUserVar('search');
+		$papers =& $paperDao->getPapersBySchedConfId($schedConf->getId());
+		$papers =& $papers->toArray();
+		$papersIds = array();
+		foreach($papers as $paper){
+			$paperIds[$paper->getId()] = $paper;
+		}
 		
-		$sort = Request::getUserVar('sort');
-		$sort = isset($sort) ? $sort : 'user';
-		$sortDirection = Request::getUserVar('sortDirection');
+		//$sort = Request::getUserVar('sort');
+		//$sort = isset($sort) ? $sort : 'user';
+		//$sortDirection = Request::getUserVar('sortDirection');
 
 		$fromDate = Request::getUserDateVar('dateFrom', 1, 1);
 		if ($fromDate !== null) $fromDate = date('Y-m-d H:i:s', $fromDate);
@@ -52,7 +59,7 @@ class RegistrationHandler extends ManagerHandler {
 		if ($toDate !== null) $toDate = date('Y-m-d H:i:s', $toDate);
 
 		while (true) {
-			$registrations =& $registrationDao->getRegistrationsBySchedConfId($schedConf->getId(), $searchField, $searchMatch, $search, $dateSearchField, $fromDate, $toDate, $rangeInfo, $sort, $sortDirection);
+			$registrations =& $registrationDao->getRegistrationsBySchedConfId($schedConf->getId(), $searchField, $searchMatch, $search, $dateSearchField, $fromDate, $toDate, $rangeInfo, null, null);
 			if ($registrations->isInBounds()) break;
 			unset($rangeInfo);
 			$rangeInfo =& $registrations->getLastPageRangeInfo();
@@ -62,7 +69,7 @@ class RegistrationHandler extends ManagerHandler {
 		$templateMgr =& TemplateManager::getManager();
 		$templateMgr->assign_by_ref('registrations', $registrations);
 		$templateMgr->assign('helpTopicId', 'conference.currentConferences.registration');
-
+		$templateMgr->assign('papers', $paperIds);
 		// Set search parameters
 		foreach ($this->getSearchFormDuplicateParameters() as $param)
 			$templateMgr->assign($param, Request::getUserVar($param));
@@ -71,8 +78,8 @@ class RegistrationHandler extends ManagerHandler {
 		$templateMgr->assign('dateTo', $toDate);
 		$templateMgr->assign('fieldOptions', $this->getSearchFieldOptions());
 		$templateMgr->assign('dateFieldOptions', $this->getDateFieldOptions());
-		$templateMgr->assign('sort', $sort);
-		$templateMgr->assign('sortDirection', $sortDirection);
+		//$templateMgr->assign('sort', $sort);
+		//$templateMgr->assign('sortDirection', $sortDirection);
 
 		$templateMgr->display('registration/registrations.tpl');
 	}

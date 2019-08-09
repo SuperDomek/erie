@@ -148,11 +148,13 @@ class RegistrationDAO extends DAO {
 		$registration->setId($row['registration_id']);
 		$registration->setSchedConfId($row['sched_conf_id']);
 		$registration->setUserId($row['user_id']);
-		$registration->setTypeId($row['type_id']);
+		$registration->setTypeId($row['reg_type_id']);
 		$registration->setDateRegistered($this->dateFromDB($row['date_registered']));
 		$registration->setDatePaid($this->dateFromDB($row['date_paid']));
 		$registration->setMembership($row['membership']);
 		$registration->setDomain($row['domain']);
+		$registration->setSubmissionId($row['paper_id']);
+		$registration->setSubmissionStatus($row['status']);
 		$registration->setIPRange($row['ip_range']);
 		$registration->setSpecialRequests($row['special_requests']);
 
@@ -313,7 +315,8 @@ class RegistrationDAO extends DAO {
 	 * @return object DAOResultFactory containing matching Registrations
 	 */
 	function &getRegistrationsBySchedConfId($schedConfId, $searchField = null, $searchMatch = null, $search = null, $dateField = null, $dateFrom = null, $dateTo = null, $rangeInfo = null, $sortBy = null, $sortDirection = SORT_DIRECTION_ASC) {
-		$params = array($schedConfId);
+		//$primaryLocale = AppLocale::getPrimaryLocale();
+		$params = array($schedConfId, $schedConfId);
 		$searchSql = '';
 
 		if (!empty($search)) switch ($searchField) {
@@ -377,19 +380,47 @@ class RegistrationDAO extends DAO {
 				break;
 		}
 
-		$sql = 'SELECT r.*
+		$sql = 'SELECT r.registration_id AS registration_id,
+					u.user_id AS user_id,
+					u.username AS uname,
+					r.type_id AS reg_type_id,
+					r.date_registered AS date_registered,
+					p.paper_id AS paper_id,
+					p.status AS status
 				FROM
-					registrations r,
-					users u
-				WHERE r.user_id = u.user_id
-				AND sched_conf_id = ?';
+					registrations r
+					LEFT JOIN papers p ON (r.user_id=p.user_id AND r.sched_conf_id = p.sched_conf_id)
+					JOIN users u ON (r.user_id=u.user_id)
+				WHERE
+					r.sched_conf_id = ?
+					AND r.type_id <> 0
+                    AND (p.status is null OR p.status BETWEEN 2 AND 3)
+				UNION
+				SELECT r.registration_id AS registration_id,
+					u.user_id AS user_id,
+					u.username AS uname,
+					r.type_id AS reg_type_id,
+					r.date_registered AS date_registered,
+					p.paper_id AS paper_id,
+					p.status AS status
+				FROM
+					registrations r 
+					RIGHT JOIN papers p ON (r.user_id=p.user_id AND r.sched_conf_id = p.sched_conf_id)
+					JOIN users u ON (p.user_id=u.user_id)
+				WHERE
+					p.sched_conf_id = ?
+					AND p.status BETWEEN 2 AND 3';
  
 		$result =& $this->retrieveRange(
-			$sql . ' ' . $searchSql . ($sortBy?(' ORDER BY ' . $this->getSortMapping($sortBy) . ' ' . $this->getDirectionMapping($sortDirection)) : ''),
-			count($params)===1?array_shift($params):$params,
+			$sql . ' ' . $searchSql . (' ORDER BY registration_id ' . $this->getDirectionMapping($sortDirection)),
+			$params,
 			$rangeInfo
 		);
 
+		//
+		// Vymyslet jak ukládat a prezentovat řádky o uživatelích, kteří mají článek / články, ale nemají registraci
+		//
+		
 		$returner = new DAOResultFactory($result, $this, '_returnRegistrationFromRow');
 
 		return $returner;
@@ -688,7 +719,7 @@ class RegistrationDAO extends DAO {
 			case 'type': return 'r.type_id';
 			case 'registered': return 'r.date_registered';
 			case 'paid': return 'r.date_paid';
-			case 'id': return 'r.registration_id';
+			case 'id': return 'registration_id';
 			default: return null;
 		}
 	}
