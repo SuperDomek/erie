@@ -69,6 +69,7 @@ class CreateAccountForm extends Form {
 			$this->addCheck(new FormValidator($this, 'country', 'required', 'user.profile.form.countryRequired'));
 			$this->addCheck(new FormValidator($this, 'VATRegNo', 'required', 'user.profile.form.VATRequired'));
 			$this->addCheck(new FormValidatorCustom($this, 'email', 'required', 'user.account.form.emailExists', array(DAORegistry::getDAO('UserDAO'), 'userExistsByEmail'), array(), true));
+			$this->addCheck(new FormValidatorInSet($this, 'gdpr', 'required', 'user.profile.form.gdprRequired', array("1", 1)));
 			if ($this->captchaEnabled) {
 				$this->addCheck(new FormValidatorCaptcha($this, 'captcha', 'captchaId', 'common.captchaField.badCaptcha'));
 			}
@@ -171,7 +172,7 @@ class CreateAccountForm extends Form {
 			'affiliation', 'email', 'userUrl', 'phone', 'fax', 'signature',
 			'mailingAddress', 'billingAddressCheck', 'billingAddress', 'companyId', 'VATRegNo', 'biography', 'interests', 'userLocales',
 			'createAsReader', 'openAccessNotification', 'createAsAuthor',
-			'createAsReviewer', 'existingUser', 'sendPassword', 'registrationTypeId'
+			'createAsReviewer', 'existingUser', 'sendPassword', 'registrationTypeId', 'gdpr'
 		);
 		if ($this->captchaEnabled) {
 			$userVars[] = 'captchaId';
@@ -269,6 +270,7 @@ class CreateAccountForm extends Form {
 			$user->setVATRegNo($this->getData('VATRegNo'));
 			$user->setBiography($this->getData('biography'), null); // Localized
 			$user->setInterests($this->getData('interests'), null); // Localized
+			$user->setGdpr($this->getData('gdpr'));
 			$user->setDateRegistered(Core::getCurrentDate());
 			$user->setCountry($this->getData('country'));
 			$site =& Request::getSite();

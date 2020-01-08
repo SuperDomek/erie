@@ -328,6 +328,7 @@ function showBillAddr(checkbox){
 				<td colspan="2">{$registrationType->getRegistrationTypeDescription()|nl2br}</td>
 			</tr>
 		{/if}
+		
 		<tr valign="top">
 			<td colspan="2">&nbsp;</td>
 		</tr>
@@ -338,9 +339,19 @@ function showBillAddr(checkbox){
 			<td colspan="2" class="nodata">{translate key="schedConf.registrationTypes.noneAvailable"}</td>
 		</tr>
 	{/if}
-	<tr>
-		<td colspan="2" class="endseparator">&nbsp;</td>
+
+	<!-- GDPR -->
+
+	<tr valign="top">
+		<td class="label">
+			<input type="checkbox" id="gdpr" name="gdpr" value="1" {if $gdpr}checked="checked" {/if}/>&nbsp;{fieldLabel name="gdpr" key=" " required="true"}
+		</td>
+		<td class="value">
+			{fieldLabel name="gdpr" key="user.gdpr.text" required="true"}
+		</td>
 	</tr>
+
+	<!-- GDPR -->
 </table>
 
 <p><input type="submit" value="{translate key="user.createAccount"}" class="button defaultButton" /> <input type="button" value="{translate key="common.cancel"}" class="button" onclick="document.location.href='{url page="index"}'" /></p>

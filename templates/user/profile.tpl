@@ -254,6 +254,19 @@ function showAffilBox(sel) {
 	</tr>
 {/if}
 
+<!-- GDPR -->
+
+	<tr valign="top">
+		<td class="label">
+			<input type="checkbox" id="gdpr" name="gdpr" value="1" {if $gdpr}checked="checked" {/if}/>&nbsp;{fieldLabel name="gdpr" key=" " required="true"}
+		</td>
+		<td class="value">
+			{fieldLabel name="gdpr" key="user.gdpr.text" required="true"}
+		</td>
+	</tr>
+
+<!-- GDPR -->
+
 {if $displayOpenAccessNotification}
 	{assign var=notFirstSchedConf value=0}
 	{foreach from=$schedConfs name=schedConfOpenAccessNotifications key=thisSchedConfId item=thisSchedConf}

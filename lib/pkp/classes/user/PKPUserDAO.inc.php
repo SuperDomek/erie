@@ -181,6 +181,7 @@ class PKPUserDAO extends DAO {
 		$user->setDisabledReason($row['disabled_reason']);
 		$user->setAuthId($row['auth_id']);
 		$user->setAuthStr($row['auth_str']);
+		$user->setGdpr($row['gdpr']);
 
 		if ($callHook) HookRegistry::call('UserDAO::_returnUserFromRow', array(&$user, &$row));
 
@@ -200,9 +201,9 @@ class PKPUserDAO extends DAO {
 		}
 		$this->update(
 			sprintf('INSERT INTO users
-				(username, password, salutation, first_name, middle_name, last_name, gender, initials, affiliation_select, affiliation, email, url, phone, fax, mailing_address, billing_address, company_id, vat_reg_no, country, locales, date_last_email, date_registered, date_validated, date_last_login, must_change_password, disabled, disabled_reason, auth_id, auth_str)
+				(username, password, salutation, first_name, middle_name, last_name, gender, initials, affiliation_select, affiliation, email, url, phone, fax, mailing_address, billing_address, company_id, vat_reg_no, country, locales, gdpr, date_last_email, date_registered, date_validated, date_last_login, must_change_password, disabled, disabled_reason, auth_id, auth_str)
 				VALUES
-				(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, %s, %s, %s, %s, ?, ?, ?, ?, ?)',
+				(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, %s, %s, %s, %s, ?, ?, ?, ?, ?)',
 				$this->datetimeToDB($user->getDateLastEmail()), $this->datetimeToDB($user->getDateRegistered()), $this->datetimeToDB($user->getDateValidated()), $this->datetimeToDB($user->getDateLastLogin())),
 			array(
 				$user->getUsername(),
@@ -225,6 +226,7 @@ class PKPUserDAO extends DAO {
 				$user->getVATRegNo(),
 				$user->getCountry(),
 				join(':', $user->getLocales()),
+				$user->getGdpr(),
 				$user->getMustChangePassword() ? 1 : 0,
 				$user->getDisabled() ? 1 : 0,
 				$user->getDisabledReason(),
@@ -280,6 +282,7 @@ class PKPUserDAO extends DAO {
 					vat_reg_no = ?,
 					country = ?,
 					locales = ?,
+					gdpr = ?,
 					date_last_email = %s,
 					date_validated = %s,
 					date_last_login = %s,
@@ -311,6 +314,7 @@ class PKPUserDAO extends DAO {
 				$user->getVATRegNo(),
 				$user->getCountry(),
 				join(':', $user->getLocales()),
+				$user->getGdpr(),
 				$user->getMustChangePassword() ? 1 : 0,
 				$user->getDisabled() ? 1 : 0,
 				$user->getDisabledReason(),

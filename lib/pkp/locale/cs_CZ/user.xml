@@ -33,6 +33,7 @@
 	<message key="user.initialsExample">Jan Novák = JN</message>
 	<message key="user.initials">Iniciály</message>
 	<message key="user.interests">Zájem o recenzování</message>
+	<message key="user.gdpr.text"><![CDATA[Osobní údaje subjektu budou zpracovávány za účelem účasti (popř. prezentování příspěvku) na konferenci ERIE. Subjekt údajů tímto prohlašuje, že se seznámil se zásadami zpracování osobních údajů ze strany správce údajů (Česká zemědělská univerzita v Praze), s podmínkami zpracovávání osobních údajů a dále s právy, které v souvislosti se zpracováváním osobních údajů může vůči správci uplatnit. Detailní informace jsou uvedeny na webových stránkách správce údajů:  <a href="https://gdpr.czu.cz/cs/r-13670-pravni-prohlaseni">https://gdpr.czu.cz/cs/r-13670-pravni-prohlaseni</a>. Správce tak splnil vůči subjektu údajů informační povinnost dle čl. 13., obecného nařízení GDPR.]]></message>
 	<message key="user.gossip">Soukromé poznámky</message>
 	<message key="user.lastName">Příjmení</message>
 	<message key="user.profile.form.profileImageInvalid">Neplatný formát obrázku profilu nebo příliš velký obrázek. Akceptované formáty jsou .gif, .jpg nebo .png a obrázek nesmí překročit 150x150 pixelů.</message>
@@ -69,6 +70,7 @@
 	<message key="user.profile.form.affiliationRequired">Prosíme, vyplňte položku pracoviště.</message>
 	<message key="user.profile.form.countryRequired">Prosíme, vyplňte položku země.</message>
 	<message key="user.profile.form.firstNameRequired">Je vyžadováno jméno.</message>
+	<message key="user.profile.form.gdprRequired">Je vyžadován souhlas se zpracováním údajů.</message>
 	<message key="user.profile.form.lastNameRequired">Je vyžadováno příjmení.</message>
 	<message key="user.profile.form.newPasswordRequired">Musíte vložit Vaše nové heslo.</message>
 	<message key="user.profile.form.oldPasswordInvalid">Současné heslo, které jste vložil nebylo správné.</message>

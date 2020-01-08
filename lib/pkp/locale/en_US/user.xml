@@ -32,6 +32,7 @@
 	<message key="user.initials">Initials</message>
 	<message key="user.interests">Reviewing interests</message>
 	<message key="user.gossip">Private Notes</message>
+	<message key="user.gdpr.text"><![CDATA[Personal data of the subject will be processed in order to attend (or present at) the International conference on Efficiency and Responsibility in Education. The data subject hereby declares that he/she understands the principles of data processing by the data controller (Czech University of Life Sciences Prague), the conditions of personal data processing and also the rights that he/she can apply to the data controller. Detail information is available at the web of the data controller: <a href="https://gdpr.czu.cz/cs/r-13670-pravni-prohlaseni">https://gdpr.czu.cz/cs/r-13670-pravni-prohlaseni</a>. The data controller has fulfilled it's obligation to the subject according to the Article 13 of the General Data Protection Regulation (GDPR).]]></message>
 	<message key="user.lastName">Last name</message>
 	<message key="user.profile.form.profileImageInvalid">Invalid profile image format or image too big. Accepted formats are .gif, .jpg, or .png, and the image must not exceed 150x150 pixels.</message>
 	<message key="user.login.accountDisabledWithReason">Your account has been disabled for the following reason: {$reason}</message>
@@ -66,6 +67,7 @@
 	<message key="user.profile.form.addressRequired">Please fill in your address.</message>
 	<message key="user.profile.form.affiliationRequired">The affiliation is required.</message>
 	<message key="user.profile.form.firstNameRequired">The first name is required.</message>
+	<message key="user.profile.form.gdprRequired">You need to agree to the processing of your personal data.</message>
 	<message key="user.profile.form.lastNameRequired">The last name is required.</message>
 	<message key="user.profile.form.mailingAddressRequired">The mailing address is required.</message>
 	<message key="user.profile.form.countryRequired">The country is required.</message>

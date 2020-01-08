@@ -502,6 +502,21 @@ class PKPUser extends DataObject {
 	}
 
 	/**
+	 * Get user gdpr status.
+	 * @return int
+	 */
+	function getGdpr() {
+		return $this->getData('gdpr');
+	}
+	/**
+	 * Set user gdpr status.
+	 * @param $gdpr int
+	 */
+	function setGdpr($gdpr) {
+		return $this->setData('gdpr', (int) $gdpr);
+	}
+
+	/**
 	 * Get date user last sent an email.
 	 * @return datestamp (YYYY-MM-DD HH:MM:SS)
 	 */

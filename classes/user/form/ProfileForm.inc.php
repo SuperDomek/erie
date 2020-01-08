@@ -41,6 +41,7 @@ class ProfileForm extends Form {
 		$this->addCheck(new FormValidator($this, 'affiliation', 'required', 'user.profile.form.affiliationRequired'));
 		$this->addCheck(new FormValidator($this, 'country', 'required', 'user.profile.form.countryRequired'));
 		$this->addCheck(new FormValidatorCustom($this, 'email', 'required', 'user.account.form.emailExists', array(DAORegistry::getDAO('UserDAO'), 'userExistsByEmail'), array($user->getId(), true), true));
+		$this->addCheck(new FormValidatorInSet($this, 'gdpr', 'required', 'user.profile.form.gdprRequired', array("1", 1)));
 		$this->addCheck(new FormValidatorPost($this));
 	}
 
@@ -203,7 +204,8 @@ class ProfileForm extends Form {
 			'userLocales' => $user->getLocales(),
 			'isAuthor' => Validation::isAuthor(),
 			'isReader' => Validation::isReader(),
-			'isReviewer' => Validation::isReviewer()
+			'isReviewer' => Validation::isReviewer(),
+			'gdpr' => (int) $user->getGdpr()
 		);
 
 
@@ -239,7 +241,8 @@ class ProfileForm extends Form {
 			'userLocales',
 			'readerRole',
 			'authorRole',
-			'reviewerRole'
+			'reviewerRole',
+			'gdpr'
 		));
 		
 		if ($this->getData('userLocales') == null || !is_array($this->getData('userLocales'))) {
@@ -274,6 +277,7 @@ class ProfileForm extends Form {
 		$user->setTimeZone($this->getData('timeZone'));
 		$user->setBiography($this->getData('biography'), null); // Localized
 		$user->setInterests($this->getData('interests'), null); // Localized
+		$user->setGdpr($this->getData('gdpr'));
 
 		$site =& Request::getSite();
 		$availableLocales = $site->getSupportedLocales();
