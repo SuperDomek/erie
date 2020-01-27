@@ -148,7 +148,7 @@ class RegistrationDAO extends DAO {
 		$registration->setId($row['registration_id']);
 		$registration->setSchedConfId($row['sched_conf_id']);
 		$registration->setUserId($row['user_id']);
-		$registration->setTypeId($row['reg_type_id']);
+		$registration->setTypeId($row['type_id']);
 		$registration->setDateRegistered($this->dateFromDB($row['date_registered']));
 		$registration->setDatePaid($this->dateFromDB($row['date_paid']));
 		$registration->setMembership($row['membership']);

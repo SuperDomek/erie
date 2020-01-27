@@ -34,7 +34,6 @@ class UserRegistrationForm extends Form {
 	 */
 	function UserRegistrationForm($typeId) {
 		$schedConf =& Request::getSchedConf();
-
 		$this->typeId = (int) $typeId;
 
 		parent::Form('registration/userRegistrationForm.tpl');
@@ -96,10 +95,17 @@ class UserRegistrationForm extends Form {
 		$schedConf =& Request::getSchedConf();
 		$site =& Request::getSite();
 
+		// find out registrationType for this user
+		$registrationDao =& DAORegistry::getDAO('RegistrationDAO');
+		$registrationId = $registrationDao->getRegistrationIdByUser($user->getId(), $schedConf->getId());
+		$registration =& $registrationDao->getRegistration($registrationId);
+		$registrationTypeId = (int) $registration->getTypeId();
+		$templateMgr->assign('registrationTypeId', $registrationTypeId);
+
 		$registrationOptionDao =& DAORegistry::getDAO('RegistrationOptionDAO');
 		$registrationOptions =& $registrationOptionDao->getRegistrationOptionsBySchedConfId($schedConf->getId());
 		$templateMgr->assign_by_ref('registrationOptions', $registrationOptions);
-		$templateMgr->assign('registrationTypeId', $this->typeId);
+		
 		//$templateMgr->assign('typeId', (int) Request::getUserVar('registrationTypeId'));
 
 		$registrationTypeDao =& DAORegistry::getDAO('RegistrationTypeDAO');
