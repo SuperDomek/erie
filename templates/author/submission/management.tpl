@@ -19,11 +19,12 @@
 	{$submission->getLocalizedTitle()|strip_unsafe_html}
 </li>
 
-{assign var=sessionType value=$submission->getData('sessionType')}
-{if isset($sessionTypes[$sessionType])}
+{assign var=sessionTypeId value=$submission->getData('sessionType')}
+{if isset($sessionTypes[$sessionTypeId])}
 	<li>
 		<header>{translate key="paper.sessionType"}</header>
-		{$sessionTypes[$sessionType]|escape}
+		{assign var="sessionType" value=$sessionTypes.$sessionTypeId}
+		{$sessionType->getLocalizedName()|escape}
 	</li>
 {/if}{* isset($submissionTypes[$submissionType]) *}
 

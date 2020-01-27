@@ -35,6 +35,7 @@ define('PAPER_LOG_PAPER_PUBLISH', 		0x10000007);
 define('PAPER_LOG_PAPER_IMPORT',		0x10000008);
 define('PAPER_LOG_PAPER_EXPIRE',		0x10000009);
 define('PAPER_LOG_ABSTRACT_CHANGE',		0x10000010);
+define('PAPER_LOG_SESSIONTYPE_CHANGE',		0x10000011);
 
 // Author events 				0x20000000
 define('PAPER_LOG_AUTHOR_REVISION', 		0x20000001);
@@ -341,6 +342,8 @@ class PaperEventLogEntry extends DataObject {
 				return 'submission.event.general.issueAssigned';
 			case PAPER_LOG_PAPER_PUBLISH:
 				return 'submission.event.general.paperPublished';
+			case PAPER_LOG_SESSIONTYPE_CHANGE:
+				return 'submission.event.general.sessionTypeChanged';
 
 			// Author events
 			case PAPER_LOG_AUTHOR_REVISION:

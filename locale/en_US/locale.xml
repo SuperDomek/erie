@@ -209,7 +209,7 @@
 	<message key="paper.fontSize.small.altText">Small</message>
 	<message key="paper.fontSize.medium.altText">Medium</message>
 	<message key="paper.fontSize.large.altText">Large</message>
-	<message key="paper.sessionType">Session Type</message>
+	<message key="paper.sessionType">Type</message>
 	<message key="paper.previousRounds.show">Show previous review rounds</message>
 	<message key="paper.previousRounds.hide">Hide previous review rounds</message>
 
@@ -383,6 +383,8 @@
 	<message key="submission.event.general.abstractSubmitted">Abstract submitted</message>
 	<message key="submission.event.general.presentationSubmitted">Presentation submitted</message>
 	<message key="submission.event.general.paperPublished">Paper published</message>
+	<message key="submission.event.general.sessionTypeChanged">Paper type changed</message>
+	
 
 	<message key="submission.event.presenter.authorRevision">Author revision submitted</message>
 
@@ -822,6 +824,7 @@ Your server currently supports mbstring: <strong>{$supportsMBString}</strong>]]>
 	<message key="log.review.reviewAcceptedByProxy">{$userName} has accepted the stage {$stage} review for submission {$paperId} on behalf of {$reviewerName}.</message>
 	<message key="log.review.reviewFileByProxy">The Director, {$userName}, has uploaded a review file for stage {$stage} of submission {$paperId} on behalf of the reviewer, {$reviewerName}.</message>
 	<message key="log.review.reviewerFile">A file for review has been uploaded.</message>
+	<message key="log.director.sessionType">An editor {$directorName} changed submission type for paper {$paperId} from {$sessionTypeOld} to {$sessionType}.</message>
 	<message key="log.director.decision">An editor decision ({$decision}) for paper {$paperId} was recorded by {$directorName} with comment: {$comment}.</message>
 	<message key="log.director.publish">The paper was published.</message>
 	<message key="log.director.unpublish">The paper was moved back into the queue.</message>

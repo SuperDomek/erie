@@ -47,7 +47,6 @@ class SubmissionEditHandler extends TrackDirectorHandler {
 
 		$roleDao =& DAORegistry::getDAO('RoleDAO');
 		$isDirector = $roleDao->roleExists($conference->getId(), $schedConf->getId(), $user->getId(), ROLE_ID_DIRECTOR);
-
 		$trackDao =& DAORegistry::getDAO('TrackDAO');
 		$track =& $trackDao->getTrack($submission->getTrackId());
 
@@ -62,7 +61,7 @@ class SubmissionEditHandler extends TrackDirectorHandler {
 		$templateMgr->assign_by_ref('reviewFile', $submission->getReviewFile());
 		$templateMgr->assign_by_ref('reviewMode', $submission->getReviewMode());
 		$templateMgr->assign('userId', $user->getId());
-		$templateMgr->assign('isDirector', $isDirector);
+		$templateMgr->assign('isDirector', (int) $isDirector);
 		$templateMgr->assign('enableComments', $enableComments);
 		$templateMgr->assign('isReviewer', $this->isReviewer());		
 		$templateMgr->assign('submitterId', $submission->getUserId());
@@ -308,7 +307,7 @@ class SubmissionEditHandler extends TrackDirectorHandler {
 		$templateMgr->assign_by_ref('lastDecision', $lastDecision);
 		$templateMgr->assign_by_ref('directorDecisions', array_reverse($directorDecisions));
 		$templateMgr->assign('isReviewer', $this->isReviewer($stage));
-		$templateMgr->assign('isDirector', $isDirector);
+		$templateMgr->assign('isDirector', (int) $isDirector);
 		$templateMgr->assign_by_ref('user', $user);
 		$templateMgr->assign('submitterId', $submission->getUserId());
 		$templateMgr->assign('changes', $changes);
@@ -334,9 +333,12 @@ class SubmissionEditHandler extends TrackDirectorHandler {
 
 		$templateMgr->assign('helpTopicId', 'editorial.trackDirectorsRole.review');
 
-		$controlledVocabDao =& DAORegistry::getDAO('ControlledVocabDAO');
-		$templateMgr->assign('sessionTypes', $controlledVocabDao->enumerateBySymbolic('sessionTypes', ASSOC_TYPE_SCHED_CONF, $schedConf->getId()));
-
+		$paperTypeDao = DAORegistry::getDAO('PaperTypeDAO');
+		$sessionTypes = $paperTypeDao->getPaperTypes($schedConf->getId());
+		while ($sessionType = $sessionTypes->next()) {
+			$sessionTypesArray[$sessionType->getId()] = $sessionType->getLocalizedName();
+		}
+		$templateMgr->assign('sessionTypes', $sessionTypesArray);
 		$templateMgr->display('trackDirector/submissionReview.tpl');
 	}
 

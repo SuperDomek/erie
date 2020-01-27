@@ -136,8 +136,13 @@ class TrackSubmissionHandler extends AuthorHandler {
 		$templateMgr->assign_by_ref('suppFiles', $submission->getSuppFiles());
 		$templateMgr->assign('reviewMode', $reviewMode);
 
-		$controlledVocabDao =& DAORegistry::getDAO('ControlledVocabDAO');
-		$templateMgr->assign('sessionTypes', $controlledVocabDao->enumerateBySymbolic('sessionTypes', ASSOC_TYPE_SCHED_CONF, $schedConf->getId()));
+		// $controlledVocabDao =& DAORegistry::getDAO('ControlledVocabDAO');
+		$paperTypeDao = DAORegistry::getDAO('PaperTypeDAO');
+		$sessionTypes = $paperTypeDao->getPaperTypes($schedConf->getId());
+		while ($sessionType = $sessionTypes->next()) {
+			$sessionTypesArray[$sessionType->getId()] = $sessionType;
+		}
+		$templateMgr->assign('sessionTypes', $sessionTypesArray);
 
 		// FIXME: Author code should not use track director object
 		$trackDirectorSubmissionDao =& DAORegistry::getDAO('TrackDirectorSubmissionDAO');

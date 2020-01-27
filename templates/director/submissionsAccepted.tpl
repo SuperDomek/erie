@@ -15,10 +15,11 @@
 	<tr>
 		<td width="3%">{translate key="common.id"}</td>
 		<td width="4%">{translate key="submissions.track"}</td>
+		<td width="4%">{translate key="paper.sessionType"}</td>
 		<td width="19%">{translate key="paper.authors"}</td>
 		<td width="48%">{translate key="paper.title"}</td>
 		<!--<td width="8%">{translate key="common.order"}</td>-->
-		<td width="8%">{translate key="common.country"}</td>
+		<td width="4%">{translate key="common.country"}</td>
 		<td width="4%">{translate key="paper.editing"}</td>
 		<td width="4%">{translate key="paper.pages"}</td>
 		<td width="10%" align="right">{translate key="common.status"}</td>
@@ -35,6 +36,13 @@
 	<tr valign="top">
 		<td>{$paperId|escape}</td>
 		<td>{$submission->getTrackAbbrev()|escape}</td>
+		<td>
+			{assign var="sessionTypeId" value=$submission->getData('sessionType')}
+			{if $sessionTypeId}
+				{assign var="sessionType" value=$sessionTypes.$sessionTypeId}
+				{$sessionType}
+			{/if}
+		</td>
 		<td>{$submission->getAuthorString(true)|truncate:40:"..."|escape}</td>
 		<td><a href="{url op="submissionReview" path=$paperId}" class="action">{$submission->getLocalizedTitle()|strip_tags|truncate:60:"..."|default:"&mdash;"}</a></td>
 		<!--<td>

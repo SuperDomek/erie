@@ -14,8 +14,8 @@
 	{literal}
 	<script type="text/javascript">
 	$(function(){
-		var reviewFile = {/literal}{$reviewFile->getChecked()}{literal};
-		if(reviewFile != 1){
+		var reviewFile = {/literal}{$reviewFile->getChecked()|default:0}{literal};
+		if(reviewFile != 1 && !{/literal}{$isDirector|default:"0"}{literal}){
 			$('div.blockable').block({
 				message: '<h4>{/literal}{translate key="submission.fileNotChecked.block"}{literal}</h4>',
 				css: {cursor: 'default'},
@@ -44,16 +44,31 @@
 <div id="submission">
 
 <ul class="no-list">
-  {if $isDirector}
+{if $isDirector}
 	<li><header>{translate key="paper.authors"}</header>
 			{url|assign:"url" page="user" op="email" redirectUrl=$currentUrl to=$submission->getAuthorEmails() subject=$submission->getLocalizedTitle() paperId=$submission->getPaperId()}
 			<a href="{$url}" alt="Mail the author" title="Mail the author">{$submission->getAuthorString()|escape}</a>{*icon name="mail" url=$url*}
 	</li>
-	{/if}
+{/if}
 	<li><header>{translate key="paper.submitterId"}</header>
 		{$submitterId}</li>
 	<li><header>{translate key="paper.title"}</header>
 			{$submission->getLocalizedTitle()|strip_unsafe_html}</li>
+	{assign var=sessionType value=$submission->getData('sessionType')}
+{if is_array($sessionTypes) && !empty($sessionTypes) && !(count($sessionTypes) == 1 && !empty($sessionType) && isset($sessionTypes[$sessionType]))}
+	<li>
+		<header>{translate key="paper.sessionType"}</header>
+		<form action="{url op="changeSessionType" paperId=$submission->getPaperId()}" method="post">
+			<select name="sessionType" size="1" class="selectMenu">
+				{if empty($sessionType) || !isset($sessionTypes[$sessionType])}<option value=""></option>{/if}
+				{html_options options=$sessionTypes selected=$sessionType}
+			</select>
+			<input type="submit" value="{translate key="common.record"}" class="button" />
+		</form>
+	</li>
+{/if}{* if we should display session type dropdown *}
+
+	</li>
 	{*<li><header>{translate key="track.track"}</header>
 	<form name="trackForm" id="trackForm" action="{url op="changeTrack" paperId=$submission->getPaperId()}" method="post">
 		<input type="hidden" name="from" value="submissionReview" />
@@ -78,18 +93,18 @@
 		<br />
 	{/foreach}
 	<br />
-	{if $isDirector}
+{if $isDirector}
 		<a href="{url page="director" op="assignDirector" path="trackDirector" paperId=$submission->getPaperId()}">
 			<button class="button">{translate key="director.paper.assignTrackDirector"}</button></a>
-	{/if}
+{/if}
 	</li>
-	{if $layoutFile && $isDirector}
+{if $layoutFile && $isDirector}
 	<li><header>{translate key="submission.layout.layoutFile"}</header>
 		<a href="{url op="downloadFile" path=$submission->getPaperId()|to_array:$layoutFile->getFileId()}" class="file" >
 			{icon name="page_text"} {$layoutFile->getFileName()|escape}
 		</a>
 	</li>
-	{/if}
+{/if}
 </ul>
 </div>
 

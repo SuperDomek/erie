@@ -48,9 +48,37 @@ class TrackDirectorAction extends Action {
 	 */
 	function changeSessionType(&$trackDirectorSubmission, $sessionType) {
 		if (!HookRegistry::call('TrackDirectorAction::changeSessionType', array(&$trackDirectorSubmission, $sessionType))) {
+			$user =& Request::getUser();
+			// initialize sessionTypes
+			$paperTypeDao = DAORegistry::getDAO('PaperTypeDAO');
+			$sessionTypes = $paperTypeDao->getPaperTypes($trackDirectorSubmission->getSchedConfId());
+			while ($sessionTypeObj = $sessionTypes->next()) {
+				$sessionTypesArray[$sessionTypeObj->getId()] = $sessionTypeObj->getLocalizedName();
+			}
+
 			$trackDirectorSubmissionDao =& DAORegistry::getDAO('TrackDirectorSubmissionDAO');
+			$sessionTypeOldId = $trackDirectorSubmission->getData('sessionType');
+			$sessionTypeId = (int) $sessionType;
 			$trackDirectorSubmission->setData('sessionType', (int) $sessionType);
 			$trackDirectorSubmissionDao->updateTrackDirectorSubmission($trackDirectorSubmission);
+			// Add log
+			import('paper.log.PaperLog');
+			import('paper.log.PaperEventLogEntry');
+			AppLocale::requireComponents(array(LOCALE_COMPONENT_APPLICATION_COMMON, LOCALE_COMPONENT_OCS_DIRECTOR));
+			PaperLog::logEvent(
+				$trackDirectorSubmission->getPaperId(),
+				PAPER_LOG_SESSIONTYPE_CHANGE,
+				LOG_TYPE_DIRECTOR,
+				$user->getId(),
+				'log.director.sessionType',
+				array(
+					'directorName' => $user->getFullName(),
+					'paperId' => $trackDirectorSubmission->getPaperId(),
+					'sessionTypeOld' => $sessionTypesArray[$sessionTypeOldId],
+					'sessionType' => $sessionTypesArray[$sessionTypeId]
+				)
+			);
+			
 		}
 	}
 

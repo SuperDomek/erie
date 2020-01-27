@@ -13,13 +13,13 @@
 	<thead>
 	<tr>
 		<td width="5%">{translate key="common.id"}</td>
-		<td class="sorttable_ddmm" width="8%">{translate key="submissions.submit"}</td>
+		<td class="sorttable_ddmm" width="7%">{translate key="submissions.submit"}</td>
 		<!--<td width="5%">{sort_search key="submissions.track" sort="track"}</td>-->
-		<!--<td width="5%">{sort_search key="paper.sessionType" sort="sessionType"}</td>->
+		<td width="4%">{translate key="paper.sessionType"}</td>
   <!--
 		<td width="20%">{sort_search key="paper.authors" sort="authors"}</td>
   -->
-		<td width="39%">{translate key="paper.title"}</td>
+		<td width="35%">{translate key="paper.title"}</td>
 		<td width="25%">
 			<center style="border-bottom: 1px solid gray;margin-bottom: 3px;">{translate key="submission.peerReview"}</center>
 			<table width="100%">
@@ -42,17 +42,14 @@
 	<tr valign="top">
 		<td>{$submission->getPaperId()}</td>
 		<td>{$submission->getDateSubmitted()|date_format:$dateFormatTrunc}</td>
-		<!--<td>{$submission->getTrackAbbrev()|escape}</td>
+		<!--<td>{$submission->getTrackAbbrev()|escape}</td>-->
 		<td>
 			{assign var="sessionTypeId" value=$submission->getData('sessionType')}
 			{if $sessionTypeId}
 				{assign var="sessionType" value=$sessionTypes.$sessionTypeId}
 				{$sessionType->getLocalizedName()|escape}
 			{/if}
-		</td>-->
-  <!--
-		<td>{$submission->getAuthorString(true)|truncate:40:"..."|escape}</td>
-  -->
+		</td>
 		<td><a href="{url op="submissionReview" path=$submission->getPaperId()|to_array:$submission->getCurrentStage()}" class="action">{$submission->getLocalizedTitle()|strip_tags|truncate:40:"..."|default:"&mdash;"}</a></td>
 		<td>
 		<table width="100%">
