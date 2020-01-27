@@ -333,7 +333,11 @@ class DirectorHandler extends TrackDirectorHandler {
 			$paperTypeDao = DAORegistry::getDAO('PaperTypeDAO');
 			$sessionTypes = $paperTypeDao->getPaperTypes($schedConfId);
 			while ($sessionType = $sessionTypes->next()) {
-				$sessionTypesArray[$sessionType->getId()] = $sessionType;
+				// making abbreviations from sessiontypes
+				$sessionTypeWords = explode (" ", $sessionType->getLocalizedName());
+				$sessionTypeTemp = $sessionTypeWords[0][0] . $sessionTypeWords[0][1] . $sessionTypeWords[1][0];
+				$sessionTypeTemp = strtoupper($sessionTypeTemp);
+				$sessionTypesArray[$sessionType->getId()] = $sessionTypeTemp;
 			}
 			$templateMgr->assign('sessionTypes', $sessionTypesArray);
 

@@ -15,7 +15,8 @@
 		<td width="4%">{translate key="common.id"}</td>
 		<td class="sorttable_ddmm" width="7%">{translate key="submissions.submitted"}</td>
 		<td width="5%">{translate key="submissions.track"}</td>
-		<td width="14%">{translate key="paper.authors"}</td>
+		<td width="4%">{translate key="paper.sessionType"}</td>
+		<td width="10%">{translate key="paper.authors"}</td>
 		<td width="30%">{translate key="paper.title"}</td>
 		<td width="25%" class="sorttable_nosort">
 			<center style="border-bottom: 1px solid gray;margin-bottom: 3px;">{translate key="submission.peerReview"}</center>
@@ -38,14 +39,14 @@
 	<tr>
 		<td>{$submission->getPaperId()}</td>
 		<td>{$submission->getDateSubmitted()|date_format:$dateFormatTrunc}</td>
-		<!--<td>
+		<td>{$submission->getTrackAbbrev()|escape}</td>
+		<td>
 			{assign var="sessionTypeId" value=$submission->getData('sessionType')}
 			{if $sessionTypeId}
 				{assign var="sessionType" value=$sessionTypes.$sessionTypeId}
-				{$sessionType->getLocalizedName()|escape}
+				{$sessionType}
 			{/if}
-		</td>-->
-		<td>{$submission->getTrackAbbrev()|escape}</td>
+		</td>
 		<td>{$submission->getAuthorString(true)|truncate:30:"..."|escape}</td>
 		<td><a href="{url op="submissionReview" path=$submission->getPaperId()|to_array:$submission->getCurrentStage()}" class="action">{$submission->getLocalizedTitle()|strip_tags|truncate:40:"..."|default:"&mdash;"}</a></td>
 		<td>

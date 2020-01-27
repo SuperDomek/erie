@@ -15,10 +15,10 @@
 		<td width="5%">{translate key="common.id"}</td>
 		<td class="sorttable_ddmm" width="5%"><span class="disabled">MM-DD</span><br />{translate key="submissions.submit"}</td>
 		<td width="5%">{translate key="submissions.track"}</td>
-		<!--<td width="5%">{sort_search key="paper.sessionType" sort="sessionType"}</td>-->
+		<td width="5%">{translate key="paper.sessionType"}</td>
 		<td width="20%">{translate key="paper.authors"}</td>
 		<td width="40%">{translate key="paper.title"}</td>
-    <td width="15%">{translate key="paper.manage"}
+    <td width="10%">{translate key="paper.manage"}
 	</tr>
 	</thead>
 	<tbody>
@@ -27,13 +27,13 @@
 		<td>{$submission->getPaperId()}</td>
 		<td>{$submission->getDateSubmitted()|date_format:$dateFormatTrunc}</td>
 		<td>{$submission->getTrackAbbrev()|escape}</td>
-		<!--<td>
+		<td>
 			{assign var="sessionTypeId" value=$submission->getData('sessionType')}
 			{if $sessionTypeId}
 				{assign var="sessionType" value=$sessionTypes.$sessionTypeId}
-				{$sessionType->getLocalizedName()|escape}
+				{$sessionType}
 			{/if}
-		</td>-->
+		</td>
 		<td>{$submission->getAuthorString(true)|truncate:40:"..."|escape}</td>
 		{translate|assign:"untitledPaper" key="common.untitled"}
 		{* EDIT: Hardcoded link to first review round - abstract*}
