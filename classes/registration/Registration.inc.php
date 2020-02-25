@@ -149,6 +149,22 @@ class Registration extends DataObject {
 	}
 
 	/**
+	 * Get paper type
+	 * @return int
+	 */
+	function getSubmissionType() {
+		return (int) $this->getData('submissionType');
+	}
+	
+	/**
+	 * Set the paper type
+	 * @param $submissionType int
+	 */
+	function setSubmissionType($submissionType) {
+		return $this->setData('submissionType', $submissionType);
+	}
+
+	/**
 	 * Get date of registration.
 	 * @return date (YYYY-MM-DD)
 	 */

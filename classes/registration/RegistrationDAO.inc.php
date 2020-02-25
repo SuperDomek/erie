@@ -154,6 +154,7 @@ class RegistrationDAO extends DAO {
 		$registration->setMembership($row['membership']);
 		$registration->setDomain($row['domain']);
 		$registration->setSubmissionId($row['paper_id']);
+		$registration->setSubmissionType($row['paper_type']);
 		$registration->setSubmissionStatus($row['status']);
 		$registration->setIPRange($row['ip_range']);
 		$registration->setSpecialRequests($row['special_requests']);
@@ -386,10 +387,12 @@ class RegistrationDAO extends DAO {
 					r.type_id AS type_id,
 					r.date_registered AS date_registered,
 					p.paper_id AS paper_id,
-					p.status AS status
+					p.status AS status,
+					ps.setting_value AS paper_type
 				FROM
 					registrations r
 					LEFT JOIN papers p ON (r.user_id=p.user_id AND r.sched_conf_id = p.sched_conf_id)
+					LEFT JOIN paper_settings ps ON (p.paper_id=ps.paper_id AND ps.setting_name LIKE "sessionType")
 					JOIN users u ON (r.user_id=u.user_id)
 				WHERE
 					r.sched_conf_id = ?
@@ -402,10 +405,12 @@ class RegistrationDAO extends DAO {
 					r.type_id AS type_id,
 					r.date_registered AS date_registered,
 					p.paper_id AS paper_id,
-					p.status AS status
+					p.status AS status,
+					ps.setting_value AS paper_type
 				FROM
 					registrations r 
 					RIGHT JOIN papers p ON (r.user_id=p.user_id AND r.sched_conf_id = p.sched_conf_id)
+					LEFT JOIN paper_settings ps ON (p.paper_id=ps.paper_id AND ps.setting_name LIKE "sessionType")
 					JOIN users u ON (p.user_id=u.user_id)
 				WHERE
 					p.sched_conf_id = ?

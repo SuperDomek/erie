@@ -65,7 +65,7 @@ class RegistrationHandler extends ManagerHandler {
 			$rangeInfo =& $registrations->getLastPageRangeInfo();
 			unset($registrations);
 		}
-
+		
 		$templateMgr =& TemplateManager::getManager();
 		$templateMgr->assign_by_ref('registrations', $registrations);
 		$templateMgr->assign('helpTopicId', 'conference.currentConferences.registration');
@@ -80,6 +80,18 @@ class RegistrationHandler extends ManagerHandler {
 		$templateMgr->assign('dateFieldOptions', $this->getDateFieldOptions());
 		//$templateMgr->assign('sort', $sort);
 		//$templateMgr->assign('sortDirection', $sortDirection);
+
+		$sessionTypesArray = array();
+		$paperTypeDao = DAORegistry::getDAO('PaperTypeDAO');
+		$sessionTypes = $paperTypeDao->getPaperTypes($schedConf->getId());
+		while ($sessionType = $sessionTypes->next()) {
+			// making abbreviations from sessiontypes
+			$sessionTypeWords = explode (" ", $sessionType->getLocalizedName());
+			$sessionTypeTemp = $sessionTypeWords[0][0] . $sessionTypeWords[0][1] . $sessionTypeWords[1][0];
+			$sessionTypeTemp = strtoupper($sessionTypeTemp);
+			$sessionTypesArray[$sessionType->getId()] = $sessionTypeTemp;
+		}
+		$templateMgr->assign('sessionTypes', $sessionTypesArray);
 
 		$templateMgr->display('registration/registrations.tpl');
 	}

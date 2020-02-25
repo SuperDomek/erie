@@ -79,12 +79,12 @@ function sortSearch(heading, direction) {
 <table width="100%" class="listing sortable">
 <thead>
 	<tr>
-		<td width="20%">{sort_search key="manager.registration.user" sort="user"}</td>
+		<td width="20%">{translate key="manager.registration.user" sort="user"}</td>
     	<td width="5%">{translate key="common.specSymbol"}</td>
-		<td width="20%">{sort_search key="manager.registration.registrationType" sort="type"}</td>
+		<td width="20%">{translate key="manager.registration.registrationType" sort="type"}</td>
 		<td width="25%">{translate key="paper.title"}</td>
-		<td width="9">{translate key="common.status"}</td>
-		<td width="9%">{sort_search key="manager.registration.dateRegistered" sort="registered"}</td>
+		<td width="9">{translate key="paper.sessionType"}</td>
+		<td width="9%">{translate key="manager.registration.dateRegistered" sort="registered"}</td>
 		<td width="12%">{translate key="common.action"}</td>
 	</tr>
 </thead>
@@ -94,6 +94,7 @@ function sortSearch(heading, direction) {
 	{assign var="paper" value=$papers.$paperId}
 	{assign var="registrationId" value=$registration->getId()}
 	{assign var="registrationTypeId" value=$registration->getRegistrationTypeName()|escape}
+	{assign var="paperTypeId" value=$registration->getSubmissionType()}
 	<tr valign="top">
 		<td>{$registration->getUserFullName()|escape}</td>
     	<td>{$registration->getUserId()|escape}</td>
@@ -108,14 +109,15 @@ function sortSearch(heading, direction) {
 			{if empty($paperId)}
 				{translate key="common.none"}
 			{else}
-				<a href="{url op="submissionReview" path=$paperId}" class="action">{$paper->getLocalizedTitle()|strip_tags|truncate:25:"..."}</a>
+				<a href="{url page="trackDirector" op="submissionReview" path=$paperId}" class="action">{$paper->getLocalizedTitle()|strip_tags|truncate:25:"..."}</a>
 			{/if}
 		</td>
 		<td>
-			{if $registration->getSubmissionStatus() == 0}
+			{if empty($paperTypeId)}
 				{translate key="common.none"}
 			{else}
-				{$registration->getSubmissionStatus()|escape}
+				{assign var="sessionType" value=$sessionTypes.$paperTypeId}
+				{$sessionType|escape}
 			{/if}
 		</td>
 		<td>{$registration->getDateRegistered()|date_format:$dateFormatShort}</td>
