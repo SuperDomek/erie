@@ -279,6 +279,7 @@
 	<message key="manager.registrationTypes.registrationTypeCreatedSuccessfully">Registration type created successfully.</message>
 	<message key="manager.registrationTypes.year">year</message>
 	<message key="manager.registrationTypes.years">years</message>
+	<message key="manager.registration.info">The people listed in this list have either made a registration or have an accepted paper. This list doesn't papers which are still in the review stage.</message>
 	<message key="manager.registration.user">User</message>
 	<message key="manager.schedConfManagement">Scheduled Conference Management</message>
 	<message key="manager.schedConfs">Scheduled Conferences</message>

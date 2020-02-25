@@ -32,46 +32,9 @@ function sortSearch(heading, direction) {
 	<li><a href="{url op="registrationPolicies"}">{translate key="manager.registrationPolicies"}</a></li>
 	<li><a href="{url op="registrationOptions"}">{translate key="manager.registrationOptions"}</a></li>
 </ul>
-
-<br />
-
-{if !$dateFrom}
-{assign var="dateFrom" value="--"}
-{/if}
-
-{if !$dateTo}
-{assign var="dateTo" value="--"}
-{/if}
-
-<form method="post" name="submit" action="{url op="registration"}">
-	<input type="hidden" name="sort" value="id"/>
-	<input type="hidden" name="sortDirection" value="ASC"/>
-	<select name="searchField" size="1" class="selectMenu">
-		{html_options_translate options=$fieldOptions selected=$searchField}
-	</select>
-	<select name="searchMatch" size="1" class="selectMenu">
-		<option value="contains"{if $searchMatch == 'contains'} selected="selected"{/if}>{translate key="form.contains"}</option>
-		<option value="is"{if $searchMatch == 'is'} selected="selected"{/if}>{translate key="form.is"}</option>
-		<option value="startsWith"{if $searchMatch == 'startsWith'} selected="selected"{/if}>{translate key="form.startsWith"}</option>
-	</select>
-	<input type="text" size="15" name="search" class="textField" value="{$search|escape}" />
-	<br/>
-	<!--<select name="dateSearchField" size="1" class="selectMenu">
-		{html_options_translate options=$dateFieldOptions selected=$dateSearchField}
-	</select>
-	{translate key="common.between"}
-	{html_select_date prefix="dateFrom" time=$dateFrom all_extra="class=\"selectMenu\"" year_empty="" month_empty="" day_empty="" start_year="-5" end_year="+5"}
-	{translate key="common.and"}
-	{html_select_date prefix="dateTo" time=$dateTo all_extra="class=\"selectMenu\"" year_empty="" month_empty="" day_empty="" start_year="-5" end_year="+5"}
-	<input type="hidden" name="dateToHour" value="23" />
-	<input type="hidden" name="dateToMinute" value="59" />
-	<input type="hidden" name="dateToSecond" value="59" />-->
-	<br/>
-	<input type="submit" value="{translate key="common.search"}" class="button" />
-</form>
-
-<br />
-
+<p>
+{translate key="manager.registration.info"}
+</p>
 <div id="registrations">
 <pre>
 {*$papers|@print_r*}
@@ -79,12 +42,12 @@ function sortSearch(heading, direction) {
 <table width="100%" class="listing sortable">
 <thead>
 	<tr>
-		<td width="20%">{translate key="manager.registration.user" sort="user"}</td>
+		<td width="20%">{translate key="manager.registration.user"}</td>
     	<td width="5%">{translate key="common.specSymbol"}</td>
-		<td width="20%">{translate key="manager.registration.registrationType" sort="type"}</td>
+		<td width="20%">{translate key="manager.registration.registrationType"}</td>
 		<td width="25%">{translate key="paper.title"}</td>
 		<td width="9">{translate key="paper.sessionType"}</td>
-		<td width="9%">{translate key="manager.registration.dateRegistered" sort="registered"}</td>
+		<td width="9%">{translate key="manager.registration.dateRegistered"}</td>
 		<td width="12%">{translate key="common.action"}</td>
 	</tr>
 </thead>
