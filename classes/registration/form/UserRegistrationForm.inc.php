@@ -93,7 +93,11 @@ class UserRegistrationForm extends Form {
 		$templateMgr =& TemplateManager::getManager();
 		$user =& Request::getUser();
 		$schedConf =& Request::getSchedConf();
+		$conference =& Request::getConference();
 		$site =& Request::getSite();
+
+		// Conference logo variable is not setup by default for some reason
+		$templateMgr->assign('displayPageHeaderLogo', $conference->getPageHeaderLogo());
 
 		// find out registrationType for this user
 		$registrationDao =& DAORegistry::getDAO('RegistrationDAO');
