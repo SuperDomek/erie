@@ -99,8 +99,11 @@ class UserRegistrationForm extends Form {
 		$registrationDao =& DAORegistry::getDAO('RegistrationDAO');
 		$registrationId = $registrationDao->getRegistrationIdByUser($user->getId(), $schedConf->getId());
 		$registration =& $registrationDao->getRegistration($registrationId);
-		$registrationTypeId = (int) $registration->getTypeId();
-		$templateMgr->assign('registrationTypeId', $registrationTypeId);
+		if(!empty($registration)){
+			$registrationTypeId = (int) $registration->getTypeId();
+			$templateMgr->assign('registrationTypeId', $registrationTypeId);
+		}
+		
 
 		$registrationOptionDao =& DAORegistry::getDAO('RegistrationOptionDAO');
 		$registrationOptions =& $registrationOptionDao->getRegistrationOptionsBySchedConfId($schedConf->getId());
