@@ -93,11 +93,12 @@ function sortSearch(heading, direction) {
 	{assign var="paperId" value=$registration->getSubmissionId()}
 	{assign var="paper" value=$papers.$paperId}
 	{assign var="registrationId" value=$registration->getId()}
+	{assign var="registrationTypeId" value=$registration->getRegistrationTypeName()|escape}
 	<tr valign="top">
 		<td>{$registration->getUserFullName()|escape}</td>
     	<td>{$registration->getUserId()|escape}</td>
 		<td>
-			{if empty($registrationId)}
+			{if empty($registrationTypeId)}
 				{translate key="manager.registration.noRegistration"}
 			{else}
 				{$registration->getRegistrationTypeName()|escape}

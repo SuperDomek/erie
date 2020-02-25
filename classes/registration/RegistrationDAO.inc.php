@@ -383,7 +383,7 @@ class RegistrationDAO extends DAO {
 		$sql = 'SELECT r.registration_id AS registration_id,
 					u.user_id AS user_id,
 					u.username AS uname,
-					r.type_id AS reg_type_id,
+					r.type_id AS type_id,
 					r.date_registered AS date_registered,
 					p.paper_id AS paper_id,
 					p.status AS status
@@ -399,7 +399,7 @@ class RegistrationDAO extends DAO {
 				SELECT r.registration_id AS registration_id,
 					u.user_id AS user_id,
 					u.username AS uname,
-					r.type_id AS reg_type_id,
+					r.type_id AS type_id,
 					r.date_registered AS date_registered,
 					p.paper_id AS paper_id,
 					p.status AS status
