@@ -32,7 +32,7 @@
 			{assign var="sessionTypeId" value=$submission->getData('sessionType')}
 			{if $sessionTypeId}
 				{assign var="sessionType" value=$sessionTypes.$sessionTypeId}
-				{$sessionType->getLocalizedName()|escape}
+				{$sessionType}
 			{/if}
 		</td>
 		<td>{$submission->getAuthorString(true)|truncate:40:"..."|escape}</td>
