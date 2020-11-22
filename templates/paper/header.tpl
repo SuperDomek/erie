@@ -30,11 +30,13 @@
 	<link rel="stylesheet" href="{$baseUrl}/styles/paperView.css" type="text/css" />
 
 	<!-- Base Jquery -->
-	{if $allowCDN}<script src="https://www.google.com/jsapi"></script>
-	<script>
+	{if $allowCDN}
+	<!--DEPRECATED <script type='text/javascript' src="https://www.google.com/jsapi"></script>
+	<script type='text/javascript'>
 		google.load("jquery", "1");
 		google.load("jqueryui", "1");
-	</script>
+	</script>-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 	{else}
 	<script type="text/javascript" src="{$baseUrl}/lib/pkp/js/lib/jquery/jquery.min.js"></script>
 	<script type="text/javascript" src="{$baseUrl}/lib/pkp/js/lib/jquery/plugins/jqueryUi.min.js"></script>
