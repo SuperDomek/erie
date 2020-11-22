@@ -224,6 +224,7 @@ class PaperFileDAO extends DAO {
 		$paperFile->setDateUploaded($this->datetimeFromDB($row['date_uploaded']));
 		$paperFile->setDateModified($this->datetimeFromDB($row['date_modified']));
 		$paperFile->setChecked($row['checked']);
+		$paperFile->setIthenticateId($row['ithenticate_id']);
 		$paperFile->setViewable($row['viewable']);
 		HookRegistry::call('PaperFileDAO::_returnPaperFileFromRow', array(&$paperFile, &$row));
 		return $paperFile;
@@ -246,7 +247,8 @@ class PaperFileDAO extends DAO {
 			$paperFile->getType(),
 			(int) $paperFile->getStage(),
 			$paperFile->getViewable(),
-			$paperFile->getChecked()
+			$paperFile->getChecked(),
+			$paperFile->getIthenticateId()
 		);
 
 		if ($fileId) {
@@ -255,9 +257,9 @@ class PaperFileDAO extends DAO {
 
 		$this->update(
 			sprintf('INSERT INTO paper_files
-				(' . ($fileId ? 'file_id, ' : '') . 'revision, paper_id, file_name, file_type, file_size, original_file_name, type, stage, date_uploaded, date_modified, viewable, checked)
+				(' . ($fileId ? 'file_id, ' : '') . 'revision, paper_id, file_name, file_type, file_size, original_file_name, type, stage, date_uploaded, date_modified, viewable, checked, ithenticate_id)
 				VALUES
-				(' . ($fileId ? '?, ' : '') . '?, ?, ?, ?, ?, ?, ?, ?, %s, %s, ?, ?)',
+				(' . ($fileId ? '?, ' : '') . '?, ?, ?, ?, ?, ?, ?, ?, %s, %s, ?, ?, ?)',
 				$this->datetimeToDB($paperFile->getDateUploaded()), $this->datetimeToDB($paperFile->getDateModified())),
 			$params
 		);
@@ -287,7 +289,8 @@ class PaperFileDAO extends DAO {
 					date_uploaded = %s,
 					date_modified = %s,
 					viewable = ?,
-					checked = ?
+					checked = ?,
+					ithenticate_id = ?
 				WHERE file_id = ? AND revision = ?',
 				$this->datetimeToDB($paperFile->getDateUploaded()), $this->datetimeToDB($paperFile->getDateModified())),
 			array(
@@ -300,6 +303,7 @@ class PaperFileDAO extends DAO {
 				(int) $paperFile->getStage(),
 				$paperFile->getViewable(),
 				$paperFile->getChecked(),
+				$paperFile->getIthenticateId(),
 				$paperFile->getFileId(),
 				$paperFile->getRevision()
 			)

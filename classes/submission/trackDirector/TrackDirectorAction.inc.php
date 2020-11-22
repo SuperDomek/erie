@@ -310,8 +310,9 @@ class TrackDirectorAction extends Action {
 			$schedConf =& Request::getSchedConf();
 			if ($schedConf->getSetting('reviewDeadlineType') != null) {
 				$dueDateSet = true;
+				// reusing the abstract variable for 1st review round
 				if ($schedConf->getSetting('reviewDeadlineType') == REVIEW_DEADLINE_TYPE_ABSOLUTE) {
-					if($stage == REVIEW_STAGE_ABSTRACT){ // different deadline for abstract reviews
+					if($stage <= REVIEW_STAGE_PRESENTATION){ // different deadline for reviews in 1st round
 						$reviewDeadlineDate = $schedConf->getSetting('numWeeksPerReviewAbsoluteAbstract');
 						$reviewDueDate = strftime(Config::getVar('general', 'date_format_short'), $reviewDeadlineDate);
 					}
@@ -416,6 +417,8 @@ class TrackDirectorAction extends Action {
 				} else {
 					if ($schedConf->getSetting('reviewDeadlineType') == REVIEW_DEADLINE_TYPE_ABSOLUTE) {
 						$reviewDeadlineDate = $schedConf->getSetting('numWeeksPerReviewAbsolute');
+						// get today
+						// if AbsoluteAbstract is earlier than today then use Abstract
 						$reviewDueDate = strftime(Config::getVar('general', 'date_format_short'), $reviewDeadlineDate);
 					} elseif ($schedConf->getSetting('reviewDeadlineType') == REVIEW_DEADLINE_TYPE_RELATIVE) {
 						$numWeeks = max((int) $schedConf->getSetting('numWeeksPerReviewRelative'), 2);
@@ -436,6 +439,9 @@ class TrackDirectorAction extends Action {
 					'submissionReviewUrl' => $submissionUrl,
 					'passwordResetUrl' => Request::url(null, null, 'login', 'resetPassword', $reviewer->getUsername(), array('confirm' => Validation::generatePasswordResetHash($reviewer->getId())))
 				);
+				//mail_test
+				error_log($reviewDueDate);
+				//mail_test
 				$email->assignParams($paramArray);
 				$email->addRecipient($reviewer->getEmail(), $reviewer->getFullName());
 

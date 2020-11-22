@@ -325,6 +325,20 @@ items_per_page = 25
 ; Number of page links to display; overridable on a per-conference basis
 page_links = 10
 
+;;;;;;;;;;;;;;;;;;;;;;;;
+; iThenticate Settings ;
+;;;;;;;;;;;;;;;;;;;;;;;;
+
+[ithenticate]
+
+; Login to iThenticate (usually e-mail)
+login = dummy@mail.com
+
+; Password to iThenticate
+password = 123456789
+
+; Folder ID on iThenticate where to store uploaded files
+folder = 12345678
 
 ;;;;;;;;;;;;;;;;;;;;
 ; Captcha Settings ;

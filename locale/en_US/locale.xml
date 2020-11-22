@@ -212,6 +212,10 @@
 	<message key="paper.sessionType">Type</message>
 	<message key="paper.previousRounds.show">Show previous review rounds</message>
 	<message key="paper.previousRounds.hide">Hide previous review rounds</message>
+	<message key="paper.ithenticate.pending">Processing</message>
+	<message key="paper.ithenticate.notAvailable">Not available</message>
+	<message key="paper.ithenticate.report">Report</message>
+	<message key="paper.ithenticate.upload">Upload to iThenticate</message>
 
 	<!-- Submission Tracking - Common -->
 	<message key="submission.fromTime">From</message>

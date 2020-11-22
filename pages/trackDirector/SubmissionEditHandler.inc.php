@@ -15,6 +15,7 @@
 
 // $Id$
 
+use bsobbe\ithenticate\Ithenticate;
 
 define('TRACK_DIRECTOR_ACCESS_EDIT', 0x00001);
 define('TRACK_DIRECTOR_ACCESS_REVIEW', 0x00002);
@@ -282,7 +283,21 @@ class SubmissionEditHandler extends TrackDirectorHandler {
 			$abstractChangesLast = array_shift($abstractChanges); // first element is the most recent event
 		}
 		
+		// if we have ithenticateId for a reviewFile then load the information about it
+		$ithenticateOn = Config::getVar('ithenticate', 'ithenticate');
+		$reviewFile =& $submission->getReviewFile();
+		if(isset($reviewFile))
+			$ithenticateId = $reviewFile->getIthenticateId();
+		if($ithenticateOn && $ithenticateId){
+			$login = Config::getVar('ithenticate', 'login');
+			$password = Config::getVar('ithenticate', 'password');
+			$folder = Config::getVar('ithenticate', 'folder');
+			$ithenticate = new Ithenticate($login, $password);
+			$ithDocRepState = $ithenticate->fetchDocumentReportState($ithenticateId);
 
+			$ithDocRepState['reportId'] = $ithenticate->fetchDocumentReportId($ithenticateId);
+			$ithDocRepState['url'] = $ithenticate->fetchDocumentReportUrl($ithDocRepState['reportId']);
+		}
 
 		$templateMgr =& TemplateManager::getManager();
 
@@ -293,10 +308,12 @@ class SubmissionEditHandler extends TrackDirectorHandler {
 		$templateMgr->assign('reviewStatusOptions', $reviewStatusOptions);
 		$templateMgr->assign('reviewFormResponses', $reviewFormResponses);
 		$templateMgr->assign('reviewFormTitles', $reviewFormTitles);
+		$templateMgr->assign('ithenticateOn', $ithenticateOn);
+		$templateMgr->assign('ithDocRepState', $ithDocRepState);
 		$templateMgr->assign_by_ref('notifyReviewerLogs', $notifyReviewerLogs);
 		$templateMgr->assign_by_ref('submissionFile', $submission->getSubmissionFile());
 		$templateMgr->assign_by_ref('suppFiles', $submission->getSuppFiles());
-		$templateMgr->assign_by_ref('reviewFile', $submission->getReviewFile());
+		$templateMgr->assign_by_ref('reviewFile', $reviewFile);
 		$templateMgr->assign_by_ref('revisedFile', $submission->getRevisedFile());
 		$templateMgr->assign_by_ref('directorFile', $submission->getDirectorFile());
 		$templateMgr->assign_by_ref('layoutFile', $submission->getLayoutFile());
@@ -2095,6 +2112,55 @@ class SubmissionEditHandler extends TrackDirectorHandler {
 		$this->validate($paperId);
 		if (!TrackDirectorAction::viewFile($paperId, $fileId, $revision)) {
 			Request::redirect(null, null, null, 'submission', $paperId);
+		}
+	}
+
+	/**
+	 * Uploads given file to iThenticate
+	 * @param $args array ($paperId, $fileId, [$revision])
+	 */
+	function ithenticateUpload($args) {
+		$paperId = isset($args[0]) ? $args[0] : 0;
+		$fileId = isset($args[1]) ? $args[1] : 0;
+		$revision = isset($args[2]) ? $args[2] : null;
+
+		$paperFileDao =& DAORegistry::getDAO('PaperFileDAO');
+		$paperFile =& $paperFileDao->getPaperFile($fileId, $revision); // here store DocumentId
+
+		$paperDao =& DAORegistry::getDAO('PaperDAO');
+		$paper =& $paperDao->getPaper($paperId); // take the paper metadata
+
+		$title = $paper->getLocalizedTitle();
+		$authors = $paper->getAuthorString(true);
+		$filename = $paperFile->getFileName();
+		$filepath = $paperFile->getFilePath();
+
+		$this->validate($paperId);
+		$login = Config::getVar('ithenticate', 'login');
+		$password = Config::getVar('ithenticate', 'password');
+		$folder = Config::getVar('ithenticate', 'folder');
+
+		// Check for information in Config
+		if($login == null || $password == null){
+			error_log("Missing credentials for iThenticate");
+			Request::redirect(null, null, null, 'submission', $paperId);
+		}
+		else if ($folder == null){
+			error_log("Missing iThenticate upload folder");
+			Request::redirect(null, null, null, 'submission', $paperId);
+		}
+
+		// Login
+		$ithenticate = new Ithenticate($login, $password);
+
+		//upload file
+		$document_id = $ithenticate->submitDocument($title, "", $authors, $filename, file_get_contents($filepath), $folder);
+
+		// update document_id
+		$paperFile->setIthenticateId($document_id);
+		$paperFileDao->updatePaperFile($paperFile);
+		if (!TrackDirectorAction::viewFile($paperId, $fileId, $revision)) {
+			Request::redirect(null, null, null, 'submissionReview', $paperId);
 		}
 	}
 

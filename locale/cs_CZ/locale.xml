@@ -215,6 +215,10 @@
 	<message key="paper.sessionType">Typ sekce</message>
 	<message key="paper.previousRounds.show">Zobrazit předchozí kola recenze</message>
 	<message key="paper.previousRounds.hide">Skrýt předchozí kola recenze</message>
+	<message key="paper.ithenticate.pending">Zpracovává se</message>
+	<message key="paper.ithenticate.notAvailable">Není dostupný</message>
+	<message key="paper.ithenticate.report">Report</message>
+	<message key="paper.ithenticate.upload">Nahrát do iThenticate</message>
 
 	<!-- Submission Tracking - Common -->
 	<message key="submission.fromTime">Od</message>

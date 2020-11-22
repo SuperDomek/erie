@@ -256,6 +256,25 @@ class PaperFile extends DataObject {
 	}
 
 	/**
+	 * Get ithenticateID.
+	 * @return string
+	 */
+
+	function getIthenticateId() {
+		return $this->getData('ithenticateId');
+	}
+
+
+	/**
+	 * Set ithenticateID.
+	 * @param $ithenticateId string
+	 */
+
+	function setIthenticateId($ithenticateId) {
+		return $this->SetData('ithenticateId', $ithenticateId);
+	}
+
+	/**
 	 * Get viewable.
 	 * @return boolean
 	 */

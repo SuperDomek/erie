@@ -530,11 +530,11 @@ class AuthorAction extends Action {
 		$lastDecision == SUBMISSION_DIRECTOR_DECISION_PENDING_MAJOR_REVISIONS) return true;
 
 		// Submissions in Presentation stage cannot be edited anymore
-		if ($authorSubmission->getCurrentStage() >= REVIEW_STAGE_PRESENTATION) return false;
+		// if ($authorSubmission->getCurrentStage() >= REVIEW_STAGE_PRESENTATION) return false;
 
 		// After the deadline for Submitting cannot be edited
-		$submissionsCloseDate = $schedConf->getSetting('submissionsCloseDate');
-		if (time() > $submissionsCloseDate) return false;
+		// $submissionsCloseDate = $schedConf->getSetting('submissionsCloseDate');
+		// if (time() > $submissionsCloseDate) return false;
 
 		// If there are open reviews for the submission, it may not be edited.
 		/*
