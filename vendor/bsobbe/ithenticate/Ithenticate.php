@@ -186,6 +186,10 @@ class Ithenticate
         }
     }
 
+    /*  Gets document information based on Document_id
+    *   document_id string obtained from document.add response
+    *   return document array Contains is_pending, percent_match
+    */
     public function fetchDocumentReportState($document_id)
     {
         $client = new Client($this->getUrl());
@@ -197,10 +201,12 @@ class Ithenticate
         $response = $client->send(new Request('document.get', array(new Value($args, "struct"))));
         $response = json_decode(json_encode($response), true);
         if (isset($response['val']['me']['struct']['documents']['me']['array'][0]['me']['struct']['is_pending']['me']['int'])) {
-            $state = $response['val']['me']['struct']['documents']['me']['array'][0]['me']['struct']['is_pending']['me']['int'];
-            if ($state !== null) {
-                $is_pending['is_pending'] = $state;
-                return $is_pending;
+            $is_pending = $response['val']['me']['struct']['documents']['me']['array'][0]['me']['struct']['is_pending']['me']['int'];
+            $percent_match = $response['val']['me']['struct']['documents']['me']['array'][0]['me']['struct']['percent_match']['me']['int'];
+            if ($is_pending !== null) {
+                $document['is_pending'] = $is_pending;
+                $document['percent_match'] = $percent_match;
+                return $document;
             } else {
                 return false;
             }
@@ -232,6 +238,10 @@ class Ithenticate
         }
     }
 
+    /*  Gets document URL based on Document_id
+    *   document_id string obtained from document.add response
+    *   return document array Contains is_pending, percent_match
+    */
     public function fetchDocumentReportUrl($report_id, $exclude_biblio = 1, $exclude_quotes = 1, $exclude_small_matches = 1)
     {
         $client = new Client($this->getUrl());

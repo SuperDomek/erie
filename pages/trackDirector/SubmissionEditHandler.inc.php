@@ -2159,9 +2159,8 @@ class SubmissionEditHandler extends TrackDirectorHandler {
 		// update document_id
 		$paperFile->setIthenticateId($document_id);
 		$paperFileDao->updatePaperFile($paperFile);
-		if (!TrackDirectorAction::viewFile($paperId, $fileId, $revision)) {
-			Request::redirect(null, null, null, 'submissionReview', $paperId);
-		}
+		
+		Request::redirect(null, null, null, 'submissionReview', $paperId);
 	}
 
 	/**

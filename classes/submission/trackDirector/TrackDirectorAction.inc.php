@@ -440,7 +440,7 @@ class TrackDirectorAction extends Action {
 					'passwordResetUrl' => Request::url(null, null, 'login', 'resetPassword', $reviewer->getUsername(), array('confirm' => Validation::generatePasswordResetHash($reviewer->getId())))
 				);
 				//mail_test
-				error_log($reviewDueDate);
+				//error_log($reviewDueDate);
 				//mail_test
 				$email->assignParams($paramArray);
 				$email->addRecipient($reviewer->getEmail(), $reviewer->getFullName());
@@ -1387,12 +1387,12 @@ class TrackDirectorAction extends Action {
 	function nextStage(&$trackDirectorSubmission, $reviewFileId = null, $reviewRevision = null) {
 		$trackDirectorSubmissionDao =& DAORegistry::getDAO('TrackDirectorSubmissionDAO');
 		import("file.PaperFileManager");
-		error_log("ReviewFileId: " . $reviewFileId);
-		error_log("ReviewRevision: " . $reviewRevision);
+		//error_log("ReviewFileId: " . $reviewFileId);
+		//error_log("ReviewRevision: " . $reviewRevision);
 
 		// move the file in the next stage & fix the actual stage
 		if ($reviewFileId != null && $reviewRevision != null){ //uploading new file
-			error_log("Moving file in the next Stage");
+			//error_log("Moving file in the next Stage");
 			$paperFileDao =& DAORegistry::getDAO('PaperFileDAO');
 			$paperFile =& $paperFileDao->getPaperFile($reviewFileId, $reviewRevision, $trackDirectorSubmission->getPaperId());
 			$paperFile->setStage($trackDirectorSubmission->getCurrentStage() + 1);
@@ -1406,7 +1406,7 @@ class TrackDirectorAction extends Action {
 			}
 			//restore review_stage
 			$originalReviewFiles =& $paperFileDao->getPaperFilesByPaper($trackDirectorSubmission->getPaperId(), $trackDirectorSubmission->getCurrentStage());
-			error_log($originalReviewFiles);
+			//error_log($originalReviewFiles);
 			$originalReviewFile = $originalReviewFiles[0];
 			$trackDirectorSubmissionDao->fixReviewStage($trackDirectorSubmission->getPaperId(), $trackDirectorSubmission->getCurrentStage(), $originalReviewFile->getRevision());
 		}
