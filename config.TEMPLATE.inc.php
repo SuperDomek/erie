@@ -331,6 +331,8 @@ page_links = 10
 
 [ithenticate]
 
+ithenticate = on
+
 ; Login to iThenticate (usually e-mail)
 login = dummy@mail.com
 
