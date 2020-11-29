@@ -886,11 +886,15 @@ class TrackDirectorAction extends Action {
 							// FIX: move review invitation after the file is checked for the REVIEW_STAGE_PRESENTATION and delete this
 							$email = new PaperMailTemplate($trackDirectorSubmission, 'REVIEW_FILE_CHECKED');
 							$user =& $userDao->getUser($userRole['id']);
+							$reviewDueDate = strtotime($reviewAssignment->getDateDue());
+							$dateFormatShort = Config::getVar('general', 'date_format_short');
+							$reviewDueDate = strftime($dateFormatShort, $reviewDueDate);
 							$email->addRecipient($user->getEmail(), $user->getFullName());
 							$email->setFrom($schedConf->getSetting('contactEmail'), $schedConf->getSetting('contactName'));
 							$email->assignParams(array(
 								'editorialContactSignature' => $schedConf->getSetting('contactName') . "\n" . $conference->getConferenceTitle(),
 								'paperTitle' => $trackDirectorSubmission->getLocalizedTitle(),
+								'dueDate' => $reviewDueDate,
 								'url' => $url
 							));
 							$email->send();
