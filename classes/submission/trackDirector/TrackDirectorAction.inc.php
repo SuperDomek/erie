@@ -2030,6 +2030,15 @@ import('file.PaperFileManager');
 		$user =& Request::getUser();
 		import('mail.PaperMailTemplate');
 		$email = new PaperMailTemplate($trackDirectorSubmission, $templateName, 'en_US');
+		//set the conference date variable with date range if more dates
+		if($schedConf->getSetting('startDate') != $schedConf->getSetting('endDate')){
+			$conferenceDate = strftime(Config::getVar('general', 'date_format_short'), $schedConf->getSetting('startDate'));
+			$conferenceDate .= " - ";
+			$conferenceDate .= strftime(Config::getVar('general', 'date_format_short'), $schedConf->getSetting('endDate'));
+		}
+		else {
+			$conferenceDate = strftime(Config::getVar('general', 'date_format_short'), $schedConf->getSetting('startDate'));
+		}
 		// Přidat auto
 		if ($send && $auto){
 			HookRegistry::call('TrackDirectorAction::emailDirectorDecisionComment', array(&$trackDirectorSubmission, &$send));
@@ -2043,7 +2052,7 @@ import('file.PaperFileManager');
 			}
 			$email->setFrom($schedConf->getSetting('contactEmail'), $schedConf->getSetting('contactName'));
 			$email->assignParams(array(
-				'conferenceDate' => strftime(Config::getVar('general', 'date_format_short'), $schedConf->getSetting('startDate')),
+				'conferenceDate' => $conferenceDate,
 				'authorName' => $authorUser->getFullName(),
 				'conferenceTitle' => $conference->getConferenceTitle(),
 				'editorialContactSignature' => $schedConf->getSetting('contactName') . "\n" . $conference->getConferenceTitle(),
@@ -2161,7 +2170,7 @@ import('file.PaperFileManager');
 					}
 				}
 				$email->assignParams(array(
-					'conferenceDate' => strftime(Config::getVar('general', 'date_format_short'), $schedConf->getSetting('startDate')),
+					'conferenceDate' => $conferenceDate,
 					'authorName' => $authorUser->getFullName(),
 					'conferenceTitle' => $conference->getConferenceTitle(),
 					'editorialContactSignature' => $user->getContactSignature(),
