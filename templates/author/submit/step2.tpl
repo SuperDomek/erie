@@ -72,10 +72,23 @@
 			{fieldLabel name="submissionFile" key="author.submit.uploadSubmissionFile"}
 		{/if}
 	</td>
-	<td width="70%" class="value"><input type="file" class="uploadField" name="submissionFile" id="submissionFile" /> <input name="uploadSubmissionFile" type="submit" class="button" value="{translate key="common.upload"}" /></td>
+	<td width="70%" class="value">
+		<input type="file" class="uploadField" name="submissionFile" id="submissionFile" onchange="thisFileUpload()"  />
+		<input name="uploadSubmissionFile" id="uploadSubmissionFile" type="submit" class="button" value="{translate key="common.upload"}" />
+	</td>
 </tr>
 </table>
 </div>
+
+{literal}
+<script  type="text/javascript">
+document.getElementById("uploadSubmissionFile").style.display = "none";
+
+function thisFileUpload() {
+	document.getElementById("uploadSubmissionFile").click();
+};
+</script>
+{/literal}
 
 <div class="separator"></div>
 
